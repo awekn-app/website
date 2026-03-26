@@ -4,8 +4,8 @@ import { useEffect, useRef, useState, useActionState } from 'react';
 import { joinWaitlist } from './actions';
 
 export default function Home() {
-  // We mute the video indefinitely, but allow the user to unmute the new Audio element
-  const [isAudioMuted, setIsAudioMuted] = useState(true);
+  // Attempt to start unmuted as requested. If browser blocks it, gracefully fall back.
+  const [isAudioMuted, setIsAudioMuted] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   
@@ -38,11 +38,17 @@ export default function Home() {
       videoRef.current.play().catch(e => console.error("Video forced play failed:", e));
     }
     
-    // Audio plays silently in the background until the user unmutes
+    // Attempt to play audio unmuted as requested
     if (audioRef.current) {
-      audioRef.current.defaultMuted = true;
-      audioRef.current.muted = true;
-      audioRef.current.play().catch(e => console.error("Audio forced play failed:", e));
+      audioRef.current.muted = false;
+      audioRef.current.play().then(() => {
+        setIsAudioMuted(false);
+      }).catch(e => {
+        // Safari/Chrome strictly blocks audio without user interaction.
+        // If blocked, we gracefully degrade to muted state so the user can easily tap to play it.
+        audioRef.current!.muted = true;
+        setIsAudioMuted(true);
+      });
     }
   }, []);
 
@@ -52,8 +58,8 @@ export default function Home() {
       audioRef.current.muted = newMutedState;
       setIsAudioMuted(newMutedState);
       
-      // If the browser paused the audio initially, tapping will ensure it plays
-      if (audioRef.current.paused) {
+      // If unmuting and video was paused, force play
+      if (!newMutedState && audioRef.current.paused) {
         audioRef.current.play().catch(console.error);
       }
     }
@@ -84,16 +90,27 @@ export default function Home() {
           <source src="/ReelAudio-67053.mp3" type="audio/mpeg" />
         </audio>
 
-        {isAudioMuted && (
-          <div className="unmute-hint fade-up delay-1">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <line x1="23" y1="9" x2="17" y2="15"></line>
-              <line x1="17" y1="9" x2="23" y2="15"></line>
-            </svg>
-            <span>Tap to unmute</span>
-          </div>
-        )}
+        <div className="unmute-hint fade-up delay-1" onClick={(e) => { e.stopPropagation(); toggleMute(); }}>
+          {isAudioMuted ? (
+            <>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+              </svg>
+              <span>Tap to unmute</span>
+            </>
+          ) : (
+            <>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+              </svg>
+              <span>Tap to mute</span>
+            </>
+          )}
+        </div>
 
         <div className="scroll-indicator fade-up delay-2">
           <span>Scroll down</span>
