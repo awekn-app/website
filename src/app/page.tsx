@@ -4,9 +4,10 @@ import { useEffect, useRef, useState, useActionState } from 'react';
 import { joinWaitlist } from './actions';
 
 export default function Home() {
-  // Mobile browsers strictly block audio autoplay. We must start muted for the video to play automatically.
-  const [isVideoMuted, setIsVideoMuted] = useState(true);
+  // We mute the video indefinitely, but allow the user to unmute the new Audio element
+  const [isAudioMuted, setIsAudioMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   
   // React 19's useActionState for form action
   const [state, formAction, isPending] = useActionState(joinWaitlist, null);
@@ -30,22 +31,30 @@ export default function Home() {
 
   // Robust autoplay handling for React
   useEffect(() => {
+    // Video should ALWAYS be muted and play automatically
     if (videoRef.current) {
       videoRef.current.defaultMuted = true;
       videoRef.current.muted = true;
-      videoRef.current.play().catch(e => console.error("Autoplay forced play failed:", e));
+      videoRef.current.play().catch(e => console.error("Video forced play failed:", e));
+    }
+    
+    // Audio plays silently in the background until the user unmutes
+    if (audioRef.current) {
+      audioRef.current.defaultMuted = true;
+      audioRef.current.muted = true;
+      audioRef.current.play().catch(e => console.error("Audio forced play failed:", e));
     }
   }, []);
 
   const toggleMute = () => {
-    if (videoRef.current) {
-      const newMutedState = !videoRef.current.muted;
-      videoRef.current.muted = newMutedState;
-      setIsVideoMuted(newMutedState);
+    if (audioRef.current) {
+      const newMutedState = !audioRef.current.muted;
+      audioRef.current.muted = newMutedState;
+      setIsAudioMuted(newMutedState);
       
-      // If the browser paused the video initially, tapping will ensure it plays
-      if (videoRef.current.paused) {
-        videoRef.current.play().catch(console.error);
+      // If the browser paused the audio initially, tapping will ensure it plays
+      if (audioRef.current.paused) {
+        audioRef.current.play().catch(console.error);
       }
     }
   };
@@ -58,14 +67,24 @@ export default function Home() {
           ref={videoRef}
           autoPlay 
           loop 
-          muted
+          muted 
           playsInline
           className="bg-video"
         >
           <source src="/Video_Revision_Request.mp4" type="video/mp4" />
         </video>
+        
+        {/* Custom audio track added by User */}
+        <audio
+          ref={audioRef}
+          autoPlay
+          loop
+          muted={isAudioMuted}
+        >
+          <source src="/ReelAudio-67053.mp3" type="audio/mpeg" />
+        </audio>
 
-        {isVideoMuted && (
+        {isAudioMuted && (
           <div className="unmute-hint fade-up delay-1">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
