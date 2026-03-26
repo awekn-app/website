@@ -118,72 +118,75 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Impact Copy Section */}
-      <section className="impact-section">
-        <div className="container">
-          <h2 className="reveal impact-text bold-heading">
-            True growth demands progressive overload.
-          </h2>
-          <p className="reveal impact-subtext delay-1">
-            In bodybuilding and powerlifting, forgetting a single rep costs you gains. Awekn ensures you never miss a beat. We track every set, every rep, and every PR aligning perfectly with your workout plan.
-          </p>
-          <p className="reveal impact-subtext delay-2">
-            Get AI-generated progress reports at the end of every weekly cycle. Stop guessing, start growing.
-          </p>
-          <h3 className="reveal call-to-arms delay-3 bold-heading">Join the Awekn society.</h3>
-        </div>
-      </section>
-
-      {/* Waitlist Form Section */}
-      <section className="form-section reveal">
-        <div className="container form-container">
-          <h2 className="bold-heading form-title">Pre-Register Now</h2>
-          <p style={{ color: '#aaa', marginBottom: '2rem' }}>Coming soon to the App Store and Google Play.</p>
-          
-          <div className="store-badges">
-             <div className="badge apple-badge">APP STORE</div>
-             <div className="badge google-badge">GOOGLE PLAY</div>
+      {/* New Wrapper for the Dark Angel Background */}
+      <div className="lower-content">
+        {/* Impact Copy Section */}
+        <section className="impact-section">
+          <div className="container">
+            <h2 className="reveal impact-text bold-heading">
+              True growth demands progressive overload.
+            </h2>
+            <p className="reveal impact-subtext delay-1">
+              In bodybuilding and powerlifting, forgetting a single rep costs you gains. Awekn ensures you never miss a beat. We track every set, every rep, and every PR aligning perfectly with your workout plan.
+            </p>
+            <p className="reveal impact-subtext delay-2">
+              Get AI-generated progress reports at the end of every weekly cycle. Stop guessing, start growing.
+            </p>
+            <h3 className="reveal call-to-arms delay-3 bold-heading">Join the Awekn society.</h3>
           </div>
+        </section>
 
-          <form action={formAction} className="waitlist-form">
-            <div className="input-group">
-              <label htmlFor="name">Full Name</label>
-              <input type="text" id="name" name="name" required placeholder="Chris Bumstead" />
-            </div>
-            <div className="input-group">
-              <label htmlFor="email">Email Address</label>
-              <input type="email" id="email" name="email" required placeholder="cbum@example.com" />
-            </div>
-            <div className="input-group">
-              <label htmlFor="country">Country</label>
-              <input type="text" id="country" name="country" required placeholder="Canada" />
-            </div>
+        {/* Waitlist Form Section */}
+        <section className="form-section reveal">
+          <div className="container form-container">
+            <h2 className="bold-heading form-title">Pre-Register Now</h2>
+            <p style={{ color: '#aaa', marginBottom: '2rem' }}>Coming soon to the App Store and Google Play.</p>
             
-            <button type="submit" className="submit-btn" disabled={isPending}>
-              {isPending ? 'JOINING...' : 'SECURE MY SPOT'}
-            </button>
+            <div className="store-badges">
+               <div className="badge apple-badge">APP STORE</div>
+               <div className="badge google-badge">GOOGLE PLAY</div>
+            </div>
 
-            {state?.success && (
-              <p className="success-msg">{state.message}</p>
-            )}
-            {state?.error && (
-              <p className="error-msg">{state.error}</p>
-            )}
-          </form>
-        </div>
-      </section>
+            <form action={formAction} className="waitlist-form">
+              <div className="input-group">
+                <label htmlFor="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="Chris Bumstead" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="cbum@example.com" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="country">Country</label>
+                <input type="text" id="country" name="country" required placeholder="Canada" />
+              </div>
+              
+              <button type="submit" className="submit-btn" disabled={isPending}>
+                {isPending ? 'JOINING...' : 'SECURE MY SPOT'}
+              </button>
 
-      {/* Footer Section */}
-      <footer className="footer">
-        <div className="container footer-content">
-          <p className="contact-email">Contact: <a href="mailto:areeb@awekn.com">areeb@awekn.com</a></p>
-          <div className="social-links">
-            <a href="https://www.instagram.com/awekn.app?igsh=ZXVnenlwcWg3amRj&utm_source=qr" target="_blank" rel="noopener noreferrer">@awekn.app (Official)</a>
-            <a href="https://www.instagram.com/heisareeb?igsh=MTdmZTV2bTdpd3h0cw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">@heisareeb (Founder)</a>
+              {state?.success && (
+                <p className="success-msg">{state.message}</p>
+              )}
+              {state?.error && (
+                <p className="error-msg">{state.error}</p>
+              )}
+            </form>
           </div>
-          <p className="copyright">&copy; {new Date().getFullYear()} Awekn. All rights reserved.</p>
-        </div>
-      </footer>
+        </section>
+
+        {/* Footer Section */}
+        <footer className="footer">
+          <div className="container footer-content">
+            <p className="contact-email">Contact: <a href="mailto:areeb@awekn.com">areeb@awekn.com</a></p>
+            <div className="social-links">
+              <a href="https://www.instagram.com/awekn.app?igsh=ZXVnenlwcWg3amRj&utm_source=qr" target="_blank" rel="noopener noreferrer">@awekn.app (Official)</a>
+              <a href="https://www.instagram.com/heisareeb?igsh=MTdmZTV2bTdpd3h0cw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">@heisareeb (Founder)</a>
+            </div>
+            <p className="copyright">&copy; {new Date().getFullYear()} Awekn. All rights reserved.</p>
+          </div>
+        </footer>
+      </div>
     </main>
   );
 }
