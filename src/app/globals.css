@@ -127,7 +127,7 @@ h1, h2, h3, h4, h5, h6, .bold-heading {
 .lower-content {
   position: relative;
   width: 100vw;
-  background-image: url('/angel-bg.jpg'); /* Placeholder for user image */
+  background-image: url('/angel-bg.png'); /* Found the user's downloaded image */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -139,9 +139,9 @@ h1, h2, h3, h4, h5, h6, .bold-heading {
   content: "";
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(to bottom, rgba(5,5,5,1) 0%, rgba(5,5,5,0.75) 15%, rgba(0,0,0,0.85) 100%);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: linear-gradient(to bottom, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.1) 25%, rgba(0,0,0,0.6) 100%);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
   z-index: 0;
 }
 
