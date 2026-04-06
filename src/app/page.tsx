@@ -27,14 +27,14 @@ export default function Home() {
       {/* HERO */}
       <section className="hero">
         <div className="hero-bg">
-          <img src="/splash.png" alt="awekn" />
+          <img src="/hero-bg.png" alt="awekn" />
           <div className="hero-gradient" />
         </div>
         <div className="hero-content">
-          <h1 className="hero-logo">awekn</h1>
-          <h2 className="hero-headline">Log Workouts.<br />Track Progress.<br />See Results.</h2>
+          <p className="hero-kicker">Workout Tracker for the Relentless</p>
+          <h1 className="hero-headline">Every rep.<br />Every set.<br /><span className="hero-accent">Every conquest.</span></h1>
           <p className="hero-tagline">
-            The workout tracker built for serious lifters. Bodybuilding and Powerlifting. Offline-first. Free to try.
+            Bodybuilding & Powerlifting. Offline-first. Built for lifters who don&apos;t quit.
           </p>
           <div className="hero-buttons">
             <a href="#download" className="btn-primary">
@@ -47,20 +47,23 @@ export default function Home() {
             </a>
           </div>
         </div>
-        <div className="hero-scroll">Scroll</div>
+        <div className="hero-scroll">
+          <span className="hero-scroll-line" />
+          Scroll
+        </div>
       </section>
 
       {/* TRUST BAR */}
       <section className="trust-bar">
         <div className="trust-inner">
           <div className="trust-item">
-            <span className="trust-number">120+</span>
-            <span className="trust-label">Exercises</span>
+            <span className="trust-number">120+ Built-in</span>
+            <span className="trust-label">Exercises + custom</span>
           </div>
           <div className="trust-divider" />
           <div className="trust-item">
-            <span className="trust-number">Offline</span>
-            <span className="trust-label">Works without internet</span>
+            <span className="trust-number">Offline-first</span>
+            <span className="trust-label">Syncs when you're online</span>
           </div>
           <div className="trust-divider" />
           <div className="trust-item">
