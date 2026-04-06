@@ -1,192 +1,180 @@
 'use client';
 
-import { useEffect, useRef, useState, useActionState } from 'react';
-import { joinWaitlist } from './actions';
+import { useEffect } from 'react';
 
 export default function Home() {
-  // Attempt to start unmuted as requested. If browser blocks it, gracefully fall back.
-  const [isAudioMuted, setIsAudioMuted] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  
-  // React 19's useActionState for form action
-  const [state, formAction, isPending] = useActionState(joinWaitlist, null);
-
-  // Intersection Observer for scroll reveal animations
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('active');
       });
     }, { threshold: 0.1 });
-
-    const hiddenElements = document.querySelectorAll('.reveal');
-    hiddenElements.forEach((el) => observer.observe(el));
-
-    // Cleanup observer
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
-  // Robust autoplay handling for React
-  useEffect(() => {
-    // Video should ALWAYS be muted and play automatically
-    if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(e => console.error("Video forced play failed:", e));
-    }
-    
-    // Attempt to play audio unmuted as requested
-    if (audioRef.current) {
-      audioRef.current.muted = false;
-      audioRef.current.play().then(() => {
-        setIsAudioMuted(false);
-      }).catch(e => {
-        // Safari/Chrome strictly blocks audio without user interaction.
-        // If blocked, we gracefully degrade to muted state so the user can easily tap to play it.
-        audioRef.current!.muted = true;
-        setIsAudioMuted(true);
-      });
-    }
-  }, []);
-
-  const toggleMute = () => {
-    if (audioRef.current) {
-      const newMutedState = !audioRef.current.muted;
-      audioRef.current.muted = newMutedState;
-      setIsAudioMuted(newMutedState);
-      
-      // If unmuting and video was paused, force play
-      if (!newMutedState && audioRef.current.paused) {
-        audioRef.current.play().catch(console.error);
-      }
-    }
-  };
-
   return (
-    <main className="main-container">
-      {/* Hero Video Section - Only video and scroll hint */}
-      <section className="hero" onClick={toggleMute}>
-        <video 
-          ref={videoRef}
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          className="bg-video"
-        >
-          <source src="/Video_Revision_Request.mp4" type="video/mp4" />
-        </video>
-        
-        {/* Custom audio track added by User */}
-        <audio
-          ref={audioRef}
-          autoPlay
-          loop
-          muted={isAudioMuted}
-        >
-          <source src="/ReelAudio-67053.mp3" type="audio/mpeg" />
-        </audio>
-
-        <div className="unmute-hint fade-up delay-1" onClick={(e) => { e.stopPropagation(); toggleMute(); }}>
-          {isAudioMuted ? (
-            <>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <line x1="23" y1="9" x2="17" y2="15"></line>
-                <line x1="17" y1="9" x2="23" y2="15"></line>
-              </svg>
-              <span>Tap to unmute</span>
-            </>
-          ) : (
-            <>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-              </svg>
-              <span>Tap to mute</span>
-            </>
-          )}
+    <>
+      {/* NAV */}
+      <nav className="nav">
+        <a href="#" className="nav-logo">awekn</a>
+        <div className="nav-links">
+          <a href="#features">Features</a>
+          <a href="#modes">Modes</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#download" className="nav-cta">Download</a>
         </div>
+      </nav>
 
-        <div className="scroll-indicator fade-up delay-2">
-          <span>Scroll down</span>
-          <div className="arrow-down"></div>
+      {/* HERO */}
+      <section className="hero">
+        <div className="hero-bg">
+          <img src="/splash.png" alt="awekn" />
+          <div className="hero-gradient" />
+        </div>
+        <div className="hero-content">
+          <h1 className="hero-logo">awekn</h1>
+          <p className="hero-tagline">
+            Track. Log. Analyse. Conquer.<br />
+            The only workout tracker built for serious lifters.
+          </p>
+          <div className="hero-buttons">
+            <a href="#download" className="btn-primary">Download Free</a>
+            <a href="#features" className="btn-secondary">See Features</a>
+          </div>
+        </div>
+        <div className="hero-scroll">Scroll</div>
+      </section>
+
+      {/* FEATURES */}
+      <section className="features" id="features">
+        <p className="section-label reveal">Everything you need</p>
+        <h2 className="section-title reveal">Built for lifters, not influencers</h2>
+        <p className="section-subtitle reveal">
+          No fluff. No gimmicks. Just your lifts, your numbers, your progress — tracked with precision and shown with clarity.
+        </p>
+        <div className="features-grid">
+          {[
+            { icon: '🏋️‍♂️', title: 'Workout Logging', desc: 'Log sets, reps, and weight in seconds. Smart defaults from your last session. Resume any workout.' },
+            { icon: '📊', title: 'Advanced Analytics', desc: 'Strength charts, exercise sparklines, session deltas, best sets. See your progress over any time range.' },
+            { icon: '🔥', title: 'Calorie & Macros', desc: 'Track calories, protein, carbs, fats, fiber, and custom macros. Graphs for every metric.' },
+            { icon: '📈', title: 'Body Tracking', desc: 'Weight, measurements, personal records, cardio. Every number in one place with trend analysis.' },
+            { icon: '🔄', title: 'Cross-Device Sync', desc: 'Offline-first. Works without internet. Syncs across iPhone, Android, and any device automatically.' },
+            { icon: '📝', title: 'Notes', desc: 'Unlimited workout notes. Write down thoughts, plans, or anything. Timestamped and synced.' },
+            { icon: '🎯', title: 'Custom Splits', desc: 'Unlimited days, unlimited exercises. Build your exact program. Bodybuilding presets or fully custom.' },
+            { icon: '⏱️', title: 'Cycle Tracking', desc: 'Track your cycle progress. Skip days, mark complete, reset. Visual progress bar per cycle.' },
+            { icon: '🌙', title: '3 Premium Themes', desc: 'Dark (cosmic), Light (clean), Baddie (pink). Each one crafted. System theme auto-switch.' },
+          ].map((f, i) => (
+            <div key={i} className="feature-card reveal" style={{ transitionDelay: `${i * 0.05}s` }}>
+              <div className="feature-icon">{f.icon}</div>
+              <h3 className="feature-title">{f.title}</h3>
+              <p className="feature-desc">{f.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* New Wrapper for the Dark Angel Background */}
-      <div className="lower-content">
-        {/* Impact Copy Section */}
-        <section className="impact-section">
-          <div className="container">
-            <h2 className="reveal impact-text bold-heading">
-              True growth demands progressive overload.
-            </h2>
-            <p className="reveal impact-subtext delay-1">
-              In bodybuilding and powerlifting, forgetting a single rep costs you gains. Awekn ensures you never miss a beat. We track every set, every rep, and every PR aligning perfectly with your workout plan.
-            </p>
-            <p className="reveal impact-subtext delay-2">
-              Get AI-generated progress reports at the end of every weekly cycle. Stop guessing, start growing.
-            </p>
-            <h3 className="reveal call-to-arms delay-3 bold-heading">Join the Awekn society.</h3>
-          </div>
-        </section>
-
-        {/* Waitlist Form Section */}
-        <section className="form-section reveal">
-          <div className="container form-container">
-            <h2 className="bold-heading form-title">Pre-Register Now</h2>
-            <p style={{ color: '#aaa', marginBottom: '2rem' }}>Coming soon to the App Store and Google Play.</p>
-            
-            <div className="store-badges">
-               <div className="badge apple-badge">APP STORE</div>
-               <div className="badge google-badge">GOOGLE PLAY</div>
+      {/* MODES */}
+      <section className="modes" id="modes">
+        <p className="section-label reveal">Two modes. One app.</p>
+        <h2 className="section-title reveal">Bodybuilding & Powerlifting</h2>
+        <p className="section-subtitle reveal">
+          Switch between modes with one tap. Each mode is purpose-built with features that matter.
+        </p>
+        <div className="modes-grid">
+          <div className="mode-card mode-bb reveal">
+            <img src="/statue-back.jpg" alt="Bodybuilding" />
+            <div className="mode-overlay" />
+            <div className="mode-content">
+              <span className="mode-badge">Bodybuilding</span>
+              <h3 className="mode-title">Build the physique</h3>
+              <p className="mode-desc">
+                Split presets (PPL, Arnold, Upper/Lower), exercise library with 120+ exercises, set completion tracking, volume analytics, and detailed exercise history graphs.
+              </p>
             </div>
-
-            <form action={formAction} className="waitlist-form">
-              <div className="input-group">
-                <label htmlFor="name">Full Name</label>
-                <input type="text" id="name" name="name" required placeholder="Chris Bumstead" />
-              </div>
-              <div className="input-group">
-                <label htmlFor="email">Email Address</label>
-                <input type="email" id="email" name="email" required placeholder="cbum@example.com" />
-              </div>
-              <div className="input-group">
-                <label htmlFor="country">Country</label>
-                <input type="text" id="country" name="country" required placeholder="Canada" />
-              </div>
-              
-              <button type="submit" className="submit-btn" disabled={isPending}>
-                {isPending ? 'JOINING...' : 'SECURE MY SPOT'}
-              </button>
-
-              {state?.success && (
-                <p className="success-msg">{state.message}</p>
-              )}
-              {state?.error && (
-                <p className="error-msg">{state.error}</p>
-              )}
-            </form>
           </div>
-        </section>
-
-        {/* Footer Section */}
-        <footer className="footer">
-          <div className="container footer-content">
-            <p className="contact-email">Contact: <a href="mailto:areeb@awekn.com">areeb@awekn.com</a></p>
-            <div className="social-links">
-              <a href="https://www.instagram.com/awekn.app?igsh=ZXVnenlwcWg3amRj&utm_source=qr" target="_blank" rel="noopener noreferrer">@awekn.app (Official)</a>
-              <a href="https://www.instagram.com/heisareeb?igsh=MTdmZTV2bTdpd3h0cw%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">@heisareeb (Founder)</a>
+          <div className="mode-card mode-pl reveal" style={{ transitionDelay: '0.1s' }}>
+            <img src="/statue-atlas.jpg" alt="Powerlifting" />
+            <div className="mode-overlay" />
+            <div className="mode-content">
+              <span className="mode-badge">Powerlifting</span>
+              <h3 className="mode-title">Chase the total</h3>
+              <p className="mode-desc">
+                S/B/D maxes, RPE logging, plate calculator, DOTS/Wilks/IPF GL scoring, meet tracker with attempt planner, RPE-to-percentage chart, e1RM calculator.
+              </p>
             </div>
-            <p className="copyright">&copy; {new Date().getFullYear()} Awekn. All rights reserved.</p>
           </div>
-        </footer>
-      </div>
-    </main>
+        </div>
+      </section>
+
+      {/* MANIFESTO */}
+      <section className="manifesto reveal">
+        <h2 className="manifesto-text">Built different.</h2>
+        <p className="manifesto-sub">
+          No features you will never use. No distractions. Just your lifts, your numbers, your progress. Every rep counted. Every gain visible. Nothing in between.
+        </p>
+      </section>
+
+      {/* PRICING */}
+      <section className="pricing" id="pricing">
+        <p className="section-label reveal">Simple pricing</p>
+        <h2 className="section-title reveal">3 days free. Then choose your plan.</h2>
+        <p className="section-subtitle reveal">Full access from day one. No credit card required for trial.</p>
+        <div className="pricing-grid">
+          <div className="price-card reveal">
+            <p className="price-plan">Monthly</p>
+            <p className="price-amount">$2.50</p>
+            <p className="price-period">per month</p>
+            <ul className="price-features">
+              <li>Everything unlimited</li>
+              <li>All features included</li>
+              <li>Cross-device sync</li>
+              <li>All themes</li>
+              <li>Cancel anytime</li>
+            </ul>
+            <button className="price-btn price-btn-secondary">Get Started</button>
+          </div>
+          <div className="price-card popular reveal" style={{ transitionDelay: '0.1s' }}>
+            <span className="price-badge">SAVE 33%</span>
+            <p className="price-plan">Yearly</p>
+            <p className="price-amount">$20</p>
+            <p className="price-period">$1.67/month</p>
+            <ul className="price-features">
+              <li>Everything unlimited</li>
+              <li>All features included</li>
+              <li>Cross-device sync</li>
+              <li>All themes</li>
+              <li>Best value</li>
+            </ul>
+            <button className="price-btn price-btn-primary">Get Started</button>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="cta" id="download">
+        <div className="cta-bg"><img src="/statue-pillar.jpg" alt="" /></div>
+        <div className="cta-content">
+          <h2 className="cta-title reveal">Ready to awekn?</h2>
+          <p className="cta-sub reveal">Available on iOS and Android. Start your free trial today.</p>
+          <div className="hero-buttons reveal">
+            <a href="#" className="btn-primary">App Store</a>
+            <a href="#" className="btn-secondary">Google Play</a>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="footer">
+        <p className="footer-logo">awekn</p>
+        <div className="footer-links">
+          <a href="mailto:areeb@awekn.com">Contact</a>
+          <a href="https://www.instagram.com/awekn.app" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+        <p className="footer-copy">&copy; {new Date().getFullYear()} awekn. All rights reserved.</p>
+      </footer>
+    </>
   );
 }
