@@ -282,8 +282,8 @@ export default function Home() {
             <h4>Company</h4>
             <a href="mailto:areeb@awekn.com">Contact</a>
             <a href="https://www.instagram.com/awekn.app" target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
           </div>
         </div>
         <div className="footer-bottom">
