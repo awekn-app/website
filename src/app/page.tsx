@@ -31,10 +31,10 @@ export default function Home() {
           <div className="hero-gradient" />
         </div>
         <div className="hero-content">
-          <p className="hero-kicker">Workout Tracker for the Relentless</p>
+          <p className="hero-kicker">Workout tracker for the relentless</p>
           <h1 className="hero-headline">Every rep.<br />Every set.<br /><span className="hero-accent">Every conquest.</span></h1>
           <p className="hero-tagline">
-            Bodybuilding & Powerlifting. Offline-first. Built for lifters who don&apos;t quit.
+            Bodybuilding & Powerlifting. Offline-first. Cosmic aesthetic. Built for lifters who don&apos;t quit.
           </p>
           <div className="hero-buttons">
             <a href="#download" className="btn-primary">
@@ -57,23 +57,23 @@ export default function Home() {
       <section className="trust-bar">
         <div className="trust-inner">
           <div className="trust-item">
-            <span className="trust-number">120+ Built-in</span>
+            <span className="trust-number">120+</span>
             <span className="trust-label">Exercises + custom</span>
           </div>
           <div className="trust-divider" />
           <div className="trust-item">
             <span className="trust-number">Offline-first</span>
-            <span className="trust-label">Syncs when you're online</span>
+            <span className="trust-label">Works without internet</span>
           </div>
           <div className="trust-divider" />
           <div className="trust-item">
-            <span className="trust-number">2 Modes</span>
-            <span className="trust-label">BB + Powerlifting</span>
+            <span className="trust-number">8 themes</span>
+            <span className="trust-label">Incl. Obsidian Gold, Cosmic Blue</span>
           </div>
           <div className="trust-divider" />
           <div className="trust-item">
-            <span className="trust-number">Free</span>
-            <span className="trust-label">3-day trial, no card</span>
+            <span className="trust-number">7-day free</span>
+            <span className="trust-label">Full trial, no card</span>
           </div>
         </div>
       </section>
@@ -133,12 +133,33 @@ export default function Home() {
             <h2>Track more than just workouts</h2>
             <p className="feature-subtitle">Body weight, calories, macros, measurements, cardio, personal records, notes — all in one place.</p>
             <ul className="feature-list">
-              <li>Calorie and macro tracking with custom macros</li>
-              <li>Body weight with goal-based color coding</li>
+              <li>Calories + macros with protein, carbs, fats, fiber + custom</li>
+              <li>Body weight with goal tracking and body-fat %</li>
               <li>Body measurements with delta indicators</li>
-              <li>Cardio: walk, run, sprint, stairs, custom</li>
-              <li>Unlimited notes with timestamps</li>
+              <li>Cardio — walks, runs, sprints, stairs, custom</li>
+              <li>Progress photos stored securely per-user in the cloud</li>
               <li>Graphs and analytics for every metric</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURE 4: JOURNAL (USP) */}
+      <section className="feature-section feature-reverse">
+        <div className="feature-row">
+          <div className="feature-img reveal">
+            <img src="/statue-pillar.jpg" alt="Your training journal" />
+          </div>
+          <div className="feature-text reveal">
+            <span className="feature-badge accent">New</span>
+            <h2>Your training journal, day by day</h2>
+            <p className="feature-subtitle">A heatmap of every day you trained, ate, or lifted. Tap a day to see the full story — workouts, meals, PRs, photos, notes, cardio, weight — all unified in one timeline.</p>
+            <ul className="feature-list">
+              <li>Activity heatmap — see your consistency at a glance</li>
+              <li>Day detail: every entry from every feature in one view</li>
+              <li>Cosmic hero for the day number with signature glow</li>
+              <li>Fullscreen photo viewer with swipe navigation</li>
+              <li>Shareable workout cards with your stats</li>
             </ul>
           </div>
         </div>
@@ -218,7 +239,7 @@ export default function Home() {
 
       {/* MANIFESTO */}
       <section className="manifesto reveal">
-        <h2 className="manifesto-text">Built different.</h2>
+        <h2 className="manifesto-text">built different.</h2>
         <p className="manifesto-sub">
           No features you will never use. No social feeds. No AI coaches. No distractions.<br /><br />
           Just your lifts, your numbers, your progress — tracked with precision and shown with clarity. Every rep counted. Every gain visible. Nothing in between.
@@ -230,10 +251,12 @@ export default function Home() {
         <h2 className="section-title reveal">Questions?</h2>
         <div className="faq-grid">
           {[
-            { q: 'Is awekn free?', a: 'You get a 3-day free trial with full access to every feature. No credit card required. After that, choose a plan that works for you.' },
+            { q: 'Is awekn free?', a: 'You get a 7-day free trial with full access to every feature. No credit card required. After that, $5.99/month or $34.99/year (₹149/₹999 in India).' },
             { q: 'Does it work offline?', a: 'Yes. awekn is offline-first. Every read and write goes to your local device instantly. Cloud sync happens automatically in the background when you have internet.' },
             { q: 'Can I use it for both bodybuilding and powerlifting?', a: 'Yes. Switch between modes with one tap on the home screen. Each mode has purpose-built features — bodybuilding has split presets and volume tracking, powerlifting has RPE, scoring calculators, and meet planning.' },
-            { q: 'Will my data sync across devices?', a: 'Yes. Sign in on any device and your data syncs automatically. Works across iPhone and Android.' },
+            { q: 'Will my data sync across devices?', a: 'Yes. Sign in on any device and your data syncs automatically — workouts, weight, photos, notes, PRs, everything. Works across iPhone and Android.' },
+          { q: 'How do I sign in?', a: 'Email + password, Sign in with Google, or Sign in with Apple. Your choice.' },
+          { q: 'What themes are available?', a: 'Eight — Dark (default), Light, Cosmic Blue, Obsidian Gold, Midnight Sage, Dune, Graphite, and Baddie. Plus a System option that follows your phone.' },
             { q: 'Can I track calories and macros?', a: 'Yes. Full calorie and macro tracking with protein, carbs, fats, fiber, and custom macros. Graphs for every metric.' },
             { q: 'Can I cancel anytime?', a: 'Yes. Cancel your subscription anytime through the App Store or Google Play. You keep access until the end of your billing period.' },
           ].map((item, i) => (
@@ -249,8 +272,8 @@ export default function Home() {
       <section className="cta" id="download">
         <div className="cta-bg"><img src="/splash.png" alt="" /></div>
         <div className="cta-content reveal">
-          <h2 className="cta-title">Ready to awekn?</h2>
-          <p className="cta-sub">Available on iOS and Android. Start your free trial today.</p>
+          <h2 className="cta-title">ready to awekn?</h2>
+          <p className="cta-sub">Available on iOS and Android. Start your 7-day free trial today.</p>
           <div className="hero-buttons">
             <a href="#" className="btn-primary">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.56 2.93 11.3 4.7 7.72C5.57 5.94 7.36 4.86 9.28 4.84C10.56 4.82 11.78 5.72 12.57 5.72C13.36 5.72 14.83 4.62 16.4 4.8C17.07 4.83 18.87 5.08 20.01 6.72C19.89 6.79 17.34 8.28 17.37 11.26C17.4 14.77 20.56 15.87 20.59 15.88C20.56 15.96 20.09 17.6 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
