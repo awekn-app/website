@@ -123,209 +123,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═════════ 02 . THE JOURNAL ═════════ */}
-      <section className="section" id="journal">
-        <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">II</span>The journal</div>
-          <h2 className="section-title">
-            Every day you showed up. <span className="serif">Kept</span>.
-          </h2>
-          <p className="section-subtitle">
-            A chronicle of the work. The heatmap shows the months you held the line. Tap any day and every lift, meal, PR, photo, and note appears as one vertical scroll.
-          </p>
-        </div>
-        <div className="split phone-left reveal">
-          <div className="split-phone">
-            <div className="phone phone-l">
-              <div className="phone-screen">
-                <img src="/screens/journal.jpg" alt="awekn journal heatmap and timeline" />
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="stat-row" style={{ marginTop: 0, paddingTop: 0, borderTop: 'none' }}>
-              <div className="stat">
-                <span className="stat-label">The streak</span>
-                <span className="stat-value accent">4 days</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">The volume</span>
-                <span className="stat-value">75.9k kg</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">The records</span>
-                <span className="stat-value">3</span>
-              </div>
-            </div>
-            <ul className="line-list">
-              <li>Activity heatmap across the last months</li>
-              <li>Per-day hero on the date, with the signature glow</li>
-              <li>Every feature, one vertical scroll per day</li>
-              <li>Full-screen photo viewer with swipe navigation</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* ═════════ 03 . THE ASCENT ═════════ */}
-      <section className="section" id="ascent">
-        <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">III</span>The ascent</div>
-          <h2 className="section-title">
-            Your strength, <span className="serif">plotted</span> in full.
-          </h2>
-          <p className="section-subtitle">
-            Every exercise tells a curve. Every session is a point on it. Over weeks, over months, you see the line rise. Or stall. You'll know either way.
-          </p>
-        </div>
-        <div className="split phone-right reveal">
-          <div>
-            <ul className="line-list">
-              <li>Push Day analytics with the strength curve across every session</li>
-              <li>Per-exercise detail: peak vs latest, session count, max-weight graph</li>
-              <li>Best sets ranked by weight times reps</li>
-              <li>Date ranges from two weeks to all time</li>
-            </ul>
-            <div className="stat-row">
-              <div className="stat">
-                <span className="stat-label">Tricep Pushdown</span>
-                <span className="stat-value accent">+11 kg</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">Across sessions</span>
-                <span className="stat-value">9</span>
-              </div>
-            </div>
-          </div>
-          <div className="split-phone">
-            <div className="cascade">
-              <div className="phone phone-m back">
-                <div className="phone-screen">
-                  <img src="/screens/analytics-day.jpg" alt="push day analytics" />
-                </div>
-              </div>
-              <div className="phone phone-m front">
-                <div className="phone-screen">
-                  <img src="/screens/analytics-exercise.jpg" alt="tricep pushdown detail" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═════════ 04 . THE FUEL ═════════ */}
-      <section className="hero-phone-section reveal">
-        <div className="eyebrow"><span className="eyebrow-num">IV</span>The fuel</div>
-        <h2 className="section-title">
-          <span className="serif">2,663</span>
-          <span className="dim" style={{ fontSize: '0.42em', verticalAlign: 'super', marginLeft: 14, letterSpacing: 2 }}>KCAL</span>
-        </h2>
-        <p className="section-subtitle">
-          Calories weighed. Macros counted. Water, fiber, and anything else you measure. Every meal entered, plotted across the day you lived.
-        </p>
-        <div className="hero-phone-frame glow-emerald">
-          <div className="phone phone-xl">
-            <div className="phone-screen">
-              <img src="/screens/calories.jpg" alt="awekn calories screen" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═════════ 05 . THE BODY ═════════ */}
-      <section className="section">
-        <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">V</span>The body</div>
-          <h2 className="section-title">
-            <span className="serif">65.5</span> <span className="dim" style={{ fontSize: '0.55em' }}>kg</span>
-          </h2>
-          <p className="section-subtitle">
-            Weight, body-fat, the trajectory toward your target. A rolling average that smooths the noise. Every weighing a waypoint on the climb. Or the cut.
-          </p>
-        </div>
-        <div className="split phone-left reveal">
-          <div className="split-phone">
-            <div className="phone phone-l">
-              <div className="phone-screen">
-                <img src="/screens/weight.jpg" alt="awekn body weight" />
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="stat-row" style={{ marginTop: 0, paddingTop: 0, borderTop: 'none' }}>
-              <div className="stat">
-                <span className="stat-label">Target</span>
-                <span className="stat-value">75 kg</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">Toward it</span>
-                <span className="stat-value accent">87%</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">Rolling seven</span>
-                <span className="stat-value">67.3 kg</span>
-              </div>
-            </div>
-            <ul className="line-list">
-              <li>Lose, gain, or maintain with color-coded progress</li>
-              <li>Body-fat percentage alongside the weight</li>
-              <li>Seven and thirty day rolling averages</li>
-              <li>Every weighing in full history, with deltas</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* ═════════ 06 . THE REST OF THE RECORD ═════════ */}
-      <section className="section">
-        <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">VI</span>The rest of the record</div>
-          <h2 className="section-title">
-            Photos. Measurements. <span className="dim">Cardio. Notes. Records.</span>
-          </h2>
-          <p className="section-subtitle">
-            One tracker with tabs for every dimension of the work. Tap the tab, log the thing, move on. Nothing to hunt for.
-          </p>
-        </div>
-        <div className="tracker-grid">
-          <div className="tracker-tile reveal">
-            <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/media.jpg" alt="progress photos" /></div>
-            </div>
-            <div className="tracker-tile-caption">Photos</div>
-          </div>
-          <div className="tracker-tile reveal" style={{ transitionDelay: '0.08s' }}>
-            <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/prs.jpg" alt="personal records" /></div>
-            </div>
-            <div className="tracker-tile-caption">Records</div>
-          </div>
-          <div className="tracker-tile reveal" style={{ transitionDelay: '0.16s' }}>
-            <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/notes.jpg" alt="training notes" /></div>
-            </div>
-            <div className="tracker-tile-caption">Notes</div>
-          </div>
-          <div className="tracker-tile reveal" style={{ transitionDelay: '0.24s' }}>
-            <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/measure.jpg" alt="body measurements" /></div>
-            </div>
-            <div className="tracker-tile-caption">Measurements</div>
-          </div>
-          <div className="tracker-tile reveal" style={{ transitionDelay: '0.32s' }}>
-            <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/cardio.jpg" alt="cardio tracking" /></div>
-            </div>
-            <div className="tracker-tile-caption">Cardio</div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═════════ 07 . TWO DISCIPLINES ═════════ */}
+      {/* ═════════ II . TWO DISCIPLINES (promoted from end to top) ═════════ */}
       <section className="section" id="modes">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">VII</span>Two disciplines</div>
+          <div className="eyebrow"><span className="eyebrow-num">II</span>Two disciplines</div>
           <h2 className="section-title">
             For the <span className="serif">sculptor</span>. <span className="dim">For the</span> <span className="serif">titan</span>.
           </h2>
@@ -373,7 +174,206 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═════════ 08 . THE RHYTHM ═════════ */}
+      {/* ═════════ III . THE JOURNAL ═════════ */}
+      <section className="section" id="journal">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">III</span>The journal</div>
+          <h2 className="section-title">
+            Every day you showed up. <span className="serif">Kept</span>.
+          </h2>
+          <p className="section-subtitle">
+            A chronicle of the work. The heatmap shows the months you held the line. Tap any day and every lift, meal, PR, photo, and note appears as one vertical scroll.
+          </p>
+        </div>
+        <div className="split phone-left reveal">
+          <div className="split-phone">
+            <div className="phone phone-l">
+              <div className="phone-screen">
+                <img src="/screens/journal.jpg" alt="awekn journal heatmap and timeline" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="stat-row" style={{ marginTop: 0, paddingTop: 0, borderTop: 'none' }}>
+              <div className="stat">
+                <span className="stat-label">The streak</span>
+                <span className="stat-value accent">4 days</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">The volume</span>
+                <span className="stat-value">75.9k kg</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">The records</span>
+                <span className="stat-value">3</span>
+              </div>
+            </div>
+            <ul className="line-list">
+              <li>Activity heatmap across the last months</li>
+              <li>Per-day hero on the date, with the signature glow</li>
+              <li>Every feature, one vertical scroll per day</li>
+              <li>Full-screen photo viewer with swipe navigation</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════ IV . THE ASCENT ═════════ */}
+      <section className="section" id="ascent">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">IV</span>The ascent</div>
+          <h2 className="section-title">
+            Your strength, <span className="serif">plotted</span> in full.
+          </h2>
+          <p className="section-subtitle">
+            Every exercise tells a curve. Every session is a point on it. Over weeks, over months, you see the line rise. Or stall. You'll know either way.
+          </p>
+        </div>
+        <div className="split phone-right reveal">
+          <div>
+            <ul className="line-list">
+              <li>Push Day analytics with the strength curve across every session</li>
+              <li>Per-exercise detail: peak vs latest, session count, max-weight graph</li>
+              <li>Best sets ranked by weight times reps</li>
+              <li>Date ranges from two weeks to all time</li>
+            </ul>
+            <div className="stat-row">
+              <div className="stat">
+                <span className="stat-label">Tricep Pushdown</span>
+                <span className="stat-value accent">+11 kg</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">Across sessions</span>
+                <span className="stat-value">9</span>
+              </div>
+            </div>
+          </div>
+          <div className="split-phone">
+            <div className="cascade">
+              <div className="phone phone-m back">
+                <div className="phone-screen">
+                  <img src="/screens/analytics-day.jpg" alt="push day analytics" />
+                </div>
+              </div>
+              <div className="phone phone-m front">
+                <div className="phone-screen">
+                  <img src="/screens/analytics-exercise.jpg" alt="tricep pushdown detail" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════ V . THE FUEL ═════════ */}
+      <section className="hero-phone-section reveal">
+        <div className="eyebrow"><span className="eyebrow-num">V</span>The fuel</div>
+        <h2 className="section-title">
+          <span className="serif">2,663</span>
+          <span className="dim" style={{ fontSize: '0.42em', verticalAlign: 'super', marginLeft: 14, letterSpacing: 2 }}>KCAL</span>
+        </h2>
+        <p className="section-subtitle">
+          Calories weighed. Macros counted. Water, fiber, and anything else you measure. Every meal entered, plotted across the day you lived.
+        </p>
+        <div className="hero-phone-frame glow-emerald">
+          <div className="phone phone-xl">
+            <div className="phone-screen">
+              <img src="/screens/calories.jpg" alt="awekn calories screen" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════ VI . THE BODY ═════════ */}
+      <section className="section">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">VI</span>The body</div>
+          <h2 className="section-title">
+            <span className="serif">65.5</span> <span className="dim" style={{ fontSize: '0.55em' }}>kg</span>
+          </h2>
+          <p className="section-subtitle">
+            Weight, body-fat, the trajectory toward your target. A rolling average that smooths the noise. Every weighing a waypoint on the climb. Or the cut.
+          </p>
+        </div>
+        <div className="split phone-left reveal">
+          <div className="split-phone">
+            <div className="phone phone-l">
+              <div className="phone-screen">
+                <img src="/screens/weight.jpg" alt="awekn body weight" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="stat-row" style={{ marginTop: 0, paddingTop: 0, borderTop: 'none' }}>
+              <div className="stat">
+                <span className="stat-label">Target</span>
+                <span className="stat-value">75 kg</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">Toward it</span>
+                <span className="stat-value accent">87%</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">Rolling seven</span>
+                <span className="stat-value">67.3 kg</span>
+              </div>
+            </div>
+            <ul className="line-list">
+              <li>Lose, gain, or maintain with color-coded progress</li>
+              <li>Body-fat percentage alongside the weight</li>
+              <li>Seven and thirty day rolling averages</li>
+              <li>Every weighing in full history, with deltas</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════ VII . THE REST OF THE RECORD ═════════ */}
+      <section className="section">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">VII</span>The rest of the record</div>
+          <h2 className="section-title">
+            Photos. Measurements. <span className="dim">Cardio. Notes. Records.</span>
+          </h2>
+          <p className="section-subtitle">
+            One tracker with tabs for every dimension of the work. Tap the tab, log the thing, move on. Nothing to hunt for.
+          </p>
+        </div>
+        <div className="tracker-grid">
+          <div className="tracker-tile reveal">
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/media.jpg" alt="progress photos" /></div>
+            </div>
+            <div className="tracker-tile-caption">Photos</div>
+          </div>
+          <div className="tracker-tile reveal" style={{ transitionDelay: '0.08s' }}>
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/prs.jpg" alt="personal records" /></div>
+            </div>
+            <div className="tracker-tile-caption">Records</div>
+          </div>
+          <div className="tracker-tile reveal" style={{ transitionDelay: '0.16s' }}>
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/notes.jpg" alt="training notes" /></div>
+            </div>
+            <div className="tracker-tile-caption">Notes</div>
+          </div>
+          <div className="tracker-tile reveal" style={{ transitionDelay: '0.24s' }}>
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/measure.jpg" alt="body measurements" /></div>
+            </div>
+            <div className="tracker-tile-caption">Measurements</div>
+          </div>
+          <div className="tracker-tile reveal" style={{ transitionDelay: '0.32s' }}>
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/cardio.jpg" alt="cardio tracking" /></div>
+            </div>
+            <div className="tracker-tile-caption">Cardio</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═════════ VIII . THE RHYTHM ═════════ */}
       <section className="section">
         <div className="reveal">
           <div className="eyebrow"><span className="eyebrow-num">VIII</span>The rhythm</div>

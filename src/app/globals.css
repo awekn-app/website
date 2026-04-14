@@ -142,7 +142,7 @@ section, nav, footer, header { max-width: 100%; }
    ══════════════════════════════════════════════════════════════════ */
 .phone {
   position: relative;
-  border-radius: 38px;
+  border-radius: 16px;
   overflow: hidden;
   background: #000;
   box-shadow:
