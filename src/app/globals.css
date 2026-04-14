@@ -906,11 +906,25 @@ details[open] .faq-question::after { content: '.'; font-weight: 600; position: r
   .closing-sub { margin-bottom: 24px; }
   .tracker-grid { grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
   .tracker-tile:nth-child(5) { grid-column: span 2; }
-  .cascade { min-height: 460px; }
-  .cascade .phone.back,
-  .cascade .phone.front { max-width: 78%; }
-  .cascade .phone.back { transform: rotate(3deg) scale(0.9); }
-  .cascade .phone.front { transform: rotate(-2deg) scale(0.9); }
+  /* Cascade dies on mobile. It's a desktop flourish — two rotating phones
+     overlapping in a narrow viewport crowd each other, and the reserved
+     min-height was creating a 460px void when the absolute layout clipped.
+     Mobile shows one clean phone, centered. Less is more. */
+  .cascade {
+    min-height: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .cascade .phone.back { display: none; }
+  .cascade .phone.front {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 260px;
+    opacity: 1;
+    filter: none;
+  }
   .modes-split { margin-top: 36px; }
   .footer { padding: 56px 20px 28px; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
