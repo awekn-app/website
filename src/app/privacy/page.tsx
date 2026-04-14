@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — awekn",
+  title: "Privacy Policy . awekn",
   description: "Privacy Policy for awekn fitness tracking app.",
 };
 

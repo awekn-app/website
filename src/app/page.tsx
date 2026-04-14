@@ -10,7 +10,7 @@ export default function Home() {
           if (entry.isIntersecting) entry.target.classList.add('active');
         });
       },
-      { threshold: 0.1 },
+      { threshold: 0.08, rootMargin: '0px 0px -60px 0px' },
     );
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
@@ -20,48 +20,46 @@ export default function Home() {
     'bodybuilding',
     'powerlifting',
     'offline-first',
-    'cosmic aesthetic',
-    '8 themes',
-    'per-user cloud photos',
-    'journal heatmap',
-    'sign in with apple',
-    'sign in with google',
-    'DOTS · Wilks · IPF GL',
+    'journal timeline',
+    'activity heatmap',
+    'strength graphs',
+    'calorie tracking',
+    'body weight goals',
+    'cross-device sync',
+    'progress photos',
+    'daily readiness',
     'meet planner',
     'RPE chart',
-    'e1RM trends',
-    'split cycles',
-    'food search · USDA · OFF',
+    '8 themes',
+    'apple + google sign in',
   ];
 
   return (
     <>
-      {/* Fixed atmospheric backdrop — starfield + corner glows */}
-      <div className="cosmos" aria-hidden />
+      <div className="vignette" aria-hidden />
 
-      {/* ───────── NAV ───────── */}
+      {/* ═══════ NAV ═══════ */}
       <nav className="nav">
         <a href="#" className="nav-logo">awekn</a>
         <div className="nav-links">
-          <a href="#features">Features</a>
-          <a href="#themes">Themes</a>
-          <a href="#pricing">Pricing</a>
+          <a href="#journal">Journal</a>
+          <a href="#strength">Strength</a>
+          <a href="#modes">Modes</a>
           <a href="#download" className="nav-cta">Get the app</a>
         </div>
       </nav>
 
-      {/* ───────── HERO ───────── */}
+      {/* ═══════ HERO ═══════ */}
       <section className="hero">
         <div className="hero-left">
-          <span className="hero-kicker">For serious lifters · Built 2026</span>
+          <span className="hero-kicker">Built for serious lifters</span>
           <h1 className="hero-headline">
-            Train in silence.<br />
-            Track in <span className="em">full color.</span>
+            Every lift.<br />
+            Every meal.<br />
+            <span className="gradient">Every day.</span>
           </h1>
           <p className="hero-tagline">
-            A workout tracker with the aesthetic of a premium watch app — built around
-            a signature cosmic design system. Bodybuilding & powerlifting. Offline-first.
-            Eight themes. Zero noise.
+            A workout tracker with the aesthetic of a premium watch app. Built around a single signature design system. Quiet, fast, offline-first.
           </p>
           <div className="hero-buttons">
             <a href="#download" className="btn-primary">
@@ -78,76 +76,24 @@ export default function Home() {
             </a>
           </div>
           <div className="hero-meta">
-            <span>7-day trial</span>
+            <span>Offline-first</span>
             <span className="dot" />
-            <span>No credit card</span>
+            <span>Cross-device sync</span>
             <span className="dot" />
-            <span>$5.99/mo · $34.99/yr</span>
+            <span>Bodybuilding + powerlifting</span>
           </div>
         </div>
 
-        {/* CSS phone mockup — journal day hero */}
         <div className="hero-right">
-          <div className="phone" aria-hidden>
+          <div className="phone phone-xl">
             <div className="phone-screen">
-              <div className="phone-notch" />
-              <div className="mock-journal">
-                <div className="mock-topbar">
-                  <div className="mock-arrow">‹</div>
-                  <div style={{ display: 'flex', gap: 6 }}>
-                    <div className="mock-arrow">‹</div>
-                    <div className="mock-arrow">›</div>
-                  </div>
-                </div>
-                <div className="mock-hero-label">MONDAY</div>
-                <div className="mock-hero-day">14</div>
-                <div className="mock-hero-month">OCTOBER 2026</div>
-                <div className="mock-chips">
-                  <span className="mock-chip c-workout">1 workout</span>
-                  <span className="mock-chip c-nutri">nutrition</span>
-                  <span className="mock-chip c-pr">1 pr</span>
-                  <span className="mock-chip c-photo">1 photo</span>
-                  <span className="mock-chip c-weight">weight</span>
-                </div>
-
-                <div className="mock-section-label">Workout</div>
-                <div className="mock-card">
-                  <div className="mock-card-title">push day</div>
-                  <div className="mock-card-stats">
-                    <div className="mock-stat">
-                      <div className="mock-stat-value">42m</div>
-                      <div className="mock-stat-label">Duration</div>
-                    </div>
-                    <div className="mock-stat">
-                      <div className="mock-stat-value">12,450</div>
-                      <div className="mock-stat-label">Volume</div>
-                    </div>
-                    <div className="mock-stat">
-                      <div className="mock-stat-value">5</div>
-                      <div className="mock-stat-label">Exercises</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mock-section-label" style={{ marginTop: 16 }}>Nutrition</div>
-                <div className="mock-card">
-                  <div className="mock-nutri-hero">2,543</div>
-                  <div className="mock-kcal-label">KCAL · 6 meals</div>
-                </div>
-              </div>
-
-              <div className="mock-tabbar">
-                <div className="mock-tab"><div className="mock-tab-icon" /><span>Home</span></div>
-                <div className="mock-tab"><div className="mock-tab-icon" /><span>Tracker</span></div>
-                <div className="mock-tab active"><div className="mock-tab-icon" /><span>Journal</span></div>
-                <div className="mock-tab"><div className="mock-tab-icon" /><span>Settings</span></div>
-              </div>
+              <img src="/screens/journal.jpg" alt="awekn journal screen showing activity heatmap and daily timeline" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ───────── MARQUEE ───────── */}
+      {/* ═══════ MARQUEE ═══════ */}
       <section className="marquee" aria-hidden>
         <div className="marquee-track">
           {[...marqueeItems, ...marqueeItems].map((item, i) => (
@@ -156,250 +102,392 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───────── JOURNAL (LEAD FEATURE) ───────── */}
-      <section className="section" id="features">
-        <div className="journal-section">
-          <div className="journal-visual reveal">
-            <div className="journal-heatmap-label">ACTIVITY · LAST 84 DAYS</div>
-            <div className="journal-heatmap-title">Every day. Seen at a glance.</div>
-            <div className="journal-heatmap">
-              {Array.from({ length: 84 }).map((_, i) => {
-                const intensity = [0, 0, 1, 2, 0, 3, 2, 1, 0, 2, 4, 3, 2, 1, 3, 4, 2, 0, 1, 3, 2, 4, 3, 1, 2, 0, 3, 4, 2, 1, 0, 2, 3, 1, 4, 2, 0, 1, 3, 2, 4, 3, 1, 2, 0, 3, 4, 2, 1, 3, 0, 2, 4, 1, 3, 2, 0, 1, 3, 4, 2, 1, 0, 2, 3, 4, 1, 2, 0, 3, 1, 4, 2, 3, 1, 0, 2, 4, 3, 1, 2, 0, 3, 2][i];
-                return <div key={i} className={`heat-cell ${intensity ? `l${intensity}` : ''}`} />;
-              })}
-            </div>
-            <div className="journal-legend">
-              Less
-              <div className="journal-legend-cells">
-                <div className="heat-cell" />
-                <div className="heat-cell l1" />
-                <div className="heat-cell l2" />
-                <div className="heat-cell l3" />
-                <div className="heat-cell l4" />
-              </div>
-              More
-            </div>
-          </div>
-          <div className="reveal">
-            <div className="eyebrow"><span className="eyebrow-num">01</span> Journal</div>
-            <h2 className="section-title">Your training, told as a story.</h2>
-            <p className="section-subtitle">
-              Not a dashboard of numbers — a <em style={{ color: 'var(--white)', fontStyle: 'normal' }}>journal</em>.
-              Activity heatmap, then tap any day: workout · nutrition · PRs · photos · weight · measurements · cardio · notes —
-              unified in one cinematic timeline with the signature cosmic hero on the day number.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ───────── FEATURE GRID ───────── */}
+      {/* ═══════ 01 . EVERY WORKOUT (BB HOME + SPLIT) ═══════ */}
       <section className="section">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">02</span> Core</div>
+          <div className="eyebrow"><span className="eyebrow-num">01</span>The core loop</div>
           <h2 className="section-title">
-            Everything you need. <span style={{ color: 'var(--text-dim)' }}>Nothing you don&apos;t.</span>
-          </h2>
-        </div>
-        <div className="feature-grid">
-          {[
-            {
-              title: 'Log workouts in seconds',
-              desc: 'Sets, reps, weight — tap and done. Smart defaults from your last session. Custom splits with unlimited days.',
-              tags: ['warmup', 'working', 'drop', 'failure', 'amrap'],
-              icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 8h4M4 16h4M16 8h4M16 16h4M8 12h8" strokeLinecap="round" /></svg>,
-            },
-            {
-              title: 'Analytics that mean something',
-              desc: 'Strength curves per exercise. Volume deltas session over session. Best sets ranked. Exercise sparklines + trend arrows.',
-              tags: ['2W', '1M', '3M', '1Y', 'all time'],
-              icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 17l6-6 4 4 8-8" strokeLinecap="round" strokeLinejoin="round" /></svg>,
-            },
-            {
-              title: 'Track everything else',
-              desc: 'Body weight with goal + body-fat. Calories + macros including custom. Measurements. Cardio. Photos. Notes.',
-              tags: ['protein', 'carbs', 'fats', 'fiber', 'water'],
-              icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="9" /><path d="M12 3v9l6 6" strokeLinecap="round" /></svg>,
-            },
-            {
-              title: 'Powerlifting, done right',
-              desc: 'S/B/D maxes + rolling e1RM. Meet planner with attempt selections. Red-light memory. Attempt learning engine.',
-              tags: ['DOTS', 'Wilks', 'IPF GL', 'RPE'],
-              icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="10" width="4" height="4" rx="1" /><rect x="18" y="10" width="4" height="4" rx="1" /><path d="M6 12h12" strokeLinecap="round" /></svg>,
-            },
-            {
-              title: 'Offline-first. Synced everywhere.',
-              desc: 'Every read and write goes to the local device first. Syncs to the cloud automatically in the background. Cross-device.',
-              tags: ['iOS', 'Android', 'SQLite', 'Supabase'],
-              icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 4v8m0 0l-3-3m3 3l3-3M5 17a4 4 0 010-8 5 5 0 019-3 5 5 0 016 4 4 4 0 010 7" strokeLinecap="round" strokeLinejoin="round" /></svg>,
-            },
-            {
-              title: 'Sign in your way',
-              desc: 'Email + password, Sign in with Apple, Sign in with Google. Whatever works. Trial tracked server-side, tamper-proof.',
-              tags: ['apple', 'google', 'email', '7-day trial'],
-              icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 10a3 3 0 11-6 0 3 3 0 016 0z" /><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7" strokeLinecap="round" /></svg>,
-            },
-          ].map((f, i) => (
-            <div key={i} className="feature-card reveal" style={{ transitionDelay: `${i * 0.05}s` }}>
-              <div className="feature-icon">{f.icon}</div>
-              <h3 className="feature-title">{f.title}</h3>
-              <p className="feature-desc">{f.desc}</p>
-              <div className="feature-tags">
-                {f.tags.map((t, j) => <span key={j} className="feature-tag">{t}</span>)}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ───────── MODES SPLIT ───────── */}
-      <section className="section">
-        <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">03</span> Two Modes</div>
-          <h2 className="section-title">
-            Bodybuilding.<br />
-            <span style={{ color: 'var(--text-dim)' }}>Powerlifting.</span>
-          </h2>
-          <p className="section-subtitle">Switch between modes with one tap. Each purpose-built for how you actually train.</p>
-        </div>
-        <div className="modes-split reveal">
-          <div className="mode-half bb">
-            <span className="mode-badge">Bodybuilding</span>
-            <h3 className="mode-title">Build the physique</h3>
-            <p className="mode-sub">Splits, volume, and a strength chart for every exercise you&apos;ve ever done.</p>
-            <ul className="mode-features">
-              <li>Split presets — PPL, Arnold, Upper/Lower, Bro, 3/4/5-day, custom</li>
-              <li>120+ exercise library with bodyweight toggle</li>
-              <li>Drag-and-drop reorder + supersets</li>
-              <li>Cycle tracking with skip, complete, reset, advance</li>
-              <li>Volume tracking + session deltas</li>
-            </ul>
-          </div>
-          <div className="mode-half pl">
-            <span className="mode-badge">Powerlifting</span>
-            <h3 className="mode-title">Chase the total</h3>
-            <p className="mode-sub">The only app with red-light memory, attempt learning, and a lift setup profile you can pre-lift in 5 seconds.</p>
-            <ul className="mode-features">
-              <li>S/B/D maxes + rolling e1RM + trends graph</li>
-              <li>RPE per set + % of 1RM + e1RM calculator</li>
-              <li>DOTS, Wilks, IPF GL scoring</li>
-              <li>Meet planner + attempt selections + red-light memory</li>
-              <li>Pre-lift setup profile (rack, stance, grip, cues)</li>
-              <li>Plate calculator + warm-up generator + daily readiness</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* ───────── THEMES SHOWCASE ───────── */}
-      <section className="section" id="themes">
-        <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">04</span> Aesthetics</div>
-          <h2 className="section-title">
-            Eight themes. <span style={{ color: 'var(--text-dim)' }}>All signed off by a designer.</span>
+            Your split, <span className="serif">remembered</span>.
           </h2>
           <p className="section-subtitle">
-            Every theme has its own canvas, typography weight, and palette tuned end-to-end — not recolored.
-            Switch in Settings → Appearance.
+            Cycle tracking built into the home screen. Tap a day to train. Skip, complete, or reset anytime. Your streak picks up exactly where you left off.
           </p>
         </div>
-        <div className="theme-grid">
-          {[
-            { c: 't-dark',        name: 'Dark',           d: 'The default · emerald accent' },
-            { c: 't-cosmic-blue', name: 'Cosmic Blue',    d: 'Pure black · dark blue type' },
-            { c: 't-obsidian',    name: 'Obsidian Gold',  d: 'Luxury · champagne gold' },
-            { c: 't-sage',        name: 'Midnight Sage',  d: 'Organic · forest green' },
-            { c: 't-graphite',    name: 'Graphite',       d: 'Minimalist · single orange' },
-            { c: 't-light',       name: 'Light',          d: 'Clean · iOS-style' },
-            { c: 't-dune',        name: 'Dune',           d: 'Literary · warm cream' },
-            { c: 't-baddie',      name: 'Baddie',         d: 'Hot pink · gym-girl energy' },
-          ].map((t, i) => (
-            <div key={t.c} className={`theme-card ${t.c} reveal`} style={{ transitionDelay: `${i * 0.05}s` }}>
-              <div>
-                <div className="theme-name">{t.name}</div>
-                <div className="theme-desc">{t.d}</div>
-              </div>
-              <div className="theme-swatches">
-                <div className="theme-swatch" />
-                <div className="theme-swatch" />
-                <div className="theme-swatch" />
+        <div className="split phone-right reveal">
+          <div>
+            <ul className="line-list">
+              <li>Custom splits with unlimited days and active-rest days</li>
+              <li>Smart defaults pulled from your last session</li>
+              <li>Skip, complete, undo, and reset with a long-press</li>
+              <li>A calendar of every day you trained, with dots on streak days</li>
+            </ul>
+            <div className="stat-row">
+              <div className="stat">
+                <span className="stat-label">Splits</span>
+                <span className="stat-value">PPL, Arnold, Upper/Lower, Bro, 3/4/5-day, custom</span>
               </div>
             </div>
-          ))}
+          </div>
+          <div className="split-phone">
+            <div className="phone phone-l">
+              <div className="phone-screen">
+                <img src="/screens/home-bb.jpg" alt="awekn bodybuilding home screen with 5 Day Split cycle tracking" />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ───────── PRICING ───────── */}
-      <section className="section" id="pricing">
-        <div className="reveal" style={{ textAlign: 'center' }}>
-          <div className="eyebrow" style={{ justifyContent: 'center' }}>
-            <span className="eyebrow-num">05</span> Pricing
-          </div>
-          <h2 className="section-title" style={{ margin: '0 auto' }}>Transparent. No gimmicks.</h2>
-          <p className="section-subtitle" style={{ margin: '18px auto 0' }}>
-            Seven days free with full access. No credit card to start. Pick a plan if you want to keep going.
+      {/* ═══════ 02 . JOURNAL (MVP, biggest moment) ═══════ */}
+      <section className="section" id="journal">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">02</span>The journal</div>
+          <h2 className="section-title">
+            A timeline <span className="dim">of every day you showed up.</span>
+          </h2>
+          <p className="section-subtitle">
+            Not a dashboard of numbers. A journal. Activity heatmap, then tap any day to see the full story. Workouts, meals, PRs, photos, measurements, cardio, notes. Unified.
           </p>
         </div>
-        <div className="pricing-grid">
-          <div className="price-card reveal">
-            <div className="price-plan">Monthly</div>
-            <div className="price-amount">$5.99</div>
-            <span className="price-per">per month · billed monthly</span>
-            <ul className="price-list">
-              <li>Full workout + analytics engine</li>
-              <li>All 8 themes</li>
-              <li>Cross-device sync + cloud photos</li>
-              <li>All powerlifting tools (DOTS, e1RM, meet planner)</li>
-              <li>Cancel anytime</li>
-            </ul>
-            <a href="#download" className="price-btn ghost">Start 7-day trial</a>
+        <div className="split phone-left reveal">
+          <div className="split-phone">
+            <div className="phone phone-l">
+              <div className="phone-screen">
+                <img src="/screens/journal.jpg" alt="awekn journal tab with activity heatmap and daily timeline" />
+              </div>
+            </div>
           </div>
-          <div className="price-card featured reveal" style={{ transitionDelay: '0.1s' }}>
-            <div className="price-plan">Annual</div>
-            <div className="price-amount">$34.99</div>
-            <span className="price-per">per year · $2.92/mo effective</span>
-            <ul className="price-list">
-              <li>Everything in Monthly</li>
-              <li>Save 51% vs monthly</li>
-              <li>Priority support</li>
-              <li>First access to new features</li>
-              <li>Cancel anytime</li>
+          <div>
+            <div className="stat-row" style={{ marginTop: 0, paddingTop: 0, borderTop: 'none' }}>
+              <div className="stat">
+                <span className="stat-label">Streak</span>
+                <span className="stat-value accent">4 days</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">This week</span>
+                <span className="stat-value">15 workouts</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">Volume</span>
+                <span className="stat-value">75.9k kg</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">PRs</span>
+                <span className="stat-value">3</span>
+              </div>
+            </div>
+            <ul className="line-list">
+              <li>Activity heatmap across the last 84 days</li>
+              <li>Per-day cosmic hero on the date with signature glow</li>
+              <li>Every entry from every feature in one vertical scroll</li>
+              <li>Fullscreen photo viewer with swipe navigation</li>
             </ul>
-            <a href="#download" className="price-btn primary">Start 7-day trial</a>
           </div>
         </div>
-        <p className="price-locale">India: ₹149/month · ₹999/year · launch pricing</p>
       </section>
 
-      {/* ───────── MANIFESTO ───────── */}
+      {/* ═══════ 03 . STRENGTH GRAPHS (cascading phones) ═══════ */}
+      <section className="section" id="strength">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">03</span>Strength, visualized</div>
+          <h2 className="section-title">
+            Every chart, <span className="serif">earned</span>.
+          </h2>
+          <p className="section-subtitle">
+            Strength progression per exercise. Volume deltas session over session. Best sets ranked. Exercise sparklines. 2-week to all-time filters.
+          </p>
+        </div>
+        <div className="split phone-right reveal">
+          <div>
+            <ul className="line-list">
+              <li>Push Day analytics with strength curves across every session</li>
+              <li>Per-exercise detail: peak vs latest, sessions count, max-weight graph</li>
+              <li>Best sets ranked by weight times reps</li>
+              <li>Date-range filters from 2 weeks to all time</li>
+            </ul>
+            <div className="stat-row">
+              <div className="stat">
+                <span className="stat-label">Tricep Pushdown</span>
+                <span className="stat-value accent">+11 kg</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">Sessions</span>
+                <span className="stat-value">9</span>
+              </div>
+            </div>
+          </div>
+          <div className="split-phone">
+            <div className="cascade">
+              <div className="phone phone-m back">
+                <div className="phone-screen">
+                  <img src="/screens/analytics-day.jpg" alt="awekn push day analytics with strength progression chart" />
+                </div>
+              </div>
+              <div className="phone phone-m front">
+                <div className="phone-screen">
+                  <img src="/screens/analytics-exercise.jpg" alt="awekn tricep pushdown exercise detail with max weight graph" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ 04 . CALORIES (cosmic hero moment, centered) ═══════ */}
+      <section className="hero-phone-section reveal">
+        <div className="eyebrow"><span className="eyebrow-num">04</span>Fuel consciously</div>
+        <h2 className="section-title">
+          <span className="serif">2,663</span>
+          <span className="dim" style={{ fontSize: '0.45em', verticalAlign: 'super', marginLeft: 12, letterSpacing: 2 }}>KCAL</span>
+        </h2>
+        <p className="section-subtitle">
+          Calorie + macro logging with protein, carbs, fats, fiber, water, and custom macros. Daily goal ring. Graph any metric across any range.
+        </p>
+        <div className="hero-phone-frame glow-emerald">
+          <div className="phone phone-xl">
+            <div className="phone-screen">
+              <img src="/screens/calories.jpg" alt="awekn calories screen with 2663 kcal cosmic hero and macro progress" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ 05 . BODY WEIGHT ═══════ */}
+      <section className="section">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">05</span>Your body, tracked</div>
+          <h2 className="section-title">
+            <span className="serif">65.5</span> <span className="dim" style={{ fontSize: '0.55em' }}>kg</span>
+          </h2>
+          <p className="section-subtitle">
+            Weight, body-fat, goal progress, 7 and 30 day rolling averages. Log once, see your trajectory across the whole program.
+          </p>
+        </div>
+        <div className="split phone-left reveal">
+          <div className="split-phone">
+            <div className="phone phone-l">
+              <div className="phone-screen">
+                <img src="/screens/weight.jpg" alt="awekn body weight screen with cosmic hero number and target progress" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="stat-row" style={{ marginTop: 0, paddingTop: 0, borderTop: 'none' }}>
+              <div className="stat">
+                <span className="stat-label">Target</span>
+                <span className="stat-value">75 kg</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">Progress</span>
+                <span className="stat-value accent">87%</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">7-day avg</span>
+                <span className="stat-value">67.3 kg</span>
+              </div>
+            </div>
+            <ul className="line-list">
+              <li>Lose, gain, or maintain targeting with color-coded progress</li>
+              <li>Body-fat percentage logging alongside weight</li>
+              <li>7-day and 30-day rolling averages</li>
+              <li>Full history with deltas and trend arrows</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ 06 . EVERYTHING ELSE (tracker tab grid) ═══════ */}
+      <section className="section">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">06</span>Everything else</div>
+          <h2 className="section-title">
+            Photos, measurements, <span className="dim">cardio, notes, PRs.</span>
+          </h2>
+          <p className="section-subtitle">
+            One tracker with tabs across every dimension of your training. Tap the tab, log the thing, move on.
+          </p>
+        </div>
+        <div className="tracker-grid">
+          <div className="tracker-tile reveal">
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/media.jpg" alt="awekn progress photos" /></div>
+            </div>
+            <div className="tracker-tile-caption">Progress photos</div>
+          </div>
+          <div className="tracker-tile reveal" style={{ transitionDelay: '0.08s' }}>
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/prs.jpg" alt="awekn personal records" /></div>
+            </div>
+            <div className="tracker-tile-caption">Personal records</div>
+          </div>
+          <div className="tracker-tile reveal" style={{ transitionDelay: '0.16s' }}>
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/notes.jpg" alt="awekn training notes" /></div>
+            </div>
+            <div className="tracker-tile-caption">Notes</div>
+          </div>
+          <div className="tracker-tile reveal" style={{ transitionDelay: '0.24s' }}>
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/measure.jpg" alt="awekn body measurements" /></div>
+            </div>
+            <div className="tracker-tile-caption">Measurements</div>
+          </div>
+          <div className="tracker-tile reveal" style={{ transitionDelay: '0.32s' }}>
+            <div className="phone phone-s">
+              <div className="phone-screen"><img src="/screens/cardio.jpg" alt="awekn cardio tracking" /></div>
+            </div>
+            <div className="tracker-tile-caption">Cardio</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ 07 . TWO MODES ═══════ */}
+      <section className="section" id="modes">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">07</span>Two modes</div>
+          <h2 className="section-title">
+            Bodybuilding. <span className="dim">Powerlifting.</span>
+          </h2>
+          <p className="section-subtitle">
+            Switch with one tap. Each purpose-built for how you actually train.
+          </p>
+        </div>
+        <div className="modes-split">
+          <div className="mode-card bb reveal">
+            <span className="mode-badge">Bodybuilding</span>
+            <h3 className="mode-title">Build the physique</h3>
+            <p className="mode-sub">Splits, volume, and a strength chart for every exercise you have ever done.</p>
+            <ul className="mode-features">
+              <li>Split presets, cycle tracking, skip/complete/undo</li>
+              <li>120+ exercise library with bodyweight toggle</li>
+              <li>Drag-and-drop reorder and supersets</li>
+              <li>Volume tracking and session deltas</li>
+            </ul>
+            <div className="mode-phone-wrap">
+              <div className="phone phone-m">
+                <div className="phone-screen">
+                  <img src="/screens/home-bb.jpg" alt="bodybuilding home with 5 day split" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mode-card pl reveal" style={{ transitionDelay: '0.1s' }}>
+            <span className="mode-badge">Powerlifting</span>
+            <h3 className="mode-title">Chase the total</h3>
+            <p className="mode-sub">Meet planning, attempt selection, rolling e1RM, lift setup profile, and a red-light memory.</p>
+            <ul className="mode-features">
+              <li>S/B/D maxes with rolling e1RM and trends graph</li>
+              <li>RPE per set, DOTS, Wilks, IPF GL scoring</li>
+              <li>Meet planner with attempt selections and red-light memory</li>
+              <li>Plate calculator, warm-up generator, daily readiness</li>
+            </ul>
+            <div className="mode-phone-wrap">
+              <div className="phone phone-m">
+                <div className="phone-screen">
+                  <img src="/screens/home-pl.jpg" alt="powerlifting home with SBD maxes and tools" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ 08 . SESSION DETAIL (log fast) ═══════ */}
+      <section className="section tight">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">08</span>Log in seconds</div>
+          <h2 className="section-title">
+            Tap. Done. <span className="dim">Next set.</span>
+          </h2>
+        </div>
+        <div className="split phone-right reveal">
+          <div>
+            <ul className="line-list">
+              <li>Sets, reps, weight, and RPE in one row each</li>
+              <li>Warmup, working, drop, failure, and amrap markers</li>
+              <li>Every set from every session, searchable forever</li>
+              <li>Resume any workout exactly where you left off</li>
+            </ul>
+          </div>
+          <div className="split-phone">
+            <div className="phone phone-l">
+              <div className="phone-screen">
+                <img src="/screens/session.jpg" alt="awekn session detail showing sets and reps per exercise" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ 09 . CALENDAR + SYNC (offline-first) ═══════ */}
+      <section className="section tight">
+        <div className="reveal">
+          <div className="eyebrow"><span className="eyebrow-num">09</span>Offline first</div>
+          <h2 className="section-title">
+            Your data stays <span className="serif">with you</span>.
+          </h2>
+          <p className="section-subtitle">
+            Every read and write hits your device first. Cloud sync happens in the background when you have internet. A calendar of every trained day with dots on your streak.
+          </p>
+        </div>
+        <div className="split phone-left reveal">
+          <div className="split-phone">
+            <div className="phone phone-l">
+              <div className="phone-screen">
+                <img src="/screens/home-calendar.jpg" alt="awekn home calendar with workout dots" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="stat-row" style={{ marginTop: 0, paddingTop: 0, borderTop: 'none' }}>
+              <div className="stat">
+                <span className="stat-label">Storage</span>
+                <span className="stat-value">Local SQLite</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">Sync</span>
+                <span className="stat-value">Every 2 min in background</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">Devices</span>
+                <span className="stat-value">iOS, Android, any</span>
+              </div>
+            </div>
+            <ul className="line-list">
+              <li>Works fully offline, even mid-workout on a plane</li>
+              <li>Calendar of every trained day with visible dots</li>
+              <li>Per-user secure cloud photos</li>
+              <li>Sign in with Apple, Google, or email</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ MANIFESTO ═══════ */}
       <section className="manifesto-section">
         <h2 className="manifesto-quote reveal">
-          Built different.<br />
+          Built <span className="serif">different</span>.<br />
           <span className="dim">No feeds. No coaches. No distractions.</span>
         </h2>
         <p className="manifesto-body reveal">
-          Just your lifts, your numbers, your progress — tracked with precision and
-          shown with clarity. Every rep counted. Every gain visible.
+          Just your lifts, your numbers, your progress. Tracked with precision. Shown with clarity. Every rep counted. Every gain visible.
         </p>
       </section>
 
-      {/* ───────── FAQ ───────── */}
+      {/* ═══════ FAQ ═══════ */}
       <section className="section">
         <div className="reveal" style={{ textAlign: 'center' }}>
-          <div className="eyebrow" style={{ justifyContent: 'center' }}>
-            <span className="eyebrow-num">06</span> FAQ
-          </div>
+          <div className="eyebrow" style={{ justifyContent: 'center' }}>Frequently asked</div>
           <h2 className="section-title" style={{ margin: '0 auto' }}>Questions worth asking.</h2>
         </div>
         <div className="faq-list">
           {[
-            { q: 'Is awekn actually free?', a: 'You get 7 days free with full access to every feature. No credit card to start. After that, $5.99/month or $34.99/year — ₹149/₹999 in India. Cancel anytime.' },
-            { q: 'Does it work offline?', a: 'Yes. Every read and write hits your local device first. Cloud sync happens automatically in the background when you have internet. You can log workouts on a plane and everything syncs when you land.' },
-            { q: 'How do I sign in?', a: 'Email + password, Sign in with Apple, or Sign in with Google. All three are first-class. Your choice.' },
-            { q: 'Can one account use both bodybuilding and powerlifting?', a: 'Yes. Switch modes with one tap. Each has purpose-built features — BB has split presets and volume tracking, PL has RPE, scoring calculators, meet planning, and the lift setup profile.' },
-            { q: 'What about my photos — where are they stored?', a: 'Per-user folders in an S3 bucket we control. Each photo is compressed to 1920px before upload. Delete cascades on the device remove the cloud copy too.' },
-            { q: 'Will my data sync across devices?', a: 'Yes — workouts, weight, photos, notes, PRs, measurements, everything. Sign in on any device and it all appears.' },
-            { q: 'What themes do I get?', a: 'Eight. Dark, Light, Cosmic Blue, Obsidian Gold, Midnight Sage, Dune, Graphite, Baddie — plus System. All tuned end-to-end, not just recolored.' },
-            { q: 'Can I cancel anytime?', a: 'Yes. Through the App Store or Google Play. You keep access until the end of your billing period.' },
+            { q: 'Does it work offline?', a: 'Yes. Every read and write hits your device first. Cloud sync happens automatically in the background when you have internet. You can log workouts on a plane and everything syncs when you land.' },
+            { q: 'How do I sign in?', a: 'Email plus password, Sign in with Apple, or Sign in with Google. Any of the three. Your choice.' },
+            { q: 'Can one account use both bodybuilding and powerlifting?', a: 'Yes. Switch modes with one tap on the home screen. Each mode has its own purpose-built features. BB has split presets and volume tracking. PL has RPE, scoring calculators, meet planning, and the lift setup profile.' },
+            { q: 'Where are my photos stored?', a: 'Per-user folders in a secure cloud bucket. Each photo is compressed to 1920px before upload. Delete on the device removes the cloud copy.' },
+            { q: 'Does my data sync across devices?', a: 'Yes. Workouts, weight, photos, notes, PRs, measurements, cardio. Sign in on any device and everything appears.' },
+            { q: 'What themes do I get?', a: 'Eight. Dark, Cosmic Blue, Obsidian Gold, Midnight Sage, Graphite, Light, Dune, Baddie. Plus System. All tuned end-to-end, not recolored.' },
           ].map((item, i) => (
             <details key={i} className="faq-item reveal" style={{ transitionDelay: `${i * 0.04}s` }}>
               <summary className="faq-question">{item.q}</summary>
@@ -409,10 +497,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───────── CLOSING CTA ───────── */}
+      {/* ═══════ CLOSING ═══════ */}
       <section className="closing" id="download">
-        <h2 className="closing-title">awekn.</h2>
-        <p className="closing-sub">Available on iOS and Android. Start your 7-day free trial.</p>
+        <h2 className="closing-wordmark">awekn</h2>
+        <p className="closing-sub">Available on iOS and Android.</p>
         <div className="closing-buttons">
           <a href="#" className="btn-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -429,18 +517,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ───────── FOOTER ───────── */}
+      {/* ═══════ FOOTER ═══════ */}
       <footer className="footer">
         <div className="footer-grid">
           <div className="footer-brand">
             <div className="footer-logo">awekn</div>
-            <p>Track. Log. Analyse. Conquer. The workout tracker with the aesthetic of a premium watch app.</p>
+            <p>Track. Log. Analyse. Conquer. A workout tracker with the aesthetic of a premium watch app.</p>
           </div>
           <div className="footer-col">
             <h4>Product</h4>
-            <a href="#features">Features</a>
-            <a href="#themes">Themes</a>
-            <a href="#pricing">Pricing</a>
+            <a href="#journal">Journal</a>
+            <a href="#strength">Strength</a>
+            <a href="#modes">Modes</a>
             <a href="#download">Download</a>
           </div>
           <div className="footer-col">
@@ -456,7 +544,7 @@ export default function Home() {
         </div>
         <div className="footer-bottom">
           <span>&copy; {new Date().getFullYear()} awekn</span>
-          <span>Made for lifters who don&apos;t quit.</span>
+          <span>For lifters who do not quit.</span>
         </div>
       </footer>
     </>

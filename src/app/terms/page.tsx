@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — awekn",
+  title: "Terms of Service . awekn",
   description: "Terms of Service for awekn fitness tracking app.",
 };
 
