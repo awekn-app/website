@@ -16,50 +16,42 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const marqueeItems = [
-    'bodybuilding',
-    'powerlifting',
-    'offline-first',
-    'journal timeline',
-    'activity heatmap',
-    'strength graphs',
-    'calorie tracking',
-    'body weight goals',
-    'cross-device sync',
-    'progress photos',
-    'daily readiness',
-    'meet planner',
-    'RPE chart',
-    '8 themes',
-    'apple + google sign in',
+  // Short oath-like phrases, scrolling. Not feature names.
+  const oaths = [
+    'lift in silence',
+    'the iron remembers',
+    'show up again',
+    'every rep counted',
+    'every day kept',
+    'the body is a ledger',
+    'the record is forever',
+    'training is devotion',
   ];
 
   return (
     <>
       <div className="vignette" aria-hidden />
 
-      {/* ═══════ NAV ═══════ */}
+      {/* ═════════ NAV ═════════ */}
       <nav className="nav">
         <a href="#" className="nav-logo">awekn</a>
         <div className="nav-links">
           <a href="#journal">Journal</a>
-          <a href="#strength">Strength</a>
+          <a href="#ascent">Strength</a>
           <a href="#modes">Modes</a>
           <a href="#download" className="nav-cta">Get the app</a>
         </div>
       </nav>
 
-      {/* ═══════ HERO ═══════ */}
+      {/* ═════════ HERO ═════════ */}
       <section className="hero">
         <div className="hero-left">
-          <span className="hero-kicker">Built for serious lifters</span>
+          <span className="hero-kicker">For those who return</span>
           <h1 className="hero-headline">
-            Every lift.<br />
-            Every meal.<br />
-            <span className="gradient">Every day.</span>
+            Training is a kind of <span className="serif">devotion</span>.
           </h1>
           <p className="hero-tagline">
-            A workout tracker with the aesthetic of a premium watch app. Built around a single signature design system. Quiet, fast, offline-first.
+            A chronicle of every rep, every meal, every day you return to the iron. Written on your device first. Kept there forever.
           </p>
           <div className="hero-buttons">
             <a href="#download" className="btn-primary">
@@ -75,135 +67,124 @@ export default function Home() {
               Android
             </a>
           </div>
-          <div className="hero-meta">
-            <span>Offline-first</span>
-            <span className="dot" />
-            <span>Cross-device sync</span>
-            <span className="dot" />
-            <span>Bodybuilding + powerlifting</span>
-          </div>
         </div>
 
         <div className="hero-right">
           <div className="phone phone-xl">
             <div className="phone-screen">
-              <img src="/screens/journal.jpg" alt="awekn journal screen showing activity heatmap and daily timeline" />
+              <img src="/screens/journal.jpg" alt="awekn journal" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════ MARQUEE ═══════ */}
+      {/* ═════════ OATH MARQUEE ═════════ */}
       <section className="marquee" aria-hidden>
         <div className="marquee-track">
-          {[...marqueeItems, ...marqueeItems].map((item, i) => (
+          {[...oaths, ...oaths].map((item, i) => (
             <span key={i} className="marquee-item">{item}</span>
           ))}
         </div>
       </section>
 
-      {/* ═══════ 01 . EVERY WORKOUT (BB HOME + SPLIT) ═══════ */}
+      {/* ═════════ 01 . THE CYCLE ═════════ */}
       <section className="section">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">01</span>The core loop</div>
+          <div className="eyebrow"><span className="eyebrow-num">I</span>The cycle</div>
           <h2 className="section-title">
-            Your split, <span className="serif">remembered</span>.
+            A climb you <span className="serif">earn</span> back.
           </h2>
           <p className="section-subtitle">
-            Cycle tracking built into the home screen. Tap a day to train. Skip, complete, or reset anytime. Your streak picks up exactly where you left off.
+            Splits as cycles. Push, Pull, Legs. Complete. Skip. Reset. The structure you trust, tracked with intent you can see.
           </p>
         </div>
         <div className="split phone-right reveal">
           <div>
             <ul className="line-list">
               <li>Custom splits with unlimited days and active-rest days</li>
-              <li>Smart defaults pulled from your last session</li>
-              <li>Skip, complete, undo, and reset with a long-press</li>
-              <li>A calendar of every day you trained, with dots on streak days</li>
+              <li>Smart defaults carried over from the last session</li>
+              <li>Skip, complete, undo, reset on a long-press</li>
+              <li>Calendar of every day you trained, with dots on the streak</li>
             </ul>
             <div className="stat-row">
               <div className="stat">
-                <span className="stat-label">Splits</span>
-                <span className="stat-value">PPL, Arnold, Upper/Lower, Bro, 3/4/5-day, custom</span>
+                <span className="stat-label">The kit</span>
+                <span className="stat-value">PPL . Arnold . Upper/Lower . 3/4/5-day . Custom</span>
               </div>
             </div>
           </div>
           <div className="split-phone">
             <div className="phone phone-l">
               <div className="phone-screen">
-                <img src="/screens/home-bb.jpg" alt="awekn bodybuilding home screen with 5 Day Split cycle tracking" />
+                <img src="/screens/home-bb.jpg" alt="awekn 5 day split" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════ 02 . JOURNAL (MVP, biggest moment) ═══════ */}
+      {/* ═════════ 02 . THE JOURNAL ═════════ */}
       <section className="section" id="journal">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">02</span>The journal</div>
+          <div className="eyebrow"><span className="eyebrow-num">II</span>The journal</div>
           <h2 className="section-title">
-            A timeline <span className="dim">of every day you showed up.</span>
+            Every day you showed up. <span className="serif">Kept</span>.
           </h2>
           <p className="section-subtitle">
-            Not a dashboard of numbers. A journal. Activity heatmap, then tap any day to see the full story. Workouts, meals, PRs, photos, measurements, cardio, notes. Unified.
+            A chronicle of the work. The heatmap shows the months you held the line. Tap any day and every lift, meal, PR, photo, and note appears as one vertical scroll.
           </p>
         </div>
         <div className="split phone-left reveal">
           <div className="split-phone">
             <div className="phone phone-l">
               <div className="phone-screen">
-                <img src="/screens/journal.jpg" alt="awekn journal tab with activity heatmap and daily timeline" />
+                <img src="/screens/journal.jpg" alt="awekn journal heatmap and timeline" />
               </div>
             </div>
           </div>
           <div>
             <div className="stat-row" style={{ marginTop: 0, paddingTop: 0, borderTop: 'none' }}>
               <div className="stat">
-                <span className="stat-label">Streak</span>
+                <span className="stat-label">The streak</span>
                 <span className="stat-value accent">4 days</span>
               </div>
               <div className="stat">
-                <span className="stat-label">This week</span>
-                <span className="stat-value">15 workouts</span>
-              </div>
-              <div className="stat">
-                <span className="stat-label">Volume</span>
+                <span className="stat-label">The volume</span>
                 <span className="stat-value">75.9k kg</span>
               </div>
               <div className="stat">
-                <span className="stat-label">PRs</span>
+                <span className="stat-label">The records</span>
                 <span className="stat-value">3</span>
               </div>
             </div>
             <ul className="line-list">
-              <li>Activity heatmap across the last 84 days</li>
-              <li>Per-day cosmic hero on the date with signature glow</li>
-              <li>Every entry from every feature in one vertical scroll</li>
-              <li>Fullscreen photo viewer with swipe navigation</li>
+              <li>Activity heatmap across the last months</li>
+              <li>Per-day hero on the date, with the signature glow</li>
+              <li>Every feature, one vertical scroll per day</li>
+              <li>Full-screen photo viewer with swipe navigation</li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* ═══════ 03 . STRENGTH GRAPHS (cascading phones) ═══════ */}
-      <section className="section" id="strength">
+      {/* ═════════ 03 . THE ASCENT ═════════ */}
+      <section className="section" id="ascent">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">03</span>Strength, visualized</div>
+          <div className="eyebrow"><span className="eyebrow-num">III</span>The ascent</div>
           <h2 className="section-title">
-            Every chart, <span className="serif">earned</span>.
+            Your strength, <span className="serif">plotted</span> in full.
           </h2>
           <p className="section-subtitle">
-            Strength progression per exercise. Volume deltas session over session. Best sets ranked. Exercise sparklines. 2-week to all-time filters.
+            Every exercise tells a curve. Every session is a point on it. Over weeks, over months, you see the line rise. Or stall. You'll know either way.
           </p>
         </div>
         <div className="split phone-right reveal">
           <div>
             <ul className="line-list">
-              <li>Push Day analytics with strength curves across every session</li>
-              <li>Per-exercise detail: peak vs latest, sessions count, max-weight graph</li>
+              <li>Push Day analytics with the strength curve across every session</li>
+              <li>Per-exercise detail: peak vs latest, session count, max-weight graph</li>
               <li>Best sets ranked by weight times reps</li>
-              <li>Date-range filters from 2 weeks to all time</li>
+              <li>Date ranges from two weeks to all time</li>
             </ul>
             <div className="stat-row">
               <div className="stat">
@@ -211,7 +192,7 @@ export default function Home() {
                 <span className="stat-value accent">+11 kg</span>
               </div>
               <div className="stat">
-                <span className="stat-label">Sessions</span>
+                <span className="stat-label">Across sessions</span>
                 <span className="stat-value">9</span>
               </div>
             </div>
@@ -220,12 +201,12 @@ export default function Home() {
             <div className="cascade">
               <div className="phone phone-m back">
                 <div className="phone-screen">
-                  <img src="/screens/analytics-day.jpg" alt="awekn push day analytics with strength progression chart" />
+                  <img src="/screens/analytics-day.jpg" alt="push day analytics" />
                 </div>
               </div>
               <div className="phone phone-m front">
                 <div className="phone-screen">
-                  <img src="/screens/analytics-exercise.jpg" alt="awekn tricep pushdown exercise detail with max weight graph" />
+                  <img src="/screens/analytics-exercise.jpg" alt="tricep pushdown detail" />
                 </div>
               </div>
             </div>
@@ -233,41 +214,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════ 04 . CALORIES (cosmic hero moment, centered) ═══════ */}
+      {/* ═════════ 04 . THE FUEL ═════════ */}
       <section className="hero-phone-section reveal">
-        <div className="eyebrow"><span className="eyebrow-num">04</span>Fuel consciously</div>
+        <div className="eyebrow"><span className="eyebrow-num">IV</span>The fuel</div>
         <h2 className="section-title">
           <span className="serif">2,663</span>
-          <span className="dim" style={{ fontSize: '0.45em', verticalAlign: 'super', marginLeft: 12, letterSpacing: 2 }}>KCAL</span>
+          <span className="dim" style={{ fontSize: '0.42em', verticalAlign: 'super', marginLeft: 14, letterSpacing: 2 }}>KCAL</span>
         </h2>
         <p className="section-subtitle">
-          Calorie + macro logging with protein, carbs, fats, fiber, water, and custom macros. Daily goal ring. Graph any metric across any range.
+          Calories weighed. Macros counted. Water, fiber, and anything else you measure. Every meal entered, plotted across the day you lived.
         </p>
         <div className="hero-phone-frame glow-emerald">
           <div className="phone phone-xl">
             <div className="phone-screen">
-              <img src="/screens/calories.jpg" alt="awekn calories screen with 2663 kcal cosmic hero and macro progress" />
+              <img src="/screens/calories.jpg" alt="awekn calories screen" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════ 05 . BODY WEIGHT ═══════ */}
+      {/* ═════════ 05 . THE BODY ═════════ */}
       <section className="section">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">05</span>Your body, tracked</div>
+          <div className="eyebrow"><span className="eyebrow-num">V</span>The body</div>
           <h2 className="section-title">
             <span className="serif">65.5</span> <span className="dim" style={{ fontSize: '0.55em' }}>kg</span>
           </h2>
           <p className="section-subtitle">
-            Weight, body-fat, goal progress, 7 and 30 day rolling averages. Log once, see your trajectory across the whole program.
+            Weight, body-fat, the trajectory toward your target. A rolling average that smooths the noise. Every weighing a waypoint on the climb. Or the cut.
           </p>
         </div>
         <div className="split phone-left reveal">
           <div className="split-phone">
             <div className="phone phone-l">
               <div className="phone-screen">
-                <img src="/screens/weight.jpg" alt="awekn body weight screen with cosmic hero number and target progress" />
+                <img src="/screens/weight.jpg" alt="awekn body weight" />
               </div>
             </div>
           </div>
@@ -278,87 +259,87 @@ export default function Home() {
                 <span className="stat-value">75 kg</span>
               </div>
               <div className="stat">
-                <span className="stat-label">Progress</span>
+                <span className="stat-label">Toward it</span>
                 <span className="stat-value accent">87%</span>
               </div>
               <div className="stat">
-                <span className="stat-label">7-day avg</span>
+                <span className="stat-label">Rolling seven</span>
                 <span className="stat-value">67.3 kg</span>
               </div>
             </div>
             <ul className="line-list">
-              <li>Lose, gain, or maintain targeting with color-coded progress</li>
-              <li>Body-fat percentage logging alongside weight</li>
-              <li>7-day and 30-day rolling averages</li>
-              <li>Full history with deltas and trend arrows</li>
+              <li>Lose, gain, or maintain with color-coded progress</li>
+              <li>Body-fat percentage alongside the weight</li>
+              <li>Seven and thirty day rolling averages</li>
+              <li>Every weighing in full history, with deltas</li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* ═══════ 06 . EVERYTHING ELSE (tracker tab grid) ═══════ */}
+      {/* ═════════ 06 . THE REST OF THE RECORD ═════════ */}
       <section className="section">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">06</span>Everything else</div>
+          <div className="eyebrow"><span className="eyebrow-num">VI</span>The rest of the record</div>
           <h2 className="section-title">
-            Photos, measurements, <span className="dim">cardio, notes, PRs.</span>
+            Photos. Measurements. <span className="dim">Cardio. Notes. Records.</span>
           </h2>
           <p className="section-subtitle">
-            One tracker with tabs across every dimension of your training. Tap the tab, log the thing, move on.
+            One tracker with tabs for every dimension of the work. Tap the tab, log the thing, move on. Nothing to hunt for.
           </p>
         </div>
         <div className="tracker-grid">
           <div className="tracker-tile reveal">
             <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/media.jpg" alt="awekn progress photos" /></div>
+              <div className="phone-screen"><img src="/screens/media.jpg" alt="progress photos" /></div>
             </div>
-            <div className="tracker-tile-caption">Progress photos</div>
+            <div className="tracker-tile-caption">Photos</div>
           </div>
           <div className="tracker-tile reveal" style={{ transitionDelay: '0.08s' }}>
             <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/prs.jpg" alt="awekn personal records" /></div>
+              <div className="phone-screen"><img src="/screens/prs.jpg" alt="personal records" /></div>
             </div>
-            <div className="tracker-tile-caption">Personal records</div>
+            <div className="tracker-tile-caption">Records</div>
           </div>
           <div className="tracker-tile reveal" style={{ transitionDelay: '0.16s' }}>
             <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/notes.jpg" alt="awekn training notes" /></div>
+              <div className="phone-screen"><img src="/screens/notes.jpg" alt="training notes" /></div>
             </div>
             <div className="tracker-tile-caption">Notes</div>
           </div>
           <div className="tracker-tile reveal" style={{ transitionDelay: '0.24s' }}>
             <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/measure.jpg" alt="awekn body measurements" /></div>
+              <div className="phone-screen"><img src="/screens/measure.jpg" alt="body measurements" /></div>
             </div>
             <div className="tracker-tile-caption">Measurements</div>
           </div>
           <div className="tracker-tile reveal" style={{ transitionDelay: '0.32s' }}>
             <div className="phone phone-s">
-              <div className="phone-screen"><img src="/screens/cardio.jpg" alt="awekn cardio tracking" /></div>
+              <div className="phone-screen"><img src="/screens/cardio.jpg" alt="cardio tracking" /></div>
             </div>
             <div className="tracker-tile-caption">Cardio</div>
           </div>
         </div>
       </section>
 
-      {/* ═══════ 07 . TWO MODES ═══════ */}
+      {/* ═════════ 07 . TWO DISCIPLINES ═════════ */}
       <section className="section" id="modes">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">07</span>Two modes</div>
+          <div className="eyebrow"><span className="eyebrow-num">VII</span>Two disciplines</div>
           <h2 className="section-title">
-            Bodybuilding. <span className="dim">Powerlifting.</span>
+            For the <span className="serif">sculptor</span>. <span className="dim">For the</span> <span className="serif">titan</span>.
           </h2>
           <p className="section-subtitle">
-            Switch with one tap. Each purpose-built for how you actually train.
+            Switch with one tap. Each mode built for how you actually train, not a compromise between both.
           </p>
         </div>
         <div className="modes-split">
           <div className="mode-card bb reveal">
             <span className="mode-badge">Bodybuilding</span>
-            <h3 className="mode-title">Build the physique</h3>
-            <p className="mode-sub">Splits, volume, and a strength chart for every exercise you have ever done.</p>
+            <h3 className="mode-title">Build the physique.</h3>
+            <p className="mode-sub">The sculptor's tools. Splits, volume, strength curves, supersets, the exercise library.</p>
             <ul className="mode-features">
-              <li>Split presets, cycle tracking, skip/complete/undo</li>
+              <li>Split presets, cycle tracking, skip, complete, undo</li>
               <li>120+ exercise library with bodyweight toggle</li>
               <li>Drag-and-drop reorder and supersets</li>
               <li>Volume tracking and session deltas</li>
@@ -366,25 +347,25 @@ export default function Home() {
             <div className="mode-phone-wrap">
               <div className="phone phone-m">
                 <div className="phone-screen">
-                  <img src="/screens/home-bb.jpg" alt="bodybuilding home with 5 day split" />
+                  <img src="/screens/home-bb.jpg" alt="bodybuilding home" />
                 </div>
               </div>
             </div>
           </div>
           <div className="mode-card pl reveal" style={{ transitionDelay: '0.1s' }}>
             <span className="mode-badge">Powerlifting</span>
-            <h3 className="mode-title">Chase the total</h3>
-            <p className="mode-sub">Meet planning, attempt selection, rolling e1RM, lift setup profile, and a red-light memory.</p>
+            <h3 className="mode-title">Chase the total.</h3>
+            <p className="mode-sub">The titan's kit. Maxes, rolling e1RM, scoring, meet planning, red-light memory, daily readiness.</p>
             <ul className="mode-features">
-              <li>S/B/D maxes with rolling e1RM and trends graph</li>
-              <li>RPE per set, DOTS, Wilks, IPF GL scoring</li>
-              <li>Meet planner with attempt selections and red-light memory</li>
+              <li>S/B/D maxes with rolling e1RM and a trends graph</li>
+              <li>RPE per set. DOTS, Wilks, IPF GL scoring</li>
+              <li>Meet planner with attempts and red-light memory</li>
               <li>Plate calculator, warm-up generator, daily readiness</li>
             </ul>
             <div className="mode-phone-wrap">
               <div className="phone phone-m">
                 <div className="phone-screen">
-                  <img src="/screens/home-pl.jpg" alt="powerlifting home with SBD maxes and tools" />
+                  <img src="/screens/home-pl.jpg" alt="powerlifting home" />
                 </div>
               </div>
             </div>
@@ -392,89 +373,109 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════ 08 . SESSION DETAIL (log fast) ═══════ */}
-      <section className="section tight">
+      {/* ═════════ 08 . THE RHYTHM ═════════ */}
+      <section className="section">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">08</span>Log in seconds</div>
+          <div className="eyebrow"><span className="eyebrow-num">VIII</span>The rhythm</div>
           <h2 className="section-title">
-            Tap. Done. <span className="dim">Next set.</span>
+            The set, the rep, the <span className="serif">next</span>.
           </h2>
+          <p className="section-subtitle">
+            Weight in one tap. Reps in another. Check the set, move on. The timer keeps the rest. The moment is brief. The record is forever.
+          </p>
         </div>
         <div className="split phone-right reveal">
           <div>
             <ul className="line-list">
-              <li>Sets, reps, weight, and RPE in one row each</li>
-              <li>Warmup, working, drop, failure, and amrap markers</li>
-              <li>Every set from every session, searchable forever</li>
+              <li>Weight, reps, RPE in a single row per set</li>
+              <li>Warm-up, working, drop, failure, and AMRAP markers</li>
+              <li>Every set from every session, preserved for as long as you lift</li>
               <li>Resume any workout exactly where you left off</li>
             </ul>
+            <div className="stat-row">
+              <div className="stat">
+                <span className="stat-label">Live</span>
+                <span className="stat-value">Push Day . #11</span>
+              </div>
+              <div className="stat">
+                <span className="stat-label">Then</span>
+                <span className="stat-value">Archived forever</span>
+              </div>
+            </div>
           </div>
           <div className="split-phone">
-            <div className="phone phone-l">
-              <div className="phone-screen">
-                <img src="/screens/session.jpg" alt="awekn session detail showing sets and reps per exercise" />
+            <div className="cascade">
+              <div className="phone phone-m back">
+                <div className="phone-screen">
+                  <img src="/screens/session.jpg" alt="session archived forever" />
+                </div>
+              </div>
+              <div className="phone phone-m front">
+                <div className="phone-screen">
+                  <img src="/screens/active-workout.jpg" alt="active workout with sets being completed" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════ 09 . CALENDAR + SYNC (offline-first) ═══════ */}
+      {/* ═════════ 09 . YOURS ═════════ */}
       <section className="section tight">
         <div className="reveal">
-          <div className="eyebrow"><span className="eyebrow-num">09</span>Offline first</div>
+          <div className="eyebrow"><span className="eyebrow-num">IX</span>Yours</div>
           <h2 className="section-title">
-            Your data stays <span className="serif">with you</span>.
+            The vault stays <span className="serif">with you</span>.
           </h2>
           <p className="section-subtitle">
-            Every read and write hits your device first. Cloud sync happens in the background when you have internet. A calendar of every trained day with dots on your streak.
+            Every rep, every meal, every photo. Stored on your device first. Synced to the cloud quietly when you're online. Never stranded.
           </p>
         </div>
         <div className="split phone-left reveal">
           <div className="split-phone">
             <div className="phone phone-l">
               <div className="phone-screen">
-                <img src="/screens/home-calendar.jpg" alt="awekn home calendar with workout dots" />
+                <img src="/screens/home-calendar.jpg" alt="home calendar with workout dots" />
               </div>
             </div>
           </div>
           <div>
             <div className="stat-row" style={{ marginTop: 0, paddingTop: 0, borderTop: 'none' }}>
               <div className="stat">
-                <span className="stat-label">Storage</span>
+                <span className="stat-label">On device</span>
                 <span className="stat-value">Local SQLite</span>
               </div>
               <div className="stat">
-                <span className="stat-label">Sync</span>
-                <span className="stat-value">Every 2 min in background</span>
+                <span className="stat-label">In the cloud</span>
+                <span className="stat-value">Every two minutes</span>
               </div>
               <div className="stat">
-                <span className="stat-label">Devices</span>
+                <span className="stat-label">Across</span>
                 <span className="stat-value">iOS, Android, any</span>
               </div>
             </div>
             <ul className="line-list">
-              <li>Works fully offline, even mid-workout on a plane</li>
-              <li>Calendar of every trained day with visible dots</li>
-              <li>Per-user secure cloud photos</li>
+              <li>Works fully offline, mid-workout, mid-flight</li>
+              <li>Calendar of every trained day, dots on the streak</li>
+              <li>Per-user secure cloud for photos</li>
               <li>Sign in with Apple, Google, or email</li>
             </ul>
           </div>
         </div>
       </section>
 
-      {/* ═══════ MANIFESTO ═══════ */}
+      {/* ═════════ MANIFESTO ═════════ */}
       <section className="manifesto-section">
         <h2 className="manifesto-quote reveal">
           Built <span className="serif">different</span>.<br />
           <span className="dim">No feeds. No coaches. No distractions.</span>
         </h2>
         <p className="manifesto-body reveal">
-          Just your lifts, your numbers, your progress. Tracked with precision. Shown with clarity. Every rep counted. Every gain visible.
+          Just the work. The numbers. The return. Every rep counted. Every gain visible. Nothing in between.
         </p>
       </section>
 
-      {/* ═══════ FAQ ═══════ */}
+      {/* ═════════ FAQ ═════════ */}
       <section className="section">
         <div className="reveal" style={{ textAlign: 'center' }}>
           <div className="eyebrow" style={{ justifyContent: 'center' }}>Frequently asked</div>
@@ -482,12 +483,12 @@ export default function Home() {
         </div>
         <div className="faq-list">
           {[
-            { q: 'Does it work offline?', a: 'Yes. Every read and write hits your device first. Cloud sync happens automatically in the background when you have internet. You can log workouts on a plane and everything syncs when you land.' },
-            { q: 'How do I sign in?', a: 'Email plus password, Sign in with Apple, or Sign in with Google. Any of the three. Your choice.' },
-            { q: 'Can one account use both bodybuilding and powerlifting?', a: 'Yes. Switch modes with one tap on the home screen. Each mode has its own purpose-built features. BB has split presets and volume tracking. PL has RPE, scoring calculators, meet planning, and the lift setup profile.' },
-            { q: 'Where are my photos stored?', a: 'Per-user folders in a secure cloud bucket. Each photo is compressed to 1920px before upload. Delete on the device removes the cloud copy.' },
-            { q: 'Does my data sync across devices?', a: 'Yes. Workouts, weight, photos, notes, PRs, measurements, cardio. Sign in on any device and everything appears.' },
-            { q: 'What themes do I get?', a: 'Eight. Dark, Cosmic Blue, Obsidian Gold, Midnight Sage, Graphite, Light, Dune, Baddie. Plus System. All tuned end-to-end, not recolored.' },
+            { q: 'Does it work offline?', a: 'Yes. Every read and write hits your device first. Cloud sync happens in the background when you have internet. Log workouts on a plane and everything syncs when you land.' },
+            { q: 'How do I sign in?', a: 'Email and password, Sign in with Apple, or Sign in with Google. Any of the three. Your choice.' },
+            { q: 'Can one account train both ways?', a: 'Yes. Switch modes with one tap on the home screen. Bodybuilding has split presets and volume. Powerlifting has RPE, scoring, meet planning, and a setup profile for the lifts.' },
+            { q: 'Where are my photos stored?', a: 'In your own folder inside a secure cloud bucket. Each photo is compressed to 1920px before upload. Delete on the device removes the cloud copy.' },
+            { q: 'Does my data move across devices?', a: 'Yes. Workouts, weight, photos, notes, records, measurements, cardio. Sign in on any device and everything appears.' },
+            { q: 'What themes do I get?', a: 'Eight. Dark, Cosmic Blue, Obsidian Gold, Midnight Sage, Graphite, Light, Dune, Baddie. Plus System. Each tuned end-to-end, not recolored.' },
           ].map((item, i) => (
             <details key={i} className="faq-item reveal" style={{ transitionDelay: `${i * 0.04}s` }}>
               <summary className="faq-question">{item.q}</summary>
@@ -497,10 +498,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════ CLOSING ═══════ */}
+      {/* ═════════ CLOSING ═════════ */}
       <section className="closing" id="download">
         <h2 className="closing-wordmark">awekn</h2>
-        <p className="closing-sub">Available on iOS and Android.</p>
+        <p className="closing-sub">Begin the record.</p>
         <div className="closing-buttons">
           <a href="#" className="btn-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -517,22 +518,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════ FOOTER ═══════ */}
+      {/* ═════════ FOOTER ═════════ */}
       <footer className="footer">
         <div className="footer-grid">
           <div className="footer-brand">
             <div className="footer-logo">awekn</div>
-            <p>Track. Log. Analyse. Conquer. A workout tracker with the aesthetic of a premium watch app.</p>
+            <p>A chronicle of every rep, every meal, every day you return to the iron.</p>
           </div>
           <div className="footer-col">
-            <h4>Product</h4>
+            <h4>The app</h4>
             <a href="#journal">Journal</a>
-            <a href="#strength">Strength</a>
+            <a href="#ascent">Strength</a>
             <a href="#modes">Modes</a>
             <a href="#download">Download</a>
           </div>
           <div className="footer-col">
-            <h4>Company</h4>
+            <h4>Reach</h4>
             <a href="mailto:areeb@awekn.com">Contact</a>
             <a href="https://www.instagram.com/awekn.app" target="_blank" rel="noopener noreferrer">Instagram</a>
           </div>
@@ -544,7 +545,7 @@ export default function Home() {
         </div>
         <div className="footer-bottom">
           <span>&copy; {new Date().getFullYear()} awekn</span>
-          <span>For lifters who do not quit.</span>
+          <span>For those who return.</span>
         </div>
       </footer>
     </>
