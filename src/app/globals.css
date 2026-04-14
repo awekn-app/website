@@ -33,18 +33,28 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 *::selection { background: rgba(52, 211, 153, 0.28); color: var(--white); }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
 body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-variant-numeric: tabular-nums;
   overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
   letter-spacing: 0.05px;
 }
+
+/* Global overflow guard. Every major flow element obeys the viewport. */
+section, nav, footer, header { max-width: 100%; }
 
 /* Single subtle vignette, not a busy starfield */
 .vignette {
@@ -174,10 +184,10 @@ body {
 }
 
 /* Screen sizes — with the bezel gone, numbers are now the actual display width */
-.phone-s  { width: 180px; }
-.phone-m  { width: 260px; }
-.phone-l  { width: 320px; }
-.phone-xl { width: 360px; }
+.phone-s  { width: 180px; max-width: 100%; }
+.phone-m  { width: 260px; max-width: 100%; }
+.phone-l  { width: 320px; max-width: 100%; }
+.phone-xl { width: 360px; max-width: 100%; }
 
 /* ══════════════════════════════════════════════════════════════════
    Hero
@@ -797,6 +807,8 @@ details[open] .faq-question::after { content: '.'; font-weight: 600; position: r
   padding-top: 24px;
   border-top: 1px solid var(--hairline);
   display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   justify-content: space-between;
   align-items: center;
   font-size: 11px;
@@ -861,32 +873,53 @@ details[open] .faq-question::after { content: '.'; font-weight: 600; position: r
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 640px) {
-  .nav { top: 12px; padding: 8px 8px 8px 18px; gap: 12px; }
+  .nav {
+    top: 12px;
+    padding: 8px 8px 8px 18px;
+    gap: 12px;
+    max-width: calc(100vw - 24px);
+  }
   .nav-links { display: none; }
   .nav-logo { font-size: 14px; letter-spacing: 4px; }
-  .hero { padding: 120px 24px 60px; }
-  .hero-headline { font-size: 52px; letter-spacing: -1px; }
+  .hero { padding: 120px 20px 60px; }
+  .hero-headline { font-size: 48px; letter-spacing: -0.8px; }
   .hero-tagline { font-size: 15px; }
-  .phone-xl { width: 280px; }
-  .phone-l { width: 240px; }
-  .phone-m { width: 210px; }
-  .phone-s { width: 140px; }
-  section.section { padding: 100px 24px; }
-  .section-title { font-size: 36px; letter-spacing: -0.5px; }
-  .section-title .serif { font-size: 42px; }
-  .hero-phone-section { padding: 100px 24px; }
-  .manifesto-section { padding: 100px 24px; }
-  .manifesto-quote { font-size: 36px; letter-spacing: -0.5px; }
-  .manifesto-quote .serif { font-size: 42px; }
-  .closing { padding: 100px 24px 80px; }
-  .closing-wordmark { font-size: 60px; letter-spacing: 5px; }
+  .phone-xl { width: 100%; max-width: 300px; }
+  .phone-l  { width: 100%; max-width: 260px; }
+  .phone-m  { width: 100%; max-width: 220px; }
+  .phone-s  { width: 100%; max-width: 150px; }
+  section.section { padding: 100px 20px; }
+  .section-title { font-size: 34px; letter-spacing: -0.4px; }
+  .section-title .serif { font-size: 40px; }
+  .hero-phone-section { padding: 100px 20px; }
+  .manifesto-section { padding: 100px 20px; }
+  .manifesto-quote { font-size: 34px; letter-spacing: -0.4px; }
+  .manifesto-quote .serif { font-size: 40px; }
+  .closing { padding: 100px 20px 80px; }
+  .closing-wordmark { font-size: 56px; letter-spacing: 5px; }
   .tracker-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
   .tracker-tile:nth-child(5) { grid-column: span 2; }
-  .cascade { min-height: 480px; }
-  .cascade .phone.back { transform: rotate(3deg) scale(0.88); }
-  .cascade .phone.front { transform: rotate(-2deg) scale(0.88); }
+  .cascade { min-height: 460px; }
+  .cascade .phone.back,
+  .cascade .phone.front { max-width: 78%; }
+  .cascade .phone.back { transform: rotate(3deg) scale(0.9); }
+  .cascade .phone.front { transform: rotate(-2deg) scale(0.9); }
+  .footer { padding: 60px 20px 32px; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
   .footer-brand { grid-column: 1 / -1; }
+  .footer-bottom { justify-content: center; text-align: center; }
   .mode-card { padding: 32px 24px; }
   .mode-title { font-size: 28px; }
+  .stat-row { gap: 24px; }
+  .stat-value { font-size: 20px; }
+}
+
+/* Very narrow . iPhone SE and below */
+@media (max-width: 380px) {
+  .hero-headline { font-size: 40px; letter-spacing: -0.5px; }
+  .closing-wordmark { font-size: 46px; letter-spacing: 3px; }
+  .manifesto-quote { font-size: 28px; }
+  .manifesto-quote .serif { font-size: 34px; }
+  .section-title { font-size: 28px; }
+  .section-title .serif { font-size: 34px; }
 }
