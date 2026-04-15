@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DeletionRequestForm } from "./request-form";
 
 export const metadata: Metadata = {
   title: "Delete Your Account . awekn",
@@ -38,11 +39,17 @@ export default function DeleteAccount() {
             Your account and all data will be deleted immediately.
           </p>
 
-          <h2>Option 2: Request Deletion by Email</h2>
+          <h2>Option 2: Submit a Deletion Request</h2>
           <p>
-            If you cannot access the app, send an email to{" "}
+            If you cannot access the app, fill in the form below. Your request is logged securely and we process deletions within 7 business days.
+          </p>
+
+          <DeletionRequestForm />
+
+          <p className="deletion-fallback">
+            Prefer email? You can also write to{" "}
             <a href="mailto:areeb@awekn.com?subject=Account%20Deletion%20Request">areeb@awekn.com</a>{" "}
-            with the subject line &quot;Account Deletion Request&quot; and include the email address associated with your awekn account. We will process your request within 7 business days.
+            with the subject &quot;Account Deletion Request&quot; and the email on your awekn account.
           </p>
 
           <h2>What Data Gets Deleted</h2>
