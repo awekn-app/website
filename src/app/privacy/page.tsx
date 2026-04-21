@@ -29,8 +29,8 @@ export default function PrivacyPolicy() {
           <p><strong>Account data.</strong> When you sign up, we collect your email address, chosen username, and (if you sign in with Apple or Google) the identifier your provider returns. If you sign in with Apple and choose to share your name, we store the name you return on first sign-in only.</p>
           <p><strong>Fitness and body data you enter.</strong> Workout sessions, exercises, sets, reps, weights, personal records, body measurements, body weight, body fat percentage, progress photos, cardio sessions, calorie and macro logs, water intake, journal notes, and any regimen entries you type. Regimen entries are free-text and never selected from a preset catalog. We store exactly what you type.</p>
           <p><strong>Progress photos.</strong> If you choose to upload progress photos, the image file is stored in our Amazon Web Services (AWS S3) private bucket, keyed by your account identifier. Photos are never made public and are served only via short-lived signed links to you.</p>
-          <p><strong>Apple HealthKit data (optional).</strong> If you grant permission, awekn reads your steps, walking or running distance, and cycling distance from Apple Health in order to auto-log cardio sessions in the app. HealthKit data is processed on your device, written to the awekn cardio log you control, and is never used for advertising, marketing, research, or sold to any third party. You can revoke HealthKit access at any time in iOS Settings, under Privacy &amp; Security, Health.</p>
-          <p><strong>Purchase data.</strong> When you subscribe to awekn Pro, we receive from Apple and from our subscription-management provider (RevenueCat) a transaction identifier, subscription product, renewal and expiration timestamps, trial and grace-period flags, and refund status. We do not receive your credit-card number, bank details, or Apple ID password. Those stay with Apple.</p>
+          <p><strong>Apple HealthKit data (iOS only, optional).</strong> If you grant permission on iOS, awekn reads your steps, walking or running distance, and cycling distance from Apple Health in order to auto-log cardio sessions in the app. HealthKit data is processed on your device, written to the awekn cardio log you control, and is never used for advertising, marketing, research, or sold to any third party. You can revoke HealthKit access at any time in iOS Settings, under Privacy &amp; Security, Health. On Android, the equivalent Google Health Connect integration is not enabled in this version.</p>
+          <p><strong>Purchase data.</strong> When you subscribe to awekn Pro, we receive from the Apple App Store (on iOS) or the Google Play Store (on Android), relayed through our subscription-management provider (RevenueCat), a transaction identifier, the subscription product, renewal and expiration timestamps, trial and grace-period flags, and refund status. We do not receive your credit-card number, bank details, Apple ID password, or Google account password. Those stay with Apple or Google respectively.</p>
           <p><strong>Device and diagnostic data.</strong> When the app encounters an unexpected error, the app&rsquo;s on-device logs remain on your device. We do not integrate a third-party crash reporter or analytics SDK that tracks individual users.</p>
 
           <h2>2. How We Use Your Information</h2>
@@ -52,8 +52,8 @@ export default function PrivacyPolicy() {
           <ul>
             <li><strong>Supabase.</strong> Authentication, database, and server-side functions.</li>
             <li><strong>RevenueCat.</strong> Subscription-state management and server-to-server notifications from Apple.</li>
-            <li><strong>Apple (App Store, StoreKit, Sign in with Apple, HealthKit).</strong> Account creation, payment processing, subscription management, and optional HealthKit data.</li>
-            <li><strong>Google.</strong> Sign in with Google (if you choose that method).</li>
+            <li><strong>Apple (App Store, StoreKit, Sign in with Apple, HealthKit).</strong> On iOS: account creation, payment processing, subscription management, and optional HealthKit data.</li>
+            <li><strong>Google (Google Play Store, Google Play Billing, Sign in with Google).</strong> On Android: account creation, payment processing, and subscription management. Sign in with Google is also available on iOS if you choose that method.</li>
             <li><strong>Amazon Web Services (S3).</strong> Progress photo storage.</li>
             <li><strong>Vercel.</strong> Hosting for awekn.com.</li>
           </ul>
@@ -68,7 +68,12 @@ export default function PrivacyPolicy() {
           <p>Depending on where you live, you have the right to access, correct, export, or delete your personal data, to object to or restrict certain processing, and to lodge a complaint with your local data-protection authority. To exercise any of these rights, email <a href="mailto:areeb@awekn.com">areeb@awekn.com</a> from the address associated with your account. We will respond within 30 days. You can also perform most of these actions yourself from within the app under Settings, Account.</p>
 
           <h2>8. Subscription Auto-Renewal Disclosure</h2>
-          <p>awekn Pro is a subscription purchased through the Apple App Store. Payment is charged to your Apple ID at confirmation of purchase and again at each renewal, unless you cancel at least 24 hours before the end of the current period. Prices are displayed in your local currency at the time of purchase. Your subscription automatically renews at the same price and period until cancelled. You can manage or cancel your subscription at any time in iPhone Settings, your Apple ID, Subscriptions.</p>
+          <p>awekn Pro is a subscription purchased through the Apple App Store on iOS or the Google Play Store on Android. Payment is charged to your Apple ID or Google account respectively at confirmation of purchase and again at each renewal, unless you cancel at least 24 hours before the end of the current period. Prices are displayed in your local currency at the time of purchase. Your subscription automatically renews at the same price and period until cancelled.</p>
+          <p>To manage or cancel your subscription at any time:</p>
+          <ul>
+            <li><strong>iOS:</strong> iPhone Settings, your Apple ID, Subscriptions.</li>
+            <li><strong>Android:</strong> Google Play app, profile icon, Payments &amp; subscriptions, Subscriptions, awekn, Manage.</li>
+          </ul>
 
           <h2>9. Children</h2>
           <p>awekn is rated 4+ and is not directed at children under 13. We do not knowingly collect personal data from children under 13. If you believe a child under 13 has provided us data, please contact us and we will delete it.</p>

@@ -36,15 +36,27 @@ export default function TermsOfService() {
           <p>You own the workout logs, body measurements, progress photos, notes, regimen entries, and every other piece of content you create in awekn. We do not claim any ownership of your content. By using the cloud-sync feature you grant us a limited, non-exclusive license solely to store, transmit, display, and back up your content in order to operate the Service on your behalf. This license ends when you delete your content or your account.</p>
 
           <h2>4. awekn Pro Subscription</h2>
-          <p>awekn Pro is a recurring subscription that unlocks the full app. The subscription is sold through the Apple App Store and billed to your Apple ID.</p>
+          <p>awekn Pro is a recurring subscription that unlocks the full app. On iOS, the subscription is sold through the Apple App Store and billed to your Apple ID. On Android, the subscription is sold through the Google Play Store and billed to your Google account (Google Play Billing).</p>
           <ul>
-            <li><strong>Free trial.</strong> New users receive a 7-day free trial. The trial is limited to one per Apple ID and per subscription group, as enforced by the App Store. Your payment method is not charged during the trial.</li>
-            <li><strong>Auto-renewal.</strong> Unless you cancel at least 24 hours before the end of the current period, your subscription automatically renews at the then-current price for the same duration (monthly or annual). Payment is charged to your Apple ID at purchase confirmation and again at each renewal.</li>
-            <li><strong>Pricing.</strong> The exact price, period, and currency are shown to you on the purchase screen in your local currency, set by Apple for your App Store country. We do not control Apple&rsquo;s regional pricing conversion.</li>
-            <li><strong>Manage or cancel.</strong> At any time in iPhone Settings, your Apple ID, Subscriptions. Cancelling stops the next renewal. You keep Pro access through the end of the paid period you already started.</li>
-            <li><strong>Grace period.</strong> If a renewal payment fails, Apple retries for up to 16 days. During this billing-retry grace period you retain Pro access.</li>
-            <li><strong>Restoring purchases.</strong> If you reinstall awekn or switch devices, tap &ldquo;Restore Purchases&rdquo; on the paywall to re-link the subscription to your Apple ID.</li>
-            <li><strong>Refunds.</strong> All refund requests are handled by Apple through reportaproblem.apple.com. awekn does not process refunds directly. If Apple issues you a refund we are notified server-side and will revoke Pro access immediately.</li>
+            <li><strong>Free trial.</strong> New users receive a 7-day free trial. The trial is limited to one per Apple ID (iOS) or Google account (Android) per subscription group, as enforced by the respective store. Your payment method is not charged during the trial.</li>
+            <li><strong>Auto-renewal.</strong> Unless you cancel at least 24 hours before the end of the current period, your subscription automatically renews at the then-current price for the same duration (monthly or annual). Payment is charged to your Apple ID or Google account at purchase confirmation and again at each renewal.</li>
+            <li><strong>Pricing.</strong> The exact price, period, and currency are shown to you on the purchase screen in your local currency, set by Apple (iOS) or Google (Android) for your store country. We do not control regional pricing conversion; each store determines its own rates.</li>
+            <li><strong>Manage or cancel.</strong>
+              <ul>
+                <li>iOS: iPhone Settings, your Apple ID, Subscriptions.</li>
+                <li>Android: Google Play app, profile icon, Payments &amp; subscriptions, Subscriptions, awekn, Manage.</li>
+              </ul>
+              Cancelling stops the next renewal. You keep Pro access through the end of the paid period you already started.
+            </li>
+            <li><strong>Grace period on failed renewal.</strong> On iOS, Apple retries the payment for up to 16 days. On Android, Google Play retries for up to 30 days. During this billing-retry grace period you retain Pro access.</li>
+            <li><strong>Restoring purchases.</strong> If you reinstall awekn or switch devices within the same store, tap &ldquo;Restore Purchases&rdquo; on the paywall to re-link the subscription to your Apple ID (iOS) or Google account (Android). Subscriptions do not transfer between iOS and Android; a purchase on one platform does not unlock the other.</li>
+            <li><strong>Refunds.</strong> All refund requests are handled by the respective store. awekn does not process refunds directly.
+              <ul>
+                <li>iOS: request a refund at reportaproblem.apple.com.</li>
+                <li>Android: request a refund at play.google.com/store/account/subscriptions, or via the Google Play app. Google Play typically auto-approves refunds within 48 hours of purchase; outside that window Google handles refunds case-by-case.</li>
+              </ul>
+              If a refund is issued, we are notified server-side and revoke Pro access immediately.
+            </li>
           </ul>
 
           <h2>5. Acceptable Use</h2>
@@ -66,7 +78,7 @@ export default function TermsOfService() {
           <p>We strive to keep the Service available and working well, but we do not guarantee uninterrupted or error-free operation. We may modify or discontinue features with notice. We may update these Terms from time to time. Material changes will be notified in the app or by email, and continued use of the Service after changes become effective constitutes acceptance.</p>
 
           <h2>11. Termination</h2>
-          <p>You may terminate your account at any time from Settings, Account, Delete Account. We may suspend or terminate your access if you violate these Terms or use the Service in a way that risks harm to us or to other users. Upon termination, the license granted to you ends. Sections 3, 6, 7, 8, 12, 13, 14, and 15 survive.</p>
+          <p>You may terminate your account at any time from Settings, Account, Delete Account. Account deletion permanently removes your profile, workout history, body logs, progress photos, regimen entries, and all other account-scoped data from our servers and from our S3 storage. We may suspend or terminate your access if you violate these Terms or use the Service in a way that risks harm to us or to other users. Upon termination, the license granted to you ends. Sections 3, 6, 7, 8, 12, 13, 14, and 15 survive. Note that deleting your awekn account does not cancel your App Store or Google Play subscription; you must cancel that separately in the respective store&rsquo;s subscription management.</p>
 
           <h2>12. Disclaimer of Warranties</h2>
           <p>The Service is provided on an &ldquo;AS IS&rdquo; and &ldquo;AS AVAILABLE&rdquo; basis. To the maximum extent permitted by law, we disclaim all warranties, express or implied, including merchantability, fitness for a particular purpose, non-infringement, and any warranty arising out of course of dealing or usage of trade. We do not warrant that the Service will meet your requirements, be error-free, or that any data will be preserved against loss.</p>
@@ -80,8 +92,9 @@ export default function TermsOfService() {
           <h2>15. Governing Law and Dispute Resolution</h2>
           <p>These Terms are governed by the laws of India, without regard to conflict-of-laws principles. Subject to any mandatory consumer-protection law in your country of residence, you and Venex Labs agree that any dispute arising out of or related to these Terms or the Service will be brought exclusively in the competent courts of Bengaluru, Karnataka, India. Nothing in this section prevents either party from seeking urgent injunctive relief in any court of competent jurisdiction.</p>
 
-          <h2>16. Apple&rsquo;s Standard EULA Terms</h2>
-          <p>If you access awekn through the Apple App Store, Apple&rsquo;s standard End-User License Agreement (<a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer">available here</a>) additionally applies. In case of conflict between Apple&rsquo;s EULA and these Terms, Apple&rsquo;s EULA prevails only as to the app binary itself. These Terms govern the rest of the Service.</p>
+          <h2>16. Platform Additional Terms</h2>
+          <p>If you access awekn through the <strong>Apple App Store</strong>, Apple&rsquo;s standard End-User License Agreement (<a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" target="_blank" rel="noopener noreferrer">available here</a>) additionally applies. In case of conflict between Apple&rsquo;s EULA and these Terms, Apple&rsquo;s EULA prevails only as to the app binary itself. These Terms govern the rest of the Service.</p>
+          <p>If you access awekn through the <strong>Google Play Store</strong>, the Google Play Terms of Service (<a href="https://play.google.com/intl/en_us/about/play-terms/" target="_blank" rel="noopener noreferrer">available here</a>) and Google&rsquo;s Billing policies additionally apply to your purchases. In case of conflict, Google&rsquo;s terms govern only the store-facing aspects of your purchase. These Terms govern the rest of the Service.</p>
 
           <h2>17. Contact</h2>
           <p>For any question about these Terms, contact us at <a href="mailto:areeb@awekn.com">areeb@awekn.com</a>. The operator of the Service is Venex Labs.</p>
