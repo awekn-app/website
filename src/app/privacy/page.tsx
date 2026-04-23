@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
       <div className="legal-container">
         <a href="/" className="legal-back">&larr; Back to home</a>
         <h1 className="legal-title">Privacy Policy</h1>
-        <p className="legal-updated">Last updated: April 21, 2026</p>
+        <p className="legal-updated">Last updated: April 23, 2026</p>
 
         <div className="legal-content">
           <p>
@@ -28,10 +28,11 @@ export default function PrivacyPolicy() {
           <h2>1. Information We Collect</h2>
           <p><strong>Account data.</strong> When you sign up, we collect your email address, chosen username, and (if you sign in with Apple or Google) the identifier your provider returns. If you sign in with Apple and choose to share your name, we store the name you return on first sign-in only.</p>
           <p><strong>Fitness and body data you enter.</strong> Workout sessions, exercises, sets, reps, weights, personal records, body measurements, body weight, body fat percentage, progress photos, cardio sessions, calorie and macro logs, water intake, journal notes, and any regimen entries you type. Regimen entries are free-text and never selected from a preset catalog. We store exactly what you type.</p>
+          <p><strong>Camera and photo library.</strong> awekn uses your device camera when you tap &ldquo;Take a photo&rdquo; to capture a progress photo, a workout selfie, or a custom share-card background. awekn reads from your photo library when you tap &ldquo;Choose from library&rdquo; to pick one of those images. awekn writes to your photo library only when you tap &ldquo;Save&rdquo; on a finished share card. We never scan, enumerate, or upload photos you do not explicitly select.</p>
           <p><strong>Progress photos.</strong> If you choose to upload progress photos, the image file is stored in our Amazon Web Services (AWS S3) private bucket, keyed by your account identifier. Photos are never made public and are served only via short-lived signed links to you.</p>
-          <p><strong>Apple HealthKit data (iOS only, optional).</strong> If you grant permission on iOS, awekn reads your steps, walking or running distance, and cycling distance from Apple Health in order to auto-log cardio sessions in the app. HealthKit data is processed on your device, written to the awekn cardio log you control, and is never used for advertising, marketing, research, or sold to any third party. You can revoke HealthKit access at any time in iOS Settings, under Privacy &amp; Security, Health. On Android, the equivalent Google Health Connect integration is not enabled in this version.</p>
+          <p><strong>Apple HealthKit data (iOS only, optional).</strong> If you grant permission on iOS, awekn reads your step count and your walking and running distance from Apple Health in order to show daily activity in the Cardio section alongside your lifts. HealthKit data is processed on your device, surfaced in the awekn cardio log you control, and is never used for advertising, marketing, research, or sold to any third party. We read HealthKit only; awekn never writes to Apple Health. You can revoke HealthKit access at any time in iOS Settings, under Privacy &amp; Security, Health. On Android, the equivalent Google Health Connect integration is not enabled in this version.</p>
           <p><strong>Purchase data.</strong> When you subscribe to awekn Pro, we receive from the Apple App Store (on iOS) or the Google Play Store (on Android), relayed through our subscription-management provider (RevenueCat), a transaction identifier, the subscription product, renewal and expiration timestamps, trial and grace-period flags, and refund status. We do not receive your credit-card number, bank details, Apple ID password, or Google account password. Those stay with Apple or Google respectively.</p>
-          <p><strong>Device and diagnostic data.</strong> When the app encounters an unexpected error, the app&rsquo;s on-device logs remain on your device. We do not integrate a third-party crash reporter or analytics SDK that tracks individual users.</p>
+          <p><strong>Device and diagnostic data.</strong> When the app encounters an unexpected error, we send a crash report to Sentry, our error-monitoring provider. These reports contain the stack trace, the device model and OS version, the app version, and a pseudonymous account identifier. Before any report is uploaded we scrub authentication tokens, signed storage URLs, and similar sensitive values. Sentry does not receive your fitness, body, nutrition, health, or photo data. We use Sentry strictly to find and fix crashes and do not use it for advertising, marketing, or behavioral analytics.</p>
 
           <h2>2. How We Use Your Information</h2>
           <p>We use your data solely to operate awekn: to authenticate you, to display your progress in the app, to sync your data across your devices if you choose, to grant or revoke your subscription entitlement, and to respond to your support requests. We do not sell, rent, trade, or share your personal data with advertisers or data brokers. Your fitness and health data is never used to train any machine-learning model.</p>
@@ -55,9 +56,10 @@ export default function PrivacyPolicy() {
             <li><strong>Apple (App Store, StoreKit, Sign in with Apple, HealthKit).</strong> On iOS: account creation, payment processing, subscription management, and optional HealthKit data.</li>
             <li><strong>Google (Google Play Store, Google Play Billing, Sign in with Google).</strong> On Android: account creation, payment processing, and subscription management. Sign in with Google is also available on iOS if you choose that method.</li>
             <li><strong>Amazon Web Services (S3).</strong> Progress photo storage.</li>
+            <li><strong>Sentry.</strong> Crash and error monitoring only. Receives scrubbed exception reports so we can fix bugs. Not used for advertising, marketing, or behavioral analytics.</li>
             <li><strong>Vercel.</strong> Hosting for awekn.com.</li>
           </ul>
-          <p>We do not integrate any advertising networks, third-party analytics trackers, or social-media pixels.</p>
+          <p>We do not integrate any advertising networks, behavioral analytics SDKs, or social-media pixels.</p>
 
           <h2>6. Data Retention and Deletion</h2>
           <p>Your fitness, body, and account data is retained while your account is active. You may delete your account at any time from Settings, Account, Delete Account. Deletion permanently removes your profile, workout history, body logs, progress photos, regimen entries, and all other account-scoped rows from our database and from S3. This action is irreversible.</p>
