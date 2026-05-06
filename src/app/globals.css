@@ -8,7 +8,10 @@
      - Off-white text (#F5F5F5) primary
      - Silver / muted gray (#8E8E93) secondary
      - NO GREEN. NO RED. NO ORANGE. Every accent is silver / white / soft bloom.
-     - Oversized Playfair Display for headlines (italic for emphasis spans)
+     - All big type uses Inter weight 200 + tracking — same family +
+       weight as the closing wordmark — across hero, sections, manifesto,
+       mode titles, legal title. Italic Instrument Serif (.serif) for
+       inline emphasis spans only.
      - Inter for body
      - Soft white text-shadow bloom on logos + key CTAs
      - Bezel-less screenshots that "sink" into black with inner shadow
@@ -82,9 +85,11 @@ section, nav, footer, header { max-width: 100%; }
     radial-gradient(ellipse 900px 600px at 50% 100%, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
 }
 
-/* Italic serif emphasis — Awekn signature */
+/* Italic serif emphasis — Awekn signature on words like "devotion",
+   "sculptor", "titan", "Kept", "plotted", "next". The editorial counterpoint
+   to the airy Inter 200 around it. */
 .serif {
-  font-family: 'Playfair Display', 'Instrument Serif', Georgia, serif;
+  font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -233,11 +238,13 @@ section, nav, footer, header { max-width: 100%; }
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
 }
 .hero-headline {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 400;
-  font-size: 88px;
-  line-height: 1.02;
-  letter-spacing: -2.2px;
+  /* Same font system as the closing wordmark — Inter weight 200, slight
+     letter-spacing, soft white halo. Italic emphasis spans (.serif)
+     bring the editorial Instrument Serif counterpoint. */
+  font-weight: 200;
+  font-size: 92px;
+  line-height: 0.98;
+  letter-spacing: -1.6px;
   color: var(--white);
   opacity: 0;
   animation: fadeUp 1s var(--ease-out) 0.25s both;
@@ -359,7 +366,7 @@ section, nav, footer, header { max-width: 100%; }
   display: inline-flex;
   align-items: center;
   gap: 44px;
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
   font-size: 14px;
   font-weight: 400;
@@ -394,7 +401,7 @@ section.section.tight { padding: 64px 48px; }
   margin-bottom: 18px;
 }
 .eyebrow-num {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'Instrument Serif', Georgia, serif;
   font-style: italic;
   font-variant-numeric: normal;
   font-size: 14px;
@@ -402,13 +409,19 @@ section.section.tight { padding: 64px 48px; }
   letter-spacing: 0;
 }
 .section-title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 400;
+  /* Closing wordmark font system — Inter weight 200, generous size,
+     soft white bloom. Italic serif spans within (.serif) read as
+     editorial emphasis against this airy sans. */
+  font-weight: 200;
   font-size: 64px;
-  line-height: 1.04;
+  line-height: 1.02;
   letter-spacing: -1.2px;
   color: var(--white);
   max-width: 920px;
+  text-shadow:
+    0 0 60px rgba(255, 255, 255, 0.05),
+    0 0 24px rgba(255, 255, 255, 0.08),
+    0 0 10px rgba(255, 255, 255, 0.14);
 }
 .section-title .dim { color: var(--text-dim); font-style: normal; }
 .section-title .serif { font-size: 70px; letter-spacing: -0.5px; }
@@ -594,9 +607,9 @@ section.section.tight { padding: 64px 48px; }
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
 }
 .mode-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  /* Closing wordmark font system at card scale. */
   font-size: 34px;
-  font-weight: 400;
+  font-weight: 200;
   letter-spacing: -0.4px;
   color: var(--white);
   margin-bottom: 10px;
@@ -658,16 +671,20 @@ section.section.tight { padding: 64px 48px; }
   border-bottom: 1px solid var(--hairline);
 }
 .manifesto-quote {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 400;
+  /* Closing wordmark font system — same airy Inter 200. */
+  font-weight: 200;
   font-size: 72px;
   line-height: 1.04;
   letter-spacing: -1.4px;
   color: var(--white);
   max-width: 920px;
   margin: 0 auto 24px;
+  text-shadow:
+    0 0 80px rgba(255, 255, 255, 0.05),
+    0 0 32px rgba(255, 255, 255, 0.10),
+    0 0 12px rgba(255, 255, 255, 0.16);
 }
-.manifesto-quote .dim { color: var(--text-dim); font-style: normal; font-family: 'Playfair Display', Georgia, serif; }
+.manifesto-quote .dim { color: var(--text-dim); font-style: normal; }
 .manifesto-quote .serif { font-size: 80px; letter-spacing: -0.8px; }
 .manifesto-body {
   font-size: 16px;
@@ -825,12 +842,14 @@ details[open] .faq-question::after { content: '·'; font-weight: 600; position: 
 .legal-back { display: inline-block; font-size: 13px; color: var(--text-dim); text-decoration: none; margin-bottom: 32px; transition: color 0.2s; }
 .legal-back:hover { color: var(--white); }
 .legal-title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 400;
+  font-weight: 200;
   font-size: 42px;
   letter-spacing: -0.5px;
   color: var(--white);
   margin-bottom: 10px;
+  text-shadow:
+    0 0 32px rgba(255, 255, 255, 0.06),
+    0 0 12px rgba(255, 255, 255, 0.12);
 }
 .legal-updated {
   font-size: 11px;
