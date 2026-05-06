@@ -109,7 +109,12 @@ section, nav, footer, header { max-width: 100%; }
   text-transform: lowercase;
   color: var(--white);
   text-decoration: none;
-  text-shadow: 0 0 18px rgba(255, 255, 255, 0.35);
+  /* Mirror the closing-wordmark bloom recipe at micro-scale.
+     Same character of glow, scaled down to nav size. */
+  text-shadow:
+    0 0 24px rgba(255, 255, 255, 0.18),
+    0 0 10px rgba(255, 255, 255, 0.32),
+    0 0 4px rgba(255, 255, 255, 0.45);
 }
 .nav-links { display: flex; gap: 26px; align-items: center; }
 .nav-links a {
@@ -232,6 +237,12 @@ section, nav, footer, header { max-width: 100%; }
   color: var(--white);
   opacity: 0;
   animation: fadeUp 1s var(--ease-out) 0.25s both;
+  /* Subtle bloom — matches the closing wordmark's white-glow halo so the
+     hero feels like the same world as the closing CTA. Soft + far falloff. */
+  text-shadow:
+    0 0 80px rgba(255, 255, 255, 0.06),
+    0 0 32px rgba(255, 255, 255, 0.10),
+    0 0 12px rgba(255, 255, 255, 0.18);
 }
 .hero-headline .gradient {
   background: linear-gradient(135deg, var(--white) 0%, rgba(124, 130, 140, 0.85) 100%);
@@ -774,13 +785,18 @@ details[open] .faq-question::after { content: '.'; font-weight: 600; position: r
   gap: 40px;
 }
 .footer-brand .footer-logo {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 300;
-  letter-spacing: 6px;
+  letter-spacing: 7px;
   text-transform: lowercase;
   color: var(--white);
-  text-shadow: 0 0 14px rgba(255, 255, 255, 0.2);
-  margin-bottom: 10px;
+  /* Closing-wordmark style bloom so the footer logo reads as the
+     "smaller cousin" of the closing CTA — same brand mark, restrained. */
+  text-shadow:
+    0 0 32px rgba(255, 255, 255, 0.12),
+    0 0 14px rgba(255, 255, 255, 0.22),
+    0 0 6px rgba(255, 255, 255, 0.32);
+  margin-bottom: 12px;
 }
 .footer-brand p {
   font-size: 13px;
