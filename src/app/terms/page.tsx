@@ -18,7 +18,7 @@ export default function TermsOfService() {
       <div className="legal-container">
         <a href="/" className="legal-back">&larr; Back to home</a>
         <h1 className="legal-title">Terms of Service</h1>
-        <p className="legal-updated">Last updated: April 21, 2026</p>
+        <p className="legal-updated">Last updated: May 23, 2026</p>
 
         <div className="legal-content">
           <p>
@@ -50,12 +50,14 @@ export default function TermsOfService() {
             </li>
             <li><strong>Grace period on failed renewal.</strong> On iOS, Apple retries the payment for up to 16 days. On Android, Google Play retries for up to 30 days. During this billing-retry grace period you retain Pro access.</li>
             <li><strong>Restoring purchases.</strong> If you reinstall awekn or switch devices within the same store, tap &ldquo;Restore Purchases&rdquo; on the paywall to re-link the subscription to your Apple ID (iOS) or Google account (Android). Subscriptions do not transfer between iOS and Android; a purchase on one platform does not unlock the other.</li>
-            <li><strong>Refunds.</strong> All refund requests are handled by the respective store. awekn does not process refunds directly.
+            <li><strong>Refunds.</strong> Refund requests are normally handled by the respective store. awekn does not process refunds directly in the ordinary course.
               <ul>
                 <li>iOS: request a refund at reportaproblem.apple.com.</li>
                 <li>Android: request a refund at play.google.com/store/account/subscriptions, or via the Google Play app. Google Play typically auto-approves refunds within 48 hours of purchase; outside that window Google handles refunds case-by-case.</li>
               </ul>
               If a refund is issued, we are notified server-side and revoke Pro access immediately.
+              <br /><br />
+              <strong>Exception &mdash; Service wind-down in your market.</strong> If we ever withdraw awekn from the App Store or Google Play in your country, and the store declines to refund the unused portion of your current paid period, we will process a pro-rated refund outside the store on request for subscribers located in the European Economic Area, the United Kingdom, and Switzerland. To claim, email <a href="mailto:areeb@awekn.com">areeb@awekn.com</a> within 60 days of the wind-down notice with your store receipt. We commit to this outside any obligation imposed by the App Store, Google Play, or applicable law, because we recognise that App Store removal does not normally trigger a refund and we do not want users in those jurisdictions to lose paid time through circumstances outside their control.
             </li>
           </ul>
 
@@ -74,8 +76,15 @@ export default function TermsOfService() {
           <h2>9. Feedback</h2>
           <p>If you send us feedback or suggestions about the Service, we may use them without restriction or obligation to you.</p>
 
-          <h2>10. Availability and Changes</h2>
+          <h2>10. Availability, Changes, and Service Wind-Down</h2>
           <p>We strive to keep the Service available and working well, but we do not guarantee uninterrupted or error-free operation. We may modify or discontinue features with notice. We may update these Terms from time to time. Material changes will be notified in the app or by email, and continued use of the Service after changes become effective constitutes acceptance.</p>
+          <p><strong>If we ever wind down the Service in your market</strong> &mdash; whether globally or only in a specific country &mdash; the following commitments apply:</p>
+          <ul>
+            <li><strong>30-day notice</strong> via in-app banner and email before the planned shutdown date.</li>
+            <li><strong>Data export remains available</strong> for the full notice window and for at least 90 days after the Service ends. If the app itself is no longer reachable, email <a href="mailto:areeb@awekn.com">areeb@awekn.com</a> and we will send you a JSON archive of your account. Section 4 lists the supplementary EU/UK/Swiss pro-rated refund commitment.</li>
+            <li><strong>No silent transfer.</strong> If awekn is acquired or merged, we will tell you before any user data moves, and you will have at least 30 days to delete your account first. Any successor will be required to honour the protections described in our Privacy Policy or stronger ones.</li>
+            <li><strong>Final deletion.</strong> 12 months after a permanent shutdown, all remaining user data is deleted from our systems and from our subprocessors, subject only to anonymized subscription records required by tax law.</li>
+          </ul>
 
           <h2>11. Termination</h2>
           <p>You may terminate your account at any time from Settings, Account, Delete Account. Account deletion permanently removes your profile, workout history, body logs, progress photos, regimen entries, and all other account-scoped data from our servers and from our S3 storage. We may suspend or terminate your access if you violate these Terms or use the Service in a way that risks harm to us or to other users. Upon termination, the license granted to you ends. Sections 3, 6, 7, 8, 12, 13, 14, and 15 survive. Note that deleting your awekn account does not cancel your App Store or Google Play subscription; you must cancel that separately in the respective store&rsquo;s subscription management.</p>

@@ -18,11 +18,11 @@ export default function PrivacyPolicy() {
       <div className="legal-container">
         <a href="/" className="legal-back">&larr; Back to home</a>
         <h1 className="legal-title">Privacy Policy</h1>
-        <p className="legal-updated">Last updated: May 13, 2026</p>
+        <p className="legal-updated">Last updated: May 23, 2026</p>
 
         <div className="legal-content">
           <p>
-            This Privacy Policy describes how Venex Labs (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;awekn&rdquo;) collects, uses, and protects the information you provide when you use the awekn mobile app or visit awekn.com (collectively, the &ldquo;Service&rdquo;). By using the Service you consent to the practices described here.
+            This Privacy Policy describes how Venex Labs (&ldquo;we&rdquo;, &ldquo;us&rdquo;, or &ldquo;awekn&rdquo;) collects, uses, and protects the information you provide when you use the awekn mobile app or visit awekn.com (collectively, the &ldquo;Service&rdquo;). The data controller is Venex Labs, registered in India, contact <a href="mailto:areeb@awekn.com">areeb@awekn.com</a>.
           </p>
 
           <h2>1. Information We Collect</h2>
@@ -40,42 +40,76 @@ export default function PrivacyPolicy() {
           <h2>2. How We Use Your Information</h2>
           <p>We use your data solely to operate awekn: to authenticate you, to display your progress in the app, to sync your data across your devices if you choose, to grant or revoke your subscription entitlement, and to respond to your support requests. We do not sell, rent, trade, or share your personal data with advertisers or data brokers. Your fitness and health data is never used to train any machine-learning model.</p>
 
-          <h2>3. Legal Bases (GDPR, UK GDPR, India DPDP)</h2>
-          <p>We process your data under the following legal bases: (a) performance of the contract between you and awekn when you create an account and subscribe, (b) your consent when you grant optional permissions such as Apple HealthKit, Google Health Connect, or progress-photo upload, (c) our legitimate interests in keeping the Service secure, operable, and free of abuse, and (d) compliance with legal obligations including Apple App Store and Google Play Store requirements.</p>
+          <h2>3. Special-Category Health Data &mdash; GDPR Article 9 Disclosure</h2>
+          <p>Some of the data you enter into awekn &mdash; specifically your <strong>body weight, body fat percentage, body measurements, progress photos, calorie and macronutrient intake, and any step or distance figures we read from Apple HealthKit or Google Health Connect</strong> &mdash; reveals information about your physical health. Under Article 9 of the EU General Data Protection Regulation (GDPR) and the equivalent provisions of the UK GDPR and Swiss FADP, this is &ldquo;special category&rdquo; (sensitive) personal data and requires a stronger legal basis than ordinary personal data.</p>
+          <p>The legal basis we rely on for this special-category data is your <strong>explicit consent under Article 9(2)(a) GDPR</strong>. Before you create an account in the awekn app, we present a dedicated, unbundled consent screen that names the categories of health and body data we will process, the purposes (showing your progress to you, calculating maintenance calories, syncing across your devices), and the processors involved. We log this consent against your account with a timestamp and the policy version you accepted. You can withdraw this consent at any time from <strong>Settings &gt; Account &gt; Privacy &amp; Consents</strong>, which will delete the relevant categories of data from our systems. Withdrawal does not affect the lawfulness of processing before the withdrawal.</p>
+          <p>Workout-only data (sets, reps, weights, exercises, RPE) is processed under contract (Article 6(1)(b) GDPR) and does not require Article 9 consent. We separate the two so that you can use the workout log without granting health-data consent, although several features (Maintenance Calculator, body composition charts, cardio strip) require Article 9 consent to function.</p>
 
-          <h2>4. Where Your Data Lives</h2>
+          <h2>4. Legal Bases (GDPR, UK GDPR, Swiss FADP, India DPDP)</h2>
+          <p>We process your data under the following legal bases:</p>
+          <ul>
+            <li><strong>Performance of the contract</strong> (GDPR Article 6(1)(b)) when you create an account, log workouts, subscribe to awekn Pro, and we deliver the corresponding service.</li>
+            <li><strong>Explicit consent</strong> (GDPR Article 6(1)(a) and Article 9(2)(a)) when you grant the health-data consent described in Section 3, when you enable optional permissions such as Apple HealthKit, Google Health Connect, camera and photo library access, push notifications, or upload progress photos.</li>
+            <li><strong>Legitimate interests</strong> (GDPR Article 6(1)(f)) for keeping the Service secure, detecting and preventing abuse, fixing crashes via Sentry, and understanding aggregate product usage via PostHog. We have weighed these interests against your privacy rights; the data shared is pseudonymous, minimized, and never used to build a behavioral profile or target you with advertising.</li>
+            <li><strong>Compliance with legal obligations</strong> (GDPR Article 6(1)(c)) including Apple App Store and Google Play Store requirements, tax and accounting record-keeping for subscription transactions, and responses to lawful requests from public authorities.</li>
+          </ul>
+
+          <h2>5. Where Your Data Lives</h2>
           <p>Your data is stored in:</p>
           <ul>
-            <li><strong>Supabase</strong> (PostgreSQL, hosted on AWS in the East US region) for your account, fitness logs, body measurements, subscriptions state, and all structured data. Access is gated by Row-Level Security so only you can read or write your own rows.</li>
-            <li><strong>AWS S3</strong> (private bucket) for progress photo files. Photos are keyed by your account identifier and served only via short-lived signed URLs.</li>
+            <li><strong>Supabase</strong> (PostgreSQL, hosted on AWS in the US East region) for your account, fitness logs, body measurements, subscriptions state, and all structured data. Access is gated by Row-Level Security so only you can read or write your own rows.</li>
+            <li><strong>AWS S3</strong> (private bucket, US East region) for progress photo files. Photos are keyed by your account identifier and served only via short-lived signed URLs.</li>
             <li><strong>Your device</strong> (encrypted local SQLite) as a primary copy so awekn works offline. Local and cloud copies sync automatically when online.</li>
           </ul>
 
-          <h2>5. Third-Party Services We Rely On</h2>
-          <p>awekn uses the following processors strictly to operate the Service:</p>
-          <ul>
-            <li><strong>Supabase.</strong> Authentication, database, and server-side functions.</li>
-            <li><strong>RevenueCat.</strong> Subscription-state management and server-to-server notifications from Apple.</li>
-            <li><strong>Apple (App Store, StoreKit, Sign in with Apple, HealthKit).</strong> On iOS: account creation, payment processing, subscription management, and optional HealthKit data.</li>
-            <li><strong>Google (Google Play Store, Google Play Billing, Sign in with Google, Google Health Connect).</strong> On Android: account creation, payment processing, subscription management, and optional Health Connect data (Steps, Distance, Active Calories Burned, read-only). Sign in with Google is also available on iOS if you choose that method.</li>
-            <li><strong>Third-party fitness sources via Health Connect.</strong> On Android, Health Connect may relay data into awekn from apps and devices you have separately connected on your phone, including but not limited to Samsung Health, Fitbit, Garmin Connect, Mi Fitness, and Pixel Watch. awekn does not have a direct integration or business relationship with any of these providers and only sees the data through your on-device Health Connect hub.</li>
-            <li><strong>Amazon Web Services (S3).</strong> Progress photo storage.</li>
-            <li><strong>Sentry.</strong> Crash and error monitoring only. Receives scrubbed exception reports so we can fix bugs. Not used for advertising, marketing, or behavioral analytics.</li>
-            <li><strong>PostHog.</strong> Product analytics. Receives pseudonymous event-level data (event name + non-PII context) so we can improve flow and conversion. No cross-site tracking, no ad targeting.</li>
-            <li><strong>Resend.</strong> Transactional email delivery only. Receives your email address solely to deliver service-related messages (welcome, receipt, billing issue, trial reminder, win-back). Not used for marketing.</li>
-            <li><strong>Vercel.</strong> Hosting for awekn.com.</li>
-          </ul>
+          <h2>6. Subprocessors</h2>
+          <p>awekn uses the following subprocessors strictly to operate the Service. Each row lists the data shared, the purpose, the country where the data is hosted, and the legal mechanism we rely on for any transfer outside the European Economic Area, United Kingdom, or Switzerland.</p>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1.5em' }}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '8px 6px' }}>Subprocessor</th>
+                  <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '8px 6px' }}>What they receive</th>
+                  <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '8px 6px' }}>Host country</th>
+                  <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '8px 6px' }}>Transfer mechanism</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td style={{ padding: '8px 6px', verticalAlign: 'top' }}><strong>Supabase</strong> (database, auth, edge functions)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Account, fitness, body, nutrition, regimen, photos metadata</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>United States (AWS us-east-1)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Standard Contractual Clauses with published Transfer Impact Assessment (<a href="https://supabase.com/legal/dpa" target="_blank" rel="noopener noreferrer">DPA</a>)</td></tr>
+                <tr><td style={{ padding: '8px 6px', verticalAlign: 'top' }}><strong>AWS</strong> (S3 progress-photo storage)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Progress photo image files</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>United States (us-east-1)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>EU&ndash;US Data Privacy Framework (certified, <a href="https://aws.amazon.com/compliance/eu-us-data-privacy-framework/" target="_blank" rel="noopener noreferrer">listing</a>) plus SCCs</td></tr>
+                <tr><td style={{ padding: '8px 6px', verticalAlign: 'top' }}><strong>RevenueCat</strong> (subscription state)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>App-store transaction identifier, product, renewal/expiration timestamps, trial &amp; grace flags</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>United States</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Standard Contractual Clauses (<a href="https://www.revenuecat.com/dpa" target="_blank" rel="noopener noreferrer">DPA</a>)</td></tr>
+                <tr><td style={{ padding: '8px 6px', verticalAlign: 'top' }}><strong>Resend</strong> (transactional email)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Email address, first name token, delivery status</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>United States</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>EU&ndash;US Data Privacy Framework (certified March 2025)</td></tr>
+                <tr><td style={{ padding: '8px 6px', verticalAlign: 'top' }}><strong>Sentry</strong> (crash + error monitoring)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Stack traces, device model, OS, app version, pseudonymous user id</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>United States</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>EU&ndash;US Data Privacy Framework (certified)</td></tr>
+                <tr><td style={{ padding: '8px 6px', verticalAlign: 'top' }}><strong>PostHog</strong> (product analytics)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Event names + non-PII context, pseudonymous user id</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>United States</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>EU&ndash;US Data Privacy Framework (certified)</td></tr>
+                <tr><td style={{ padding: '8px 6px', verticalAlign: 'top' }}><strong>Apple</strong> (App Store, StoreKit, Sign in with Apple, HealthKit)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>iOS account creation, payment, optional HealthKit reads</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Apple-operated regions per Apple&rsquo;s policy</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Apple&rsquo;s own framework; HealthKit processed on-device only</td></tr>
+                <tr><td style={{ padding: '8px 6px', verticalAlign: 'top' }}><strong>Google</strong> (Play Store, Play Billing, Sign in with Google, Health Connect)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Android account creation, payment, optional Health Connect reads</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Google-operated regions per Google&rsquo;s policy</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Google&rsquo;s own framework; Health Connect processed on-device only</td></tr>
+                <tr><td style={{ padding: '8px 6px', verticalAlign: 'top' }}><strong>Vercel</strong> (awekn.com hosting only &mdash; no app data)</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>Page hits to awekn.com</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>United States</td><td style={{ padding: '8px 6px', verticalAlign: 'top' }}>EU&ndash;US Data Privacy Framework (certified)</td></tr>
+              </tbody>
+            </table>
+          </div>
           <p>We do not integrate any advertising networks, behavioral analytics SDKs, or social-media pixels.</p>
+          <p><strong>On-device data sources via Apple HealthKit and Google Health Connect.</strong> On iOS, HealthKit may relay data into awekn from other apps and devices you have separately connected on your phone (Apple Watch, third-party fitness trackers). On Android, Health Connect plays the same role for Samsung Health, Fitbit, Garmin Connect, Mi Fitness, Pixel Watch, and others. awekn does not have a direct integration or business relationship with any of these providers and only sees the data that you have permitted Apple Health or Health Connect to share, on your device.</p>
 
-          <h2>6. Data Retention and Deletion</h2>
-          <p>Your fitness, body, and account data is retained while your account is active. You may delete your account at any time from Settings, Account, Delete Account. Deletion permanently removes your profile, workout history, body logs, progress photos, regimen entries, and all other account-scoped rows from our database and from S3. This action is irreversible.</p>
+          <h2>7. Data Retention and Deletion</h2>
+          <p>Your fitness, body, and account data is retained while your account is active. You may delete your account at any time from Settings &gt; Account &gt; Delete Account. Deletion permanently removes your profile, workout history, body logs, progress photos, regimen entries, and all other account-scoped rows from our database and from S3. This action is irreversible.</p>
           <p><strong>Username reservation after deletion.</strong> To prevent impersonation of returning users, we retain a one-way lowercase hash-equivalent of your chosen username in a reserved-usernames index after you delete your account. We do not retain the rest of your profile or any content. If you later return to the Service, you may reclaim your username by contacting us at <a href="mailto:areeb@awekn.com">areeb@awekn.com</a>.</p>
           <p><strong>Subscription records.</strong> Even after you delete your account, we may retain a minimal record of the anonymized subscription event (event id, product, timestamps) for up to 7 years where required for tax and audit obligations. These records do not identify you personally.</p>
+          <p><strong>Consent log.</strong> The record of consents you have granted under Article 9(2)(a) GDPR (Section 3 above), including timestamps and policy versions, is retained for the lifetime of your account plus a further three years following account deletion, solely to demonstrate compliance with our accountability obligations under Article 5(2) GDPR. The record contains only your user identifier and the consent metadata; it does not contain the health data itself.</p>
 
-          <h2>7. Your Rights</h2>
-          <p>Depending on where you live, you have the right to access, correct, export, or delete your personal data, to object to or restrict certain processing, and to lodge a complaint with your local data-protection authority. To exercise any of these rights, email <a href="mailto:areeb@awekn.com">areeb@awekn.com</a> from the address associated with your account. We will respond within 30 days. You can also perform most of these actions yourself from within the app under Settings, Account.</p>
+          <h2>8. Your Rights</h2>
+          <p>Subject to the law in your country of residence, you have the following rights regarding your personal data:</p>
+          <ul>
+            <li><strong>Right of access</strong> (GDPR Article 15): obtain a copy of the personal data we hold about you, with a description of how it is processed.</li>
+            <li><strong>Right to rectification</strong> (Article 16): correct inaccurate or incomplete data.</li>
+            <li><strong>Right to erasure</strong> (Article 17, the &ldquo;right to be forgotten&rdquo;): have your personal data deleted. Most of this is self-serve via Settings &gt; Account &gt; Delete Account.</li>
+            <li><strong>Right to restriction of processing</strong> (Article 18) and <strong>right to object</strong> (Article 21).</li>
+            <li><strong>Right to data portability</strong> (Article 20): receive your data in a structured, commonly used, machine-readable format. awekn provides a JSON export of your full account at Settings &gt; Account &gt; Export Data, in addition to a human-readable PDF report.</li>
+            <li><strong>Right to withdraw consent</strong> (Article 7(3)) at any time, equally easily as it was given. Settings &gt; Account &gt; Privacy &amp; Consents lets you withdraw the Article 9(2)(a) explicit consent described in Section 3.</li>
+            <li><strong>Right to lodge a complaint</strong> with your local supervisory authority. EU users may complain to the data-protection authority of their habitual residence; a directory is available at <a href="https://edpb.europa.eu/about-edpb/about-edpb/members_en" target="_blank" rel="noopener noreferrer">edpb.europa.eu</a>. UK users may complain to the <a href="https://ico.org.uk/" target="_blank" rel="noopener noreferrer">Information Commissioner&rsquo;s Office</a>. Swiss users to the <a href="https://www.edoeb.admin.ch/" target="_blank" rel="noopener noreferrer">FDPIC</a>.</li>
+          </ul>
+          <p>To exercise any of these rights, email <a href="mailto:areeb@awekn.com">areeb@awekn.com</a> from the address associated with your account. We respond within 30 days and may extend by a further 60 days for complex requests, telling you within the first 30 days if we need the extension. Exercising a right will not lead to any disadvantage in your use of the Service.</p>
 
-          <h2>8. Subscription Auto-Renewal Disclosure</h2>
+          <h2>9. Subscription Auto-Renewal Disclosure</h2>
           <p>awekn Pro is a subscription purchased through the Apple App Store on iOS or the Google Play Store on Android. Payment is charged to your Apple ID or Google account respectively at confirmation of purchase and again at each renewal, unless you cancel at least 24 hours before the end of the current period. Prices are displayed in your local currency at the time of purchase. Your subscription automatically renews at the same price and period until cancelled.</p>
           <p>To manage or cancel your subscription at any time:</p>
           <ul>
@@ -83,20 +117,36 @@ export default function PrivacyPolicy() {
             <li><strong>Android:</strong> Google Play app, profile icon, Payments &amp; subscriptions, Subscriptions, awekn, Manage.</li>
           </ul>
 
-          <h2>9. Children</h2>
+          <h2>10. Children</h2>
           <p>awekn is rated 4+ and is not directed at children under 13. We do not knowingly collect personal data from children under 13. If you believe a child under 13 has provided us data, please contact us and we will delete it.</p>
 
-          <h2>10. Security</h2>
+          <h2>11. Security</h2>
           <p>All data transmission uses HTTPS/TLS. Database access is gated server-side by Row-Level Security. Photo uploads and downloads are routed through signed URLs generated by a privileged server function. Your phone never holds long-lived cloud credentials. We work to protect your data but cannot guarantee absolute security on the internet.</p>
 
-          <h2>11. International Transfers</h2>
-          <p>Your data is stored on servers in the United States (AWS East). If you are located outside the US, by using awekn you consent to the transfer and processing of your data in the US, which may have different data-protection laws than your country.</p>
+          <h2>12. International Data Transfers</h2>
+          <p>Your data is processed on infrastructure located in the United States (primarily AWS us-east-1, hosting Supabase and S3). The data controller, Venex Labs, is based in India. Where personal data of users located in the European Economic Area, the United Kingdom, or Switzerland is transferred outside their jurisdiction, we rely on the transfer mechanisms listed in the Subprocessors table in Section 6.</p>
+          <p>For transfers from the EEA, UK, or Switzerland to the United States, we rely on each subprocessor&rsquo;s certification under the EU&ndash;US Data Privacy Framework (DPF) where available (AWS, Sentry, PostHog, Resend, Vercel) and on Standard Contractual Clauses with published Transfer Impact Assessments for the remainder (Supabase, RevenueCat). For data accessed by Venex Labs from India (a third country with no current EU adequacy decision), we apply the same Standard Contractual Clauses through our contracts with our US-hosted subprocessors, and we limit such access to the minimum necessary to operate the Service and respond to user support requests.</p>
+          <p>You may obtain a copy of the relevant safeguards for any specific transfer by emailing <a href="mailto:areeb@awekn.com">areeb@awekn.com</a>.</p>
 
-          <h2>12. Changes to This Policy</h2>
-          <p>We may update this policy from time to time. We will change the &ldquo;Last updated&rdquo; date above and, if the changes are material, notify you in the app or by email.</p>
+          <h2>13. Contacting Us as an EU, UK, or Swiss User</h2>
+          <p>awekn is offered to users in the European Economic Area, the United Kingdom, and Switzerland, while the controller (Venex Labs) is established in India. GDPR Article 27, UK GDPR Article 27, and the Swiss FADP each contemplate an appointed local representative for non-domestic controllers in our position. We are a one-person independent studio and have not yet appointed a paid external representative. We will do so once subscription revenue supports it, and we will update this section with the representative&rsquo;s name, postal address, and email at that time.</p>
+          <p>In the meantime, all rights described in Section 8 above remain fully available to you. Email <a href="mailto:areeb@awekn.com">areeb@awekn.com</a> from any address and we will respond within 30 days. You are also entitled at any time to lodge a complaint directly with the supervisory authority of your country of residence; we have linked the directories in Section 8. We commit to cooperating fully with any supervisory-authority enquiry.</p>
 
-          <h2>13. Contact</h2>
-          <p>For any privacy question or request, contact us at <a href="mailto:areeb@awekn.com">areeb@awekn.com</a>. Venex Labs operates the Service. You may also write to us via the same address for data subject requests under GDPR, UK GDPR, or India&rsquo;s DPDP Act.</p>
+          <h2>14. Service Continuity and Wind-Down Commitment</h2>
+          <p>We recognize that awekn holds months or years of your training data, that you pay for Pro access, and that you deserve confidence in what happens if we ever have to step away from a specific market or shut down the Service entirely. We commit to the following:</p>
+          <ul>
+            <li><strong>30-day notice.</strong> We will give you at least 30 days&rsquo; notice via in-app banner and email before any planned wind-down of the Service in your market.</li>
+            <li><strong>Export remains available.</strong> The full data export (Settings &gt; Account &gt; Export Data) will remain available throughout the notice window and for at least 90 days after the Service ends, by emailing <a href="mailto:areeb@awekn.com">areeb@awekn.com</a> if the app itself is no longer reachable.</li>
+            <li><strong>Pro-rated refunds for EU subscribers.</strong> If a wind-down happens during a paid period and your store (Apple or Google) declines to refund the unused portion, we will personally process a pro-rated refund outside the store for EEA, UK, and Swiss subscribers who request one within 60 days of the wind-down notice.</li>
+            <li><strong>No silent transfers.</strong> We will not transfer your data to any acquirer or successor without notifying you first and giving you the chance to delete instead. Any transfer will preserve the protections in this Policy or use better ones.</li>
+            <li><strong>Final deletion.</strong> 12 months after a final shutdown, we will permanently delete all remaining user data from our systems and instruct each subprocessor to do the same, subject only to retention required by tax law for anonymized subscription records.</li>
+          </ul>
+
+          <h2>15. Changes to This Policy</h2>
+          <p>We may update this policy from time to time. We will change the &ldquo;Last updated&rdquo; date above and, if the changes are material, notify you in the app or by email. Material changes that affect the basis on which we process your health data will additionally trigger a fresh in-app consent prompt before processing continues under the new terms.</p>
+
+          <h2>16. Contact</h2>
+          <p>For any privacy question, data-subject request, or complaint, contact us at <a href="mailto:areeb@awekn.com">areeb@awekn.com</a>. The Service is operated by Venex Labs (India).</p>
         </div>
       </div>
 
