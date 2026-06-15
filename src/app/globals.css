@@ -46,7 +46,27 @@
 
   --max-wide: 1640px;
   --max-reading: 760px;
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /* ───────── THE INSTRUMENT tokens (2026-06-15 redesign) ─────────
+     Grounded in the app's REAL Obsidian Gold theme (constants/colors.ts).
+     Gold is rare typographic punctuation; emerald is an EARNED signal
+     fired only on completion/PR, never as a second accent. */
+  --void: #000000;            /* canvas */
+  --bg-cosmic: #05060f;       /* ShaderGradient base */
+  --surface-warm: #0D0B06;    /* the exact app card surface */
+  --indigo: #171448;          /* cosmic bloom */
+  --champagne: #E4C77A;       /* the main text in instrument contexts (gold IS the text) */
+  --gold: #D4AF37;            /* the rare accent: CTA bg + active pricing border only */
+  --gold-dim: #B89C5A;        /* dim text */
+  --emerald: #34D399;         /* EARNED completion/PR signal, held in reserve */
+
+  --ease-emphatic: cubic-bezier(0.16, 1, 0.3, 1);  /* the "last rep grind" deceleration */
+
+  /* type roles (next/font sets --font-display/-serif/-mono on <html>) */
+  --font-sans: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  --font-editorial: var(--font-serif), "Instrument Serif", Georgia, serif;
+  --font-numeral: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
