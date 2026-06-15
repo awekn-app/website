@@ -70,7 +70,42 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-*::selection { background: rgba(245, 245, 245, 0.20); color: var(--white); }
+*::selection { background: rgba(212, 175, 55, 0.22); color: var(--champagne); }
+
+/* ───────── THE INSTRUMENT cosmic field + grain (2026-06-15) ─────────
+   A living 3D ShaderGradient (CosmicBackground.tsx) sits at z-index -2 over
+   this CSS fallback at -3, with an animated film-grain overlay at +60. The
+   dark cosmic gradient shows through every transparent section. */
+.bg-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background:
+    radial-gradient(130% 120% at 26% 92%, rgba(184, 138, 74, 0.22), transparent 48%),
+    radial-gradient(120% 120% at 80% 8%, rgba(36, 26, 74, 0.45), transparent 54%),
+    radial-gradient(140% 140% at 50% 50%, #0b0a18 0%, #04050c 72%);
+}
+.bg-gl { will-change: transform; }
+.grain {
+  position: fixed;
+  inset: -6%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 6s steps(5) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -2%); }
+  100% { transform: translate(0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+}
 
 html {
   scroll-behavior: smooth;

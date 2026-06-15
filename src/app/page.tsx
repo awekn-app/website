@@ -1,6 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
+import dynamic from 'next/dynamic';
+
+// The living cosmic ShaderGradient is client-only WebGL; load it after paint so
+// the CSS fallback gradient + the content show instantly, then the shader streams in.
+const CosmicBackground = dynamic(() => import('./components/CosmicBackground'), { ssr: false });
 
 export default function Home() {
   useEffect(() => {
@@ -30,6 +35,9 @@ export default function Home() {
 
   return (
     <>
+      <div className="bg-fallback" aria-hidden />
+      <CosmicBackground />
+      <div className="grain" aria-hidden />
       <div className="vignette" aria-hidden />
 
       {/* ═════════ NAV ═════════ */}
