@@ -50,9 +50,9 @@ export default function CosmicBackground() {
             uDensity={1.4}
             uFrequency={5.5}
             uAmplitude={0}
-            color1="#04050c"
-            color2="#241a4a"
-            color3="#b88a4a"
+            color1="#06060e"
+            color2="#2a1030"
+            color3="#7d1f33"
             grain="on"
             reflection={0.1}
             brightness={1.0}

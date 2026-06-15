@@ -54,12 +54,18 @@
      fired only on completion/PR, never as a second accent. */
   --void: #000000;            /* canvas */
   --bg-cosmic: #05060f;       /* ShaderGradient base */
-  --surface-warm: #0D0B06;    /* the exact app card surface */
+  --surface-warm: #0a0a12;    /* cosmic card surface (de-warmed) */
   --indigo: #171448;          /* cosmic bloom */
-  --champagne: #E4C77A;       /* the main text in instrument contexts (gold IS the text) */
-  --gold: #D4AF37;            /* the rare accent: CTA bg + active pricing border only */
-  --gold-dim: #B89C5A;        /* dim text */
+  /* DE-YELLOWED 2026-06-16: awekn is COSMIC - silver / black, with a LITTLE
+     blood-red (igasm-inspired). NOT gold. Token names kept for stability. */
+  --champagne: #E9EAF0;       /* COSMIC SILVER - the main instrument text */
+  --gold: #B5384C;            /* BLOOD RED - the rare accent: CTA bg + active border only */
+  --gold-dim: #9A9BA6;        /* dim cosmic silver */
   --emerald: #34D399;         /* EARNED completion/PR signal, held in reserve */
+  --blood: #B5384C;           /* blood-red alias */
+  --blood-deep: #7d1f33;      /* deep blood-red in the cosmic gradient */
+  --silver: #E9EAF0;
+  --silver-dim: #9A9BA6;
 
   --ease-emphatic: cubic-bezier(0.16, 1, 0.3, 1);  /* the "last rep grind" deceleration */
 
@@ -70,7 +76,7 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-*::selection { background: rgba(212, 175, 55, 0.22); color: var(--champagne); }
+*::selection { background: rgba(181, 56, 76, 0.30); color: #fff; }
 
 /* ───────── THE INSTRUMENT cosmic field + grain (2026-06-15) ─────────
    A living 3D ShaderGradient (CosmicBackground.tsx) sits at z-index -2 over
@@ -81,9 +87,9 @@
   inset: 0;
   z-index: -3;
   background:
-    radial-gradient(130% 120% at 26% 92%, rgba(184, 138, 74, 0.22), transparent 48%),
-    radial-gradient(120% 120% at 80% 8%, rgba(36, 26, 74, 0.45), transparent 54%),
-    radial-gradient(140% 140% at 50% 50%, #0b0a18 0%, #04050c 72%);
+    radial-gradient(130% 120% at 24% 88%, rgba(150, 30, 52, 0.30), transparent 50%),
+    radial-gradient(120% 120% at 82% 10%, rgba(40, 26, 78, 0.40), transparent 56%),
+    radial-gradient(140% 140% at 50% 50%, #0a0712 0%, #04040a 72%);
 }
 .bg-gl { will-change: transform; }
 .grain {

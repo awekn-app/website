@@ -25,11 +25,12 @@
 
   /* heavy display sans reads more like a machined ingot than the serif for a
      lowercase lockup; the tight tracking welds the letters into one bar */
+  /* THIN + spaced, the loved earlier 'machined masthead' treatment (not bold) */
   font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: clamp(3.75rem, 19vw, 13rem);
-  line-height: 0.82;
-  letter-spacing: -0.045em;
+  font-weight: 300;
+  font-size: clamp(3.4rem, 16vw, 11.5rem);
+  line-height: 0.92;
+  letter-spacing: 0.06em;
   text-transform: lowercase;
   white-space: nowrap;
 }
@@ -44,8 +45,8 @@
 /* legible at rest: a cool dim-gold so the wordmark always reads even before
    any light touches it; the moving .lit adds the warm metallic reveal on top */
 .base {
-  color: #6E6147;
-  background: linear-gradient(180deg, #7C6E4F 0%, #5A4E37 100%);
+  color: #9aa0ad;
+  background: linear-gradient(180deg, #c9ced8 0%, #7e838d 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -59,11 +60,11 @@
   inset: 0;
   background: linear-gradient(
     100deg,
-    #FFFDF6 0%,
-    var(--champagne, #E4C77A) 22%,
-    var(--gold, #D4AF37) 50%,
-    #F4E7C2 70%,
-    #8A7338 100%
+    #FFFFFF 0%,
+    #EAEDF4 22%,
+    #C4C9D4 50%,
+    #FFFFFF 70%,
+    #888D99 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -84,7 +85,7 @@
   );
 
   /* a hairline white specular skim that tracks the same light, sells "wet metal" */
-  text-shadow: 0 0 18px rgba(244, 231, 194, 0.25);
+  text-shadow: 0 0 18px rgba(224, 230, 242, 0.28);
 }
 
 /* the soft champagne bloom behind the lit point */
@@ -100,8 +101,8 @@
   z-index: -1;
   background: radial-gradient(
     circle,
-    rgba(228, 199, 122, 0.42),
-    rgba(212, 175, 55, 0.2) 44%,
+    rgba(226, 232, 244, 0.38),
+    rgba(176, 188, 210, 0.18) 44%,
     transparent 70%
   );
   filter: blur(46px);
