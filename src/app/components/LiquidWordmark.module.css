@@ -1,0 +1,121 @@
+/* =========================================================================
+   LiquidWordmark - the hero wordmark rendered as liquid metal that catches
+   a moving light. Three stacked layers (base / lit / glow) driven by the
+   --x / --y custom properties the .wrap exposes. Adapted from the igasm
+   wm-base / wm-lit / wm-glow light-reveal, re-tuned to awekn's cosmic +
+   champagne instrument-panel palette.
+   ========================================================================= */
+
+.wrap {
+  /* the light position the JS animates (also the static reduced-motion seat) */
+  --x: 50%;
+  --y: 42%;
+
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  isolation: isolate;
+  user-select: none;
+}
+
+.mark {
+  position: relative;
+  margin: 0;
+  display: inline-block;
+
+  /* heavy display sans reads more like a machined ingot than the serif for a
+     lowercase lockup; the tight tracking welds the letters into one bar */
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(3.75rem, 19vw, 13rem);
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+/* both layers share the exact same box so .lit registers atop .base */
+.base,
+.lit {
+  display: block;
+  padding: 0 0.04em;
+}
+
+/* legible at rest: a cool dim-gold so the wordmark always reads even before
+   any light touches it; the moving .lit adds the warm metallic reveal on top */
+.base {
+  color: #6E6147;
+  background: linear-gradient(180deg, #7C6E4F 0%, #5A4E37 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* the liquid-metal pour: champagne -> gold -> a white specular highlight,
+   revealed only where the radial light mask currently sits */
+.lit {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    #FFFDF6 0%,
+    var(--champagne, #E4C77A) 22%,
+    var(--gold, #D4AF37) 50%,
+    #F4E7C2 70%,
+    #8A7338 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+
+  -webkit-mask-image: radial-gradient(
+    circle at var(--x) var(--y),
+    #000 6%,
+    rgba(0, 0, 0, 0.55) 20%,
+    transparent 44%
+  );
+  mask-image: radial-gradient(
+    circle at var(--x) var(--y),
+    #000 6%,
+    rgba(0, 0, 0, 0.55) 20%,
+    transparent 44%
+  );
+
+  /* a hairline white specular skim that tracks the same light, sells "wet metal" */
+  text-shadow: 0 0 18px rgba(244, 231, 194, 0.25);
+}
+
+/* the soft champagne bloom behind the lit point */
+.glow {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 42%;
+  height: 128%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: -1;
+  background: radial-gradient(
+    circle,
+    rgba(228, 199, 122, 0.42),
+    rgba(212, 175, 55, 0.2) 44%,
+    transparent 70%
+  );
+  filter: blur(46px);
+  mix-blend-mode: plus-lighter;
+}
+
+/* reduced motion: no JS, no sweep. Seat the light slightly off-center so the
+   wordmark still reads as lit metal rather than flat text. */
+@media (prefers-reduced-motion: reduce) {
+  .wrap {
+    --x: 38%;
+    --y: 40%;
+  }
+  .glow {
+    opacity: 0.75;
+  }
+}

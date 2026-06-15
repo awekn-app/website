@@ -1,0 +1,352 @@
+/* ──────────────────────────────────────────────────────────────────────
+   THE STRENGTH CURVE — co-located styles.
+   Only transform / opacity / clip-path animate. SVG group transforms use
+   transform-box: view-box so translateX() maps to viewBox units (= px
+   here). Reduced-motion kills the sweep + transitions but keeps the
+   instrument fully usable (drag + keyboard + readout still live).
+   ────────────────────────────────────────────────────────────────────── */
+
+.wrap {
+  margin: 0;
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.frame {
+  position: relative;
+  border: 1px solid rgba(228, 199, 122, 0.12);
+  border-radius: 22px;
+  padding: 26px 22px 18px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(228, 199, 122, 0.05) 0%, transparent 62%),
+    var(--surface-warm);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 30px 70px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+/* ── the big numeric readout ──────────────────────────────────────────── */
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  min-height: 96px;
+}
+
+.readoutTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sessionTag {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.sessionNum {
+  font-family: var(--font-numeral);
+  font-variant-numeric: tabular-nums;
+  color: var(--champagne);
+  letter-spacing: 1px;
+}
+
+.peakTag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--void);
+  background: var(--gold);
+  padding: 3px 8px;
+  border-radius: 100px;
+  line-height: 1;
+}
+
+.e1rm {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.e1rmNum {
+  font-family: var(--font-numeral);
+  font-variant-numeric: tabular-nums;
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -1px;
+  color: var(--champagne);
+  text-shadow:
+    0 0 30px rgba(212, 175, 55, 0.22),
+    0 0 12px rgba(228, 199, 122, 0.3);
+  font-feature-settings: "tnum" 1;
+}
+
+.e1rmUnit {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.delta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  color: var(--gold-dim);
+  font-family: var(--font-numeral);
+  font-variant-numeric: tabular-nums;
+}
+
+.deltaUp {
+  color: var(--emerald);
+}
+
+.deltaUp .deltaLabel {
+  color: var(--emerald);
+  opacity: 0.7;
+}
+
+.deltaNum {
+  font-weight: 600;
+}
+
+.deltaLabel {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  text-transform: none;
+  color: var(--gold-dim);
+  opacity: 0.8;
+}
+
+/* ── the chart ────────────────────────────────────────────────────────── */
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1000 / 420;
+  touch-action: pan-y; /* let vertical page-scroll through; we own horizontal */
+  cursor: ew-resize;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.svg:focus-visible {
+  outline: 1px solid rgba(228, 199, 122, 0.5);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.baseline {
+  stroke: rgba(228, 199, 122, 0.1);
+  stroke-width: 1;
+  stroke-dasharray: 2 6;
+}
+
+.area {
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-out) 0.25s;
+}
+
+.entered .area {
+  opacity: 1;
+}
+
+/* The line is revealed with a left-to-right clip-path sweep (composited). */
+.lineGroup {
+  clip-path: inset(0 100% 0 0);
+}
+
+.entered .lineGroup {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1.5s var(--ease-emphatic);
+}
+
+.line {
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.node {
+  fill: var(--gold-dim);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out), r 0.2s var(--ease-out),
+    fill 0.2s var(--ease-out);
+}
+
+.entered .node {
+  opacity: 0.55;
+}
+
+.nodeActive {
+  fill: var(--champagne);
+  opacity: 1;
+}
+
+.entered .nodeActive {
+  opacity: 1;
+}
+
+/* the single gold peak dot */
+.peakDot {
+  fill: var(--gold);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.4);
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+  transition: opacity 0.6s var(--ease-out) 1.2s,
+    transform 0.6s var(--ease-emphatic) 1.2s;
+}
+
+.entered .peakDot {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── playhead ─────────────────────────────────────────────────────────── */
+.playhead {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out) 0.9s;
+}
+
+.entered .playhead {
+  opacity: 1;
+}
+
+/* smooth glide between sessions while scrubbing via keyboard / snap */
+.svg:not(.reduced) .playhead {
+  transition: transform 0.32s var(--ease-emphatic),
+    opacity 0.5s var(--ease-out) 0.9s;
+}
+
+.playLine {
+  stroke: rgba(228, 199, 122, 0.32);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 5;
+}
+
+.playDot {
+  fill: rgba(228, 199, 122, 0.16);
+  transition: cy 0.32s var(--ease-emphatic);
+}
+
+.playCore {
+  fill: var(--champagne);
+  filter: drop-shadow(0 0 6px rgba(228, 199, 122, 0.7));
+  transition: cy 0.32s var(--ease-emphatic);
+}
+
+.svg.reduced .playDot,
+.svg.reduced .playCore,
+.svg.reduced .chip,
+.svg.reduced .playhead {
+  transition: none;
+}
+
+/* value chip riding the playhead */
+.chip {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  transition: transform 0.32s var(--ease-emphatic);
+}
+
+.chipBg {
+  fill: rgba(13, 11, 6, 0.92);
+  stroke: rgba(228, 199, 122, 0.35);
+  stroke-width: 1;
+}
+
+.chipText {
+  fill: var(--champagne);
+  font-family: var(--font-numeral);
+  font-size: 13px;
+  font-weight: 600;
+  text-anchor: middle;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── caption ──────────────────────────────────────────────────────────── */
+.caption {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  opacity: 0.85;
+}
+
+.capDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  flex-shrink: 0;
+}
+
+/* ── reduced motion: instrument stays live, theatre stops ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .area,
+  .lineGroup,
+  .node,
+  .peakDot,
+  .playhead,
+  .playDot,
+  .playCore,
+  .chip,
+  .svg:not(.reduced) .playhead {
+    transition: none !important;
+  }
+  .lineGroup {
+    clip-path: inset(0 0 0 0);
+  }
+  .area,
+  .playhead {
+    opacity: 1;
+  }
+  .node {
+    opacity: 0.55;
+  }
+  .peakDot {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .frame {
+    padding: 22px 16px 16px;
+    border-radius: 18px;
+  }
+  .e1rmNum {
+    font-size: 44px;
+  }
+  .readout {
+    min-height: 84px;
+  }
+  .caption {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+  }
+}
