@@ -116,7 +116,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  font-family: var(--font-sans);
   font-variant-numeric: tabular-nums;
   overflow-x: hidden;
   max-width: 100%;
@@ -189,12 +189,12 @@ section, nav, footer, header { max-width: 100%; }
   font-size: 16px;
   letter-spacing: 5px;
   text-transform: lowercase;
-  color: var(--white);
+  color: var(--champagne);
   text-decoration: none;
   text-shadow:
-    0 0 24px rgba(255, 255, 255, 0.18),
-    0 0 10px rgba(255, 255, 255, 0.32),
-    0 0 4px rgba(255, 255, 255, 0.45);
+    0 0 24px rgba(212, 175, 55, 0.22),
+    0 0 10px rgba(212, 175, 55, 0.30),
+    0 0 4px rgba(228, 199, 122, 0.42);
 }
 .nav-links { display: flex; gap: 26px; align-items: center; }
 .nav-links a {
@@ -809,11 +809,11 @@ details[open] .faq-question::after { content: '·'; font-weight: 600; position: 
   font-size: 140px;
   letter-spacing: 12px;
   text-transform: lowercase;
-  color: var(--white);
+  color: var(--champagne);
   text-shadow:
-    0 0 80px var(--glow-outer),
-    0 0 40px var(--glow-mid),
-    0 0 16px var(--glow-core);
+    0 0 90px rgba(212, 175, 55, 0.20),
+    0 0 44px rgba(212, 175, 55, 0.28),
+    0 0 16px rgba(228, 199, 122, 0.40);
   line-height: 1;
   margin-bottom: 28px;
 }
