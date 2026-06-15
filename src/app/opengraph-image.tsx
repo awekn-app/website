@@ -4,8 +4,9 @@ export const alt = "awekn . Lifting, Gym Log & Diet";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// A premium dark OG card grounded in the app's real palette: pitch-black void,
-// champagne-gold wordmark (gold IS the text), one hairline gold rule, the oath.
+// A premium dark OG card grounded in the corrected brand: cosmic void with a
+// faint blood-red ember, a cosmic-silver wordmark (silver IS the text), one
+// hairline blood-red rule, the oath. NOT gold.
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -18,8 +19,8 @@ export default function OpengraphImage() {
           alignItems: "center",
           justifyContent: "center",
           background:
-            "radial-gradient(120% 120% at 50% 30%, #0D0B06 0%, #05060f 45%, #000000 100%)",
-          color: "#E4C77A",
+            "radial-gradient(130% 120% at 24% 88%, rgba(150,30,52,0.30) 0%, transparent 50%), radial-gradient(120% 120% at 82% 12%, rgba(40,26,78,0.40) 0%, transparent 56%), radial-gradient(140% 140% at 50% 40%, #0a0712 0%, #04040a 72%, #000000 100%)",
+          color: "#E9EAF0",
           fontFamily: "Georgia, serif",
         }}
       >
@@ -28,8 +29,8 @@ export default function OpengraphImage() {
             fontSize: 168,
             fontWeight: 400,
             letterSpacing: "-4px",
-            color: "#E4C77A",
-            textShadow: "0 0 60px rgba(212,175,55,0.35)",
+            color: "#E9EAF0",
+            textShadow: "0 0 60px rgba(233,234,240,0.30)",
           }}
         >
           awekn
@@ -37,9 +38,9 @@ export default function OpengraphImage() {
         <div
           style={{
             width: 120,
-            height: 1,
-            background: "#D4AF37",
-            opacity: 0.7,
+            height: 2,
+            background: "#B5384C",
+            opacity: 0.85,
             marginTop: 14,
             marginBottom: 30,
           }}
@@ -47,7 +48,7 @@ export default function OpengraphImage() {
         <div
           style={{
             fontSize: 38,
-            color: "#B89C5A",
+            color: "#C7C9D6",
             fontStyle: "italic",
             letterSpacing: "0.5px",
           }}
@@ -59,7 +60,7 @@ export default function OpengraphImage() {
             position: "absolute",
             bottom: 56,
             fontSize: 22,
-            color: "#6b6456",
+            color: "#9A9BA6",
             letterSpacing: "3px",
             textTransform: "uppercase",
             fontFamily: "Helvetica, Arial, sans-serif",

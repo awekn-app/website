@@ -5,11 +5,22 @@ import dynamic from 'next/dynamic';
 import LiquidWordmark from './components/LiquidWordmark';
 import LiveSet from './components/LiveSet';
 import StrengthCurve from './components/StrengthCurve';
+import ConsistencyOrb from './components/ConsistencyOrb';
+import LiquidGlass from './components/LiquidGlass';
 import { useMotion } from './lib/useMotion';
 
 // The living cosmic ShaderGradient is client-only WebGL; load it after paint so
-// the CSS fallback gradient + the content show instantly, then the shader streams in.
+// the CSS fallback gradient + the content show instantly, then (on capable
+// desktops only) the shader streams in. It self-gates to a static field on
+// phones / low-end / reduced-motion devices.
 const CosmicBackground = dynamic(() => import('./components/CosmicBackground'), {
+  ssr: false,
+});
+
+// The machined steel ring is its own lazy, intersection-gated WebGL island.
+// It renders a pure CSS/SVG poster on phones + low-end + reduced-motion, so it
+// never opens a second live GL context there.
+const SteelScene = dynamic(() => import('./components/SteelScene'), {
   ssr: false,
 });
 
@@ -46,8 +57,19 @@ export default function Home() {
       <div className="cursor-glow" aria-hidden />
       <div className="grain" aria-hidden />
 
-      {/* ════════════ NAV — liquid-glass pill ════════════ */}
-      <nav className="ix-nav">
+      {/* thin scroll-progress indicator, scaled 0 -> 1 across the page */}
+      <div className="ix-progress" aria-hidden>
+        <span className="ix-progress-bar" />
+      </div>
+
+      {/* ════════════ NAV — REAL liquid-glass pill ════════════ */}
+      <LiquidGlass
+        as="nav"
+        className="ix-nav"
+        radius={100}
+        intensity={0.42}
+        mobileBreakpoint={900}
+      >
         <a href="#top" className="ix-nav-brand">awekn</a>
         <ol className="ix-nav-index" aria-label="Sections">
           <li>
@@ -76,10 +98,11 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
           className="ix-nav-cta"
+          data-magnetic
         >
           Get the app
         </a>
-      </nav>
+      </LiquidGlass>
 
       {/* ════════════ HERO ════════════ */}
       <header className="ix-hero" id="top">
@@ -104,6 +127,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
             className="ix-btn ix-btn-gold"
+            data-magnetic
           >
             <AppleGlyph />
             Download on iOS
@@ -125,7 +149,7 @@ export default function Home() {
         </a>
       </header>
 
-      {/* ════════════ 01 · THE RECORD ════════════ */}
+      {/* ════════════ 01 · THE RECORD — the signature orb gets the room ════════════ */}
       <section className="ix-section ix-record" id="record">
         <div className="ix-section-head reveal">
           <span className="ix-eyebrow">
@@ -141,36 +165,44 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="ix-readout-grid reveal">
-          <figure className="ix-stat">
-            <figcaption className="ix-stat-label">Consistency</figcaption>
-            <div className="ix-stat-value">
-              <span className="ix-stat-num">87</span>
-              <span className="ix-stat-unit">%</span>
-            </div>
-            <p className="ix-stat-note">days kept, this month</p>
-          </figure>
-          <figure className="ix-stat ix-stat-streak">
-            <figcaption className="ix-stat-label">Current streak</figcaption>
-            <div className="ix-stat-value">
-              <span className="ix-stat-num">14</span>
-              <span className="ix-stat-unit">days</span>
-            </div>
-            <p className="ix-stat-note">since you last missed</p>
-          </figure>
-          <figure className="ix-stat">
-            <figcaption className="ix-stat-label">Volume moved</figcaption>
-            <div className="ix-stat-value">
-              <span className="ix-stat-num">75.9</span>
-              <span className="ix-stat-unit">k kg</span>
-            </div>
-            <p className="ix-stat-note">across the last thirty days</p>
-          </figure>
-          <p className="ix-readout-caption">illustrative record</p>
+        <div className="ix-record-body">
+          {/* the operable signature instrument, given its own stage */}
+          <div className="ix-record-orb reveal">
+            <ConsistencyOrb />
+          </div>
+
+          {/* the mono readout, count-up on enter */}
+          <div className="ix-readout-grid reveal">
+            <figure className="ix-stat">
+              <figcaption className="ix-stat-label">Consistency</figcaption>
+              <div className="ix-stat-value">
+                <span className="ix-stat-num" data-countup="87">87</span>
+                <span className="ix-stat-unit">%</span>
+              </div>
+              <p className="ix-stat-note">days kept, this month</p>
+            </figure>
+            <figure className="ix-stat ix-stat-streak">
+              <figcaption className="ix-stat-label">Current streak</figcaption>
+              <div className="ix-stat-value">
+                <span className="ix-stat-num" data-countup="14">14</span>
+                <span className="ix-stat-unit">days</span>
+              </div>
+              <p className="ix-stat-note">since you last missed</p>
+            </figure>
+            <figure className="ix-stat">
+              <figcaption className="ix-stat-label">Volume moved</figcaption>
+              <div className="ix-stat-value">
+                <span className="ix-stat-num" data-countup="75.9">75.9</span>
+                <span className="ix-stat-unit">k kg</span>
+              </div>
+              <p className="ix-stat-note">across the last thirty days</p>
+            </figure>
+            <p className="ix-readout-caption">illustrative record</p>
+          </div>
         </div>
       </section>
 
-      {/* ════════════ 02 · TWO DISCIPLINES ════════════ */}
+      {/* ════════════ 02 · TWO DISCIPLINES — REAL liquid-glass cards ════════════ */}
       <section className="ix-section ix-disciplines" id="disciplines">
         <div className="ix-section-head reveal">
           <span className="ix-eyebrow">
@@ -186,7 +218,11 @@ export default function Home() {
         </div>
 
         <div className="ix-discipline-pair">
-          <article className="ix-card ix-card-bb reveal">
+          <LiquidGlass
+            as="article"
+            className="ix-card ix-card-bb reveal"
+            intensity={0.5}
+          >
             <span className="ix-card-tag">Bodybuilding</span>
             <h3 className="ix-card-title">Build the physique.</h3>
             <p className="ix-card-copy">
@@ -200,10 +236,12 @@ export default function Home() {
               <li>Per-exercise volume and session deltas</li>
               <li>Supersets and drag-to-reorder</li>
             </ul>
-          </article>
+          </LiquidGlass>
 
-          <article
+          <LiquidGlass
+            as="article"
             className="ix-card ix-card-pl reveal"
+            intensity={0.4}
             style={{ transitionDelay: '0.08s' }}
           >
             <span className="ix-card-tag">Powerlifting</span>
@@ -219,7 +257,25 @@ export default function Home() {
               <li>Meet planner with attempts and red-light memory</li>
               <li>Plate math, warm-up generator, daily readiness</li>
             </ul>
-          </article>
+          </LiquidGlass>
+        </div>
+      </section>
+
+      {/* ════════════ THE STEEL — a dedicated 3D moment between sections ════════════ */}
+      <section className="ix-steel-band" aria-label="The iron, idling">
+        <div className="ix-steel-stage">
+          <SteelScene />
+        </div>
+        <div className="ix-steel-copy reveal">
+          <span className="ix-eyebrow ix-steel-eyebrow">
+            <span className="ix-index-num">·</span>The iron
+          </span>
+          <p className="ix-steel-line">
+            cold, machined, <span className="ix-serif">honest</span>.
+          </p>
+          <p className="ix-steel-note">
+            the same steel, every session. the record is what changes.
+          </p>
         </div>
       </section>
 
@@ -280,14 +336,19 @@ export default function Home() {
         </div>
 
         <div className="ix-price-pair reveal">
-          <article className="ix-price ix-price-active" aria-label="Annual plan, pre-selected">
+          <LiquidGlass
+            as="article"
+            className="ix-price ix-price-active"
+            intensity={0.55}
+            style={{ borderColor: 'var(--gold)' }}
+          >
             <header className="ix-price-head">
               <span className="ix-price-name">Annual</span>
               <span className="ix-price-flag">7-day free trial</span>
             </header>
             <div className="ix-price-amount">
               <span className="ix-price-currency">$</span>
-              <span className="ix-price-num">34.99</span>
+              <span className="ix-price-num" data-countup="34.99">34.99</span>
               <span className="ix-price-cycle">/ yr</span>
             </div>
             <p className="ix-price-note">
@@ -299,19 +360,20 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="ix-btn ix-btn-gold ix-price-cta"
+              data-magnetic
             >
               <AppleGlyph />
               Start the free trial
             </a>
-          </article>
+          </LiquidGlass>
 
-          <article className="ix-price" aria-label="Monthly plan">
+          <LiquidGlass as="article" className="ix-price" intensity={0.4}>
             <header className="ix-price-head">
               <span className="ix-price-name">Monthly</span>
             </header>
             <div className="ix-price-amount">
               <span className="ix-price-currency">$</span>
-              <span className="ix-price-num">5.99</span>
+              <span className="ix-price-num" data-countup="5.99">5.99</span>
               <span className="ix-price-cycle">/ mo</span>
             </div>
             <p className="ix-price-note">
@@ -325,7 +387,7 @@ export default function Home() {
             >
               Choose monthly
             </a>
-          </article>
+          </LiquidGlass>
         </div>
 
         <p className="ix-price-fine reveal">
@@ -390,7 +452,7 @@ export default function Home() {
 
       {/* ════════════ CLOSING ════════════ */}
       <section className="ix-closing reveal" id="download">
-        <div className="ix-closing-mark">
+        <div className="ix-closing-mark" data-parallax="0.06">
           <LiquidWordmark text="awekn" />
         </div>
         <p className="ix-closing-line">
@@ -401,6 +463,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
           className="ix-btn ix-btn-gold ix-closing-cta"
+          data-magnetic
         >
           <AppleGlyph />
           Download on iOS

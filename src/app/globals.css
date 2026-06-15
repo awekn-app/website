@@ -118,6 +118,17 @@ html {
   overflow-x: hidden;
   max-width: 100%;
   width: 100%;
+  /* keep anchor jumps clear of the fixed glass nav */
+  scroll-padding-top: 96px;
+}
+/* When Lenis owns the scroll (fine pointers), defer to it: native smooth +
+   Lenis double-easing fights itself. Lenis adds .lenis to <html>. */
+html.lenis { scroll-behavior: auto; }
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+@media (max-width: 520px) {
+  html { scroll-padding-top: 80px; }
 }
 body {
   background: var(--bg);
@@ -166,6 +177,12 @@ section, nav, footer, header { max-width: 100%; }
 
 .reveal        { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); }
 .reveal.active { opacity: 1; transform: translateY(0); }
+/* Reduced motion (and any no-JS fallback): never hide content behind an
+   animation that won't run. useMotion bails early under reduced-motion, so the
+   reveal must rest fully visible. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+}
 
 /* ══════════════════════════════════════════════════════════════════
    Nav . floating glass pill with bloom
@@ -198,9 +215,9 @@ section, nav, footer, header { max-width: 100%; }
   color: var(--champagne);
   text-decoration: none;
   text-shadow:
-    0 0 24px rgba(212, 175, 55, 0.22),
-    0 0 10px rgba(212, 175, 55, 0.30),
-    0 0 4px rgba(228, 199, 122, 0.42);
+    0 0 24px rgba(233, 234, 240, 0.18),
+    0 0 10px rgba(233, 234, 240, 0.24),
+    0 0 4px rgba(233, 234, 240, 0.36);
 }
 .nav-links { display: flex; gap: 26px; align-items: center; }
 .nav-links a {
@@ -240,16 +257,50 @@ section, nav, footer, header { max-width: 100%; }
    The legacy .nav / .nav-* (legal pages) + .legal-* live below, untouched.
    ══════════════════════════════════════════════════════════════════ */
 
-/* shared layout tokens */
+/* shared layout tokens — DE-YELLOWED to cosmic silver (2026-06-16) */
 :root {
   --ix-max: 1200px;
   --ix-gutter: 40px;
-  --glass-bg: rgba(20, 16, 8, 0.42);
-  --glass-border: rgba(228, 199, 122, 0.16);
-  --glass-hairline: rgba(228, 199, 122, 0.10);
+  --glass-bg: rgba(12, 12, 20, 0.46);
+  --glass-border: rgba(233, 234, 240, 0.14);
+  --glass-hairline: rgba(233, 234, 240, 0.08);
 }
 
-/* The cursor glow useMotion translates to the pointer. A soft champagne bloom
+/* ─────────────────────────────────────────────────────────────────
+   SCROLL PROGRESS — a hairline blood-red bar across the very top, scaled
+   0 -> 1 by useMotion as you read down the page. Pure transform (scaleX),
+   GPU-cheap, hidden under reduced-motion (it would never move).
+   ───────────────────────────────────────────────────────────────── */
+.ix-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 200;
+  pointer-events: none;
+  background: rgba(233, 234, 240, 0.05);
+}
+.ix-progress-bar {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    rgba(181, 56, 76, 0.35) 0%,
+    var(--blood) 60%,
+    #d9536a 100%
+  );
+  box-shadow: 0 0 12px rgba(181, 56, 76, 0.5);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ix-progress { display: none; }
+}
+
+/* The cursor glow useMotion translates to the pointer. A soft silver bloom
    behind everything; multiply-screened, never a wash on content. */
 .cursor-glow {
   position: fixed;
@@ -264,8 +315,8 @@ section, nav, footer, header { max-width: 100%; }
   will-change: transform, opacity;
   background: radial-gradient(
     circle at center,
-    rgba(228, 199, 122, 0.10) 0%,
-    rgba(184, 138, 74, 0.05) 38%,
+    rgba(233, 234, 240, 0.09) 0%,
+    rgba(181, 56, 76, 0.05) 40%,
     transparent 70%
   );
 }
@@ -293,7 +344,9 @@ section, nav, footer, header { max-width: 100%; }
 .reveal { will-change: transform, opacity; }
 
 /* ─────────────────────────────────────────────────────────────────
-   NAV — liquid-glass pill
+   NAV — REAL liquid-glass pill (rendered by <LiquidGlass as="nav">).
+   LiquidGlass owns the frost / border / refraction / shadow; .ix-nav only
+   positions the pill and lays out its content span as a flex row.
    ───────────────────────────────────────────────────────────────── */
 .ix-nav {
   position: fixed;
@@ -301,20 +354,19 @@ section, nav, footer, header { max-width: 100%; }
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
+  width: min(calc(100% - 28px), 980px);
+  /* LiquidGlass already paints a cosmic border; warm it a hair toward the
+     nav's prior look without reintroducing gold */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 18px 40px rgba(0, 0, 0, 0.55) !important;
+}
+/* the flex row lives on LiquidGlass's content wrapper */
+.ix-nav > [class*='content'] {
   display: flex;
   align-items: center;
   gap: 28px;
-  width: min(calc(100% - 28px), 980px);
   padding: 9px 9px 9px 22px;
-  border-radius: 100px;
-  background: var(--glass-bg);
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 0 0 1px rgba(228, 199, 122, 0.04),
-    0 18px 40px rgba(0, 0, 0, 0.55);
 }
 .ix-nav-brand {
   font-family: var(--font-sans);
@@ -324,7 +376,7 @@ section, nav, footer, header { max-width: 100%; }
   text-transform: lowercase;
   color: var(--champagne);
   text-decoration: none;
-  text-shadow: 0 0 18px rgba(212, 175, 55, 0.28);
+  text-shadow: 0 0 18px rgba(233, 234, 240, 0.22);
   transition: transform 0.2s var(--ease-out);
 }
 .ix-nav-brand:active { transform: scale(0.97); }
@@ -348,12 +400,46 @@ section, nav, footer, header { max-width: 100%; }
   transition: color 0.22s var(--ease-out);
 }
 .ix-nav-index a:hover { color: var(--champagne); }
+.ix-nav-index a:focus-visible {
+  outline: none;
+  color: var(--champagne);
+}
+/* scroll-spy: the section in view glows + lights a blood-red underline */
+.ix-nav-index a.is-active {
+  color: var(--champagne);
+}
+.ix-nav-index a.is-active .ix-nav-num {
+  color: var(--blood);
+  opacity: 1;
+}
+.ix-nav-index a {
+  position: relative;
+}
+.ix-nav-index a::after {
+  content: '';
+  position: absolute;
+  left: 19px;
+  right: 0;
+  bottom: -5px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--blood);
+  transform: scaleX(0);
+  transform-origin: left center;
+  opacity: 0;
+  transition: transform 0.34s var(--ease-emphatic), opacity 0.34s var(--ease-emphatic);
+}
+.ix-nav-index a.is-active::after {
+  transform: scaleX(1);
+  opacity: 0.9;
+}
 .ix-nav-num {
   font-family: var(--font-numeral);
   font-size: 10px;
   font-variant-numeric: tabular-nums;
   color: var(--gold-dim);
   opacity: 0.7;
+  transition: color 0.24s var(--ease-out), opacity 0.24s var(--ease-out);
 }
 .ix-nav-cta {
   display: inline-flex;
@@ -361,16 +447,16 @@ section, nav, footer, header { max-width: 100%; }
   padding: 9px 18px;
   border-radius: 100px;
   background: var(--gold);
-  color: #1a1404;
+  color: #FCEEF0;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.1px;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 0 22px rgba(212, 175, 55, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 22px rgba(181, 56, 76, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   transition: transform 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out);
 }
-.ix-nav-cta:hover { box-shadow: 0 0 34px rgba(212, 175, 55, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+.ix-nav-cta:hover { box-shadow: 0 0 36px rgba(181, 56, 76, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.28); }
 .ix-nav-cta:active { transform: scale(0.97); }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -419,7 +505,7 @@ section, nav, footer, header { max-width: 100%; }
   letter-spacing: -0.035em;
   color: var(--champagne);
   text-transform: lowercase;
-  text-shadow: 0 0 60px rgba(212, 175, 55, 0.10);
+  text-shadow: 0 0 60px rgba(233, 234, 240, 0.08);
 }
 .ix-display .ix-serif { font-weight: 400; text-transform: lowercase; }
 .ix-lede {
@@ -453,22 +539,22 @@ section, nav, footer, header { max-width: 100%; }
 .ix-btn:active { transform: scale(0.97); }
 .ix-btn-gold {
   background: var(--gold);
-  color: #1a1404;
-  box-shadow: 0 0 30px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  color: #FCEEF0;
+  box-shadow: 0 0 30px rgba(181, 56, 76, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.26);
 }
 .ix-btn-gold:hover {
-  box-shadow: 0 0 46px rgba(212, 175, 55, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  box-shadow: 0 0 48px rgba(181, 56, 76, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.32);
 }
 .ix-btn-ghost {
-  background: rgba(228, 199, 122, 0.04);
+  background: rgba(233, 234, 240, 0.04);
   color: var(--champagne);
   border-color: var(--glass-border);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 .ix-btn-ghost:hover:not([disabled]) {
-  background: rgba(228, 199, 122, 0.08);
-  border-color: rgba(228, 199, 122, 0.26);
+  background: rgba(233, 234, 240, 0.08);
+  border-color: rgba(233, 234, 240, 0.26);
 }
 .ix-btn-ghost[disabled],
 .ix-btn-ghost[aria-disabled='true'] {
@@ -525,12 +611,22 @@ section, nav, footer, header { max-width: 100%; }
   align-items: center;
   gap: 12px;
   margin-top: 72px;
+  padding: 8px 16px;
+  border-radius: 14px;
   text-decoration: none;
+  transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
 }
+.ix-scroll-cue:hover { transform: translateY(3px); }
+.ix-scroll-cue:hover .ix-scroll-word { color: var(--champagne); }
+.ix-scroll-cue:focus-visible {
+  outline: 2px solid var(--blood);
+  outline-offset: 2px;
+}
+.ix-scroll-word { transition: color 0.3s var(--ease-out); }
 .ix-scroll-line {
   width: 1px;
   height: 44px;
-  background: linear-gradient(to bottom, rgba(228, 199, 122, 0.5), transparent);
+  background: linear-gradient(to bottom, rgba(233, 234, 240, 0.5), transparent);
   position: relative;
   overflow: hidden;
 }
@@ -561,13 +657,24 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   01 · THE RECORD — head left, a 3-up mono readout panel
+   01 · THE RECORD — head left, the signature orb beside a mono readout
    ───────────────────────────────────────────────────────────────── */
 .ix-record .ix-section-head { margin-bottom: 56px; }
+.ix-record-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 32px;
+  align-items: center;
+}
+.ix-record-orb {
+  display: flex;
+  justify-content: center;
+}
+/* the 3-up readout stacks vertically beside the orb on wide screens */
 .ix-readout-grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: 1px;
   padding: 1px;
   border-radius: 24px;
@@ -639,35 +746,45 @@ section, nav, footer, header { max-width: 100%; }
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 }
+/* .ix-card IS a <LiquidGlass> root: it already paints frost / hairline /
+   refraction / shadow + the top sheen on ::before/::after. We only add a
+   lift-on-hover and let the padding + bloom ride on the content span. */
 .ix-card {
-  position: relative;
-  overflow: hidden;
-  padding: 40px 36px 38px;
-  border-radius: 24px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(24px) saturate(140%);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 30px 70px rgba(0, 0, 0, 0.5);
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  transition: transform 0.45s var(--ease-emphatic), box-shadow 0.45s var(--ease-emphatic);
+  will-change: transform;
 }
-.ix-card::before {
+@media (hover: hover) and (pointer: fine) {
+  .ix-card:hover {
+    transform: translateY(-5px);
+    box-shadow:
+      inset 0 1px 0 0 rgba(233, 234, 240, 0.22),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+      inset 0 -28px 60px rgba(0, 0, 0, 0.32),
+      0 44px 96px rgba(0, 0, 0, 0.6),
+      0 12px 30px rgba(0, 0, 0, 0.45);
+  }
+}
+/* the card's content wrapper carries the padding + its own top-edge bloom */
+.ix-card > [class*='content'] {
+  display: block;
+  padding: 40px 36px 38px;
+}
+.ix-card > [class*='content']::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(120% 90% at 50% -10%, rgba(228, 199, 122, 0.07), transparent 60%);
+  z-index: 0;
+  background: radial-gradient(120% 90% at 50% -10%, rgba(233, 234, 240, 0.06), transparent 60%);
 }
-/* BB leans gold: a warmer top-edge bloom + a gold tag. PL stays austere:
-   the warmth is dialed back, the tag is bare hairline. Differentiated by
-   weight, not a chromatic flood. */
-.ix-card-bb::before {
-  background: radial-gradient(120% 90% at 50% -10%, rgba(212, 175, 55, 0.14), transparent 62%);
+/* BB leans a touch warmer (silver bloom, slightly brighter). PL stays austere.
+   Differentiated by weight, never a chromatic flood. A whisper of blood-red on
+   BB's bloom keeps the cosmic accent present without washing the card. */
+.ix-card-bb > [class*='content']::before {
+  background: radial-gradient(120% 90% at 50% -10%, rgba(181, 56, 76, 0.10), transparent 62%);
 }
-.ix-card-pl::before {
-  background: radial-gradient(120% 90% at 50% -10%, rgba(228, 199, 122, 0.04), transparent 60%);
+.ix-card-pl > [class*='content']::before {
+  background: radial-gradient(120% 90% at 50% -10%, rgba(233, 234, 240, 0.035), transparent 60%);
 }
 .ix-card-tag {
   position: relative;
@@ -682,12 +799,14 @@ section, nav, footer, header { max-width: 100%; }
   text-transform: uppercase;
   color: var(--gold-dim);
   border: 1px solid var(--glass-border);
-  background: rgba(228, 199, 122, 0.04);
+  background: rgba(233, 234, 240, 0.04);
 }
+/* BB gets the rare blood-red tag (the one chromatic punctuation on the pair);
+   PL stays bare silver hairline, austere by design. */
 .ix-card-bb .ix-card-tag {
-  color: var(--gold);
-  border-color: rgba(212, 175, 55, 0.4);
-  background: rgba(212, 175, 55, 0.08);
+  color: #F4C3CC;
+  border-color: rgba(181, 56, 76, 0.45);
+  background: rgba(181, 56, 76, 0.12);
 }
 .ix-card-title {
   position: relative;
@@ -731,6 +850,72 @@ section, nav, footer, header { max-width: 100%; }
 .ix-card-bb .ix-card-list li::before { background: var(--gold); }
 
 /* ─────────────────────────────────────────────────────────────────
+   THE STEEL — a dedicated 3D moment (machined steel ring). A full-bleed
+   band that breaks the card rhythm: the live ring (or its CSS poster on
+   phones / low-end) idles behind an austere two-line caption.
+   ───────────────────────────────────────────────────────────────── */
+.ix-steel-band {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: clamp(420px, 58vh, 640px);
+  margin: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+/* the GL/poster host: SteelScene fills it (position:absolute inset:0) */
+.ix-steel-stage {
+  position: absolute;
+  inset: 0;
+  /* let the ring breathe inside the band without spilling into neighbours */
+  z-index: 0;
+}
+/* a soft top + bottom fade so the band dissolves into the cosmic field */
+.ix-steel-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--void) 0%,
+    transparent 22%,
+    transparent 78%,
+    var(--void) 100%
+  );
+  opacity: 0.7;
+}
+.ix-steel-copy {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+  pointer-events: none;
+}
+.ix-steel-eyebrow { justify-content: center; }
+.ix-steel-line {
+  font-family: var(--font-sans);
+  font-size: clamp(30px, 6vw, 60px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  color: var(--champagne);
+  text-transform: lowercase;
+  text-shadow: 0 0 50px rgba(5, 6, 15, 0.9), 0 2px 30px rgba(0, 0, 0, 0.8);
+}
+.ix-steel-line .ix-serif { font-weight: 400; }
+.ix-steel-note {
+  margin-top: 16px;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  color: var(--gold-dim);
+  text-shadow: 0 1px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* ─────────────────────────────────────────────────────────────────
    03 · THE SET — centered head, the operable centerpiece on a stage
    ───────────────────────────────────────────────────────────────── */
 .ix-set {
@@ -761,7 +946,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   PRICING — centered head, two cards, annual pre-selected (gold border)
+   PRICING — centered head, two cards, annual pre-selected (blood-red ring)
    ───────────────────────────────────────────────────────────────── */
 .ix-pricing { text-align: center; }
 .ix-pricing-head { max-width: 620px; margin: 0 auto 52px; }
@@ -776,27 +961,27 @@ section, nav, footer, header { max-width: 100%; }
   margin: 0 auto;
   text-align: left;
 }
+/* .ix-price IS a <LiquidGlass> root. The flex column lives on the content span.
+   The annual card adds the blood-red active ring on top of the glass shadow. */
 .ix-price {
-  position: relative;
+  transition: transform 0.4s var(--ease-emphatic), box-shadow 0.4s var(--ease-emphatic);
+  will-change: transform;
+}
+.ix-price > [class*='content'] {
   display: flex;
   flex-direction: column;
+  height: 100%;
   padding: 34px 32px;
-  border-radius: 24px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  backdrop-filter: blur(24px) saturate(140%);
-  -webkit-backdrop-filter: blur(24px) saturate(140%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 26px 60px rgba(0, 0, 0, 0.46);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ix-price:hover { transform: translateY(-4px); }
 }
 .ix-price-active {
-  border-color: var(--gold);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 0 0 1px rgba(212, 175, 55, 0.35),
+    inset 0 1px 0 0 rgba(233, 234, 240, 0.2),
+    0 0 0 1px rgba(181, 56, 76, 0.45),
     0 30px 70px rgba(0, 0, 0, 0.5),
-    0 0 50px rgba(212, 175, 55, 0.12);
+    0 0 50px rgba(181, 56, 76, 0.14) !important;
 }
 .ix-price-head {
   display: flex;
@@ -817,7 +1002,7 @@ section, nav, footer, header { max-width: 100%; }
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #1a1404;
+  color: #FCEEF0;
   background: var(--gold);
   padding: 4px 9px;
   border-radius: 100px;
@@ -881,7 +1066,7 @@ section, nav, footer, header { max-width: 100%; }
   margin-top: 6px;
   border-radius: 2px;
   background: var(--champagne);
-  box-shadow: 0 0 12px rgba(228, 199, 122, 0.5);
+  box-shadow: 0 0 12px rgba(233, 234, 240, 0.5);
   transform: rotate(45deg);
 }
 .ix-vow-title {
@@ -965,7 +1150,7 @@ section, nav, footer, header { max-width: 100%; }
   letter-spacing: -0.045em;
   text-transform: lowercase;
   color: var(--champagne);
-  text-shadow: 0 0 18px rgba(212, 175, 55, 0.22);
+  text-shadow: 0 0 18px rgba(233, 234, 240, 0.18);
   margin-bottom: 12px;
 }
 .ix-footer-tag {
@@ -1007,39 +1192,111 @@ section, nav, footer, header { max-width: 100%; }
   opacity: 0.85;
 }
 
-/* ─────────────────────────────────────────────────────────────────
-   Homepage responsive (instrument-panel)
-   ───────────────────────────────────────────────────────────────── */
-@media (max-width: 920px) {
+/* ═════════════════════════════════════════════════════════════════
+   MOBILE-FIRST OVERHAUL (2026-06-16) — most users are on a phone, so
+   the phone is the priority surface. Touch-first (44px targets, no
+   hover-only affordances), responsive type/spacing, zero horizontal
+   scroll. Breakpoints: 980 (tablet), 820 (phone-landscape / small
+   tablet), 520 (phone), 390 (narrow phone sanity).
+   ═════════════════════════════════════════════════════════════════ */
+
+/* universal: every interactive control clears the 44px touch minimum and
+   carries a visible focus ring. Pointer-coarse devices get the focus ring
+   on tap too (Safari quirk handled by :focus-visible). */
+.ix-btn,
+.ix-nav-cta,
+.ix-nav-index a,
+.ix-footer-col a,
+.ix-nav-brand,
+.ix-scroll-cue {
+  -webkit-tap-highlight-color: transparent;
+}
+.ix-btn:focus-visible,
+.ix-nav-cta:focus-visible,
+.ix-nav-brand:focus-visible,
+.ix-footer-col a:focus-visible,
+.ix-scroll-cue:focus-visible,
+.ix-price-cta:focus-visible {
+  outline: 2px solid var(--blood);
+  outline-offset: 3px;
+  border-radius: 100px;
+}
+.ix-btn { min-height: 48px; }
+
+/* below the desktop hover-pointer, kill the parallax + magnetic transforms
+   so touch scroll is never fought by a transform (handled in JS too, but
+   belt + braces) and steel-band height is leaner */
+@media (hover: none), (pointer: coarse) {
+  .ix-card:hover,
+  .ix-price:hover { transform: none; }
+}
+
+/* ── 980px : tablet — pricing/cards still side-by-side, tighten gutters ── */
+@media (max-width: 980px) {
+  .ix-record-body { grid-template-columns: 1fr; gap: 28px; }
+  .ix-readout-grid { grid-template-columns: repeat(3, 1fr); max-width: 720px; margin: 0 auto; }
+}
+
+/* ── 820px : the phone-landscape / small-tablet line ── */
+@media (max-width: 820px) {
   .ix-nav-index { display: none; }
-  .ix-nav { gap: 16px; }
-  .ix-section { padding: 96px 24px; }
-  .ix-hero { padding: 120px 24px 72px; }
+  .ix-nav { width: min(calc(100% - 24px), 520px); }
+  .ix-nav > [class*='content'] { gap: 12px; padding: 8px 8px 8px 18px; }
+  .ix-nav-brand { font-size: 17px; }
+
+  .ix-section { padding: 92px 24px; }
+  .ix-hero { padding: 116px 24px 68px; }
   .ix-set, .ix-strength { padding-left: 24px; padding-right: 24px; }
+
   .ix-discipline-pair,
   .ix-price-pair,
-  .ix-vows { grid-template-columns: 1fr; }
+  .ix-vows,
   .ix-readout-grid { grid-template-columns: 1fr; }
   .ix-readout-caption { position: static; display: block; text-align: right; padding: 10px 16px; }
+
+  .ix-steel-band { min-height: clamp(360px, 46vh, 480px); margin: 24px 0; }
+
   .ix-footer-grid { grid-template-columns: 1fr 1fr; }
   .ix-footer-brand { grid-column: 1 / -1; }
 }
-@media (max-width: 560px) {
-  .ix-section { padding: 76px 20px; }
-  .ix-hero { padding: 108px 20px 64px; min-height: 92svh; }
-  .ix-hero .ix-eyebrow { margin-bottom: 28px; }
-  .ix-hero-sub { margin-top: 26px; }
-  .ix-hero-cta { margin-top: 34px; width: 100%; flex-direction: column; }
+
+/* ── 520px : the phone line ── */
+@media (max-width: 520px) {
+  .ix-section { padding: 72px 20px; }
+  .ix-hero { padding: 104px 20px 60px; min-height: 92svh; }
+  .ix-hero .ix-eyebrow { margin-bottom: 26px; }
+  .ix-hero-sub { margin-top: 24px; }
+
+  /* full-width stacked CTAs, comfortable thumb targets */
+  .ix-hero-cta { margin-top: 32px; width: 100%; flex-direction: column; gap: 10px; }
   .ix-hero-cta .ix-btn { width: 100%; }
-  .ix-card { padding: 32px 26px; }
-  .ix-price { padding: 28px 24px; }
-  .ix-vow { padding: 26px 22px; }
-  .ix-stat { padding: 28px 26px; }
-  .ix-stat-num { font-size: 44px; }
-  .ix-price-num { font-size: 44px; }
-  .ix-footer-grid { grid-template-columns: 1fr; gap: 28px; }
-  .ix-footer-bottom { justify-content: center; text-align: center; }
+
+  /* the loved instruments + their padded glass shells go edge-snug */
+  .ix-card > [class*='content'] { padding: 30px 24px 28px; }
+  .ix-price > [class*='content'] { padding: 26px 22px; }
+  .ix-vow { padding: 24px 20px; }
+  .ix-stat { padding: 26px 24px; }
+  .ix-stat-num { font-size: 42px; }
+  .ix-price-num { font-size: 42px; }
+  .ix-card-title { font-size: 26px; }
+
+  .ix-steel-band { min-height: 340px; }
+
   .ix-closing-cta { width: 100%; }
+  .ix-footer-grid { grid-template-columns: 1fr; gap: 26px; }
+  .ix-footer-bottom { justify-content: center; text-align: center; }
+}
+
+/* ── 390px : narrow phone (iPhone mini class) — the wordmark must fit ── */
+@media (max-width: 390px) {
+  .ix-section { padding: 64px 16px; }
+  .ix-hero { padding: 100px 16px 56px; }
+  .ix-hero-mark { font-size: clamp(60px, 19vw, 96px); }
+  .ix-hero-sub { font-size: 19px; }
+  .ix-nav > [class*='content'] { padding: 7px 7px 7px 15px; }
+  .ix-nav-cta { padding: 9px 14px; font-size: 12px; }
+  .ix-card > [class*='content'] { padding: 26px 20px 24px; }
+  .ix-stat-num { font-size: 38px; }
 }
 
 

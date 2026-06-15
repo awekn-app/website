@@ -7,24 +7,28 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 
 /**
- * The awekn motion system.
+ * The awekn motion system — "the instrument, powering on".
  *
- * Adapted from the igasm reference (src/App.jsx) and pared to four behaviors:
- *   1. ScrollTrigger `.reveal` batch reveals (opacity 0 -> 1, y 24 -> 0).
- *   2. A hero power-on timeline staggering the eyebrow, wordmark, sub, CTA.
- *   3. A `.cursor-glow` element that follows a fine pointer via gsap.quickTo.
- *   4. Lenis smooth-scroll on fine pointers, wired to gsap.ticker + ScrollTrigger.
+ * Adapted from the igasm reference and deepened (2026-06-16) into a heavier,
+ * scroll-LINKED system the founder asked for. Behaviors:
  *
- * Everything is opacity / transform only (60fps), SSR-guarded, and disabled
- * under `prefers-reduced-motion: reduce`. All work is reverted on unmount.
+ *   1. `.reveal` batch reveals (opacity 0 -> 1, y 24 -> 0) on scroll-in.
+ *   2. A hero power-on timeline (eyebrow / wordmark / sub / CTA stagger).
+ *   3. A `.cursor-glow` element that follows a fine pointer (desktop only).
+ *   4. Lenis smooth-scroll on fine pointers, wired to gsap.ticker.
+ *   5. SCROLL-PROGRESS bar (`.ix-progress-bar`) scaled 0 -> 1 across the page.
+ *   6. PARALLAX scrub: any `[data-parallax]` element translates as it scrolls
+ *      (depth on the wordmark + section art). Strength via data-parallax="0.2".
+ *   7. COUNT-UPS: any `[data-countup]` numeral animates from 0 -> its value
+ *      when it enters (mono readouts in "the record" + pricing).
+ *   8. MAGNETIC hover on `[data-magnetic]` CTAs (fine pointer only).
+ *   9. NAV SCROLL-SPY: `.ix-nav-index a[href="#id"]` gets `.is-active` for the
+ *      section currently in view.
+ *  10. Tasteful section-enter choreography on `.ix-section-head`.
  *
- * Expected CSS classes (the markup contract):
- *   .reveal        - any element that should reveal on scroll-in.
- *   .cursor-glow   - a fixed, pointer-events:none element (translated to cursor).
- *   .hero-eyebrow  - hero kicker line.
- *   .wordmark-wrap - the wordmark container (part of the hero power-on).
- *   .hero-sub      - hero subheading.
- *   .hero-cta      - hero call-to-action.
+ * Everything is opacity / transform only (60fps), SSR-guarded, reverted on
+ * unmount, and fully disabled under `prefers-reduced-motion: reduce` (where the
+ * count-ups snap to their final value and everything rests in its CSS state).
  */
 export function useMotion(rootRef: RefObject<HTMLElement | null>): void {
   useEffect(() => {
@@ -38,9 +42,21 @@ export function useMotion(rootRef: RefObject<HTMLElement | null>): void {
       "(hover: hover) and (pointer: fine)",
     ).matches;
 
-    // Under reduced motion we register nothing: reveals stay visible (their
-    // resting CSS state) and no smooth-scroll / glow / hero animation runs.
-    if (reduce) return;
+    /* Under reduced motion we register no animation, but we DO still:
+       - snap every count-up to its final value (so the numbers aren't 0)
+       - light the first nav item (a sensible resting scroll-spy state)
+       and then bail. Reveals stay in their visible CSS resting state. */
+    if (reduce) {
+      root.querySelectorAll<HTMLElement>("[data-countup]").forEach((el) => {
+        const target = el.getAttribute("data-countup") ?? el.textContent ?? "";
+        el.textContent = target;
+      });
+      const firstSpy = root.querySelector<HTMLAnchorElement>(
+        '.ix-nav-index a[href^="#"]',
+      );
+      firstSpy?.classList.add("is-active");
+      return;
+    }
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -49,6 +65,8 @@ export function useMotion(rootRef: RefObject<HTMLElement | null>): void {
     let glowApply: (() => void) | null = null;
     let lenisRaf: ((time: number) => void) | null = null;
     let onPointerMove: ((e: PointerEvent) => void) | null = null;
+    const magneticCleanups: Array<() => void> = [];
+    const anchorCleanups: Array<() => void> = [];
 
     const ctx = gsap.context(() => {
       /* ---- (1) scroll reveals ---- */
@@ -56,7 +74,7 @@ export function useMotion(rootRef: RefObject<HTMLElement | null>): void {
       if (reveals.length) {
         gsap.set(reveals, { opacity: 0, y: 24 });
         ScrollTrigger.batch(reveals, {
-          start: "top 86%",
+          start: "top 88%",
           onEnter: (els) =>
             gsap.to(els, {
               opacity: 1,
@@ -119,7 +137,162 @@ export function useMotion(rootRef: RefObject<HTMLElement | null>): void {
         };
         gsap.ticker.add(lenisRaf);
         gsap.ticker.lagSmoothing(0);
+
+        // Smooth in-page anchor clicks through Lenis (native scrollIntoView is
+        // disabled by html.lenis{scroll-behavior:auto}). Offset clears the nav.
+        const anchors = gsap.utils.toArray<HTMLAnchorElement>(
+          'a[href^="#"]',
+        );
+        anchors.forEach((a) => {
+          const onClick = (e: MouseEvent) => {
+            const href = a.getAttribute("href");
+            if (!href || href === "#") return;
+            const target = document.querySelector(href);
+            if (!target) return;
+            e.preventDefault();
+            lenis?.scrollTo(target as HTMLElement, {
+              offset: -96,
+              duration: 1.1,
+            });
+          };
+          a.addEventListener("click", onClick);
+          anchorCleanups.push(() => a.removeEventListener("click", onClick));
+        });
       }
+
+      /* ---- (5) scroll-progress bar ---- */
+      const progress = root.querySelector<HTMLElement>(".ix-progress-bar");
+      if (progress) {
+        gsap.set(progress, { scaleX: 0, transformOrigin: "left center" });
+        gsap.to(progress, {
+          scaleX: 1,
+          ease: "none",
+          scrollTrigger: {
+            start: 0,
+            end: "max",
+            scrub: 0.3,
+          },
+        });
+      }
+
+      /* ---- (6) parallax scrub (depth on art + wordmark) ---- */
+      const parallaxEls =
+        gsap.utils.toArray<HTMLElement>("[data-parallax]");
+      parallaxEls.forEach((el) => {
+        const strength = parseFloat(el.getAttribute("data-parallax") || "0.2");
+        // negative shift on enter -> resting at 0 mid-view -> positive on exit
+        gsap.fromTo(
+          el,
+          { yPercent: -strength * 100 },
+          {
+            yPercent: strength * 100,
+            ease: "none",
+            scrollTrigger: {
+              trigger: el,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          },
+        );
+      });
+
+      /* ---- (7) count-ups on enter ---- */
+      const counters = gsap.utils.toArray<HTMLElement>("[data-countup]");
+      counters.forEach((el) => {
+        const raw = el.getAttribute("data-countup") || el.textContent || "0";
+        const target = parseFloat(raw.replace(/,/g, ""));
+        if (!Number.isFinite(target)) return;
+        const decimals = (raw.split(".")[1] || "").length;
+        const proxy = { v: 0 };
+        el.textContent = (0).toFixed(decimals);
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top 90%",
+          once: true,
+          onEnter: () =>
+            gsap.to(proxy, {
+              v: target,
+              duration: 1.4,
+              ease: "power2.out",
+              onUpdate: () => {
+                el.textContent = proxy.v.toFixed(decimals);
+              },
+            }),
+        });
+      });
+
+      /* ---- (8) magnetic CTAs (fine pointer only) ---- */
+      if (fine) {
+        const magnets =
+          gsap.utils.toArray<HTMLElement>("[data-magnetic]");
+        magnets.forEach((el) => {
+          const qx = gsap.quickTo(el, "x", {
+            duration: 0.4,
+            ease: "power3.out",
+          });
+          const qy = gsap.quickTo(el, "y", {
+            duration: 0.4,
+            ease: "power3.out",
+          });
+          const onMove = (e: PointerEvent) => {
+            const r = el.getBoundingClientRect();
+            const mx = e.clientX - (r.left + r.width / 2);
+            const my = e.clientY - (r.top + r.height / 2);
+            qx(mx * 0.28);
+            qy(my * 0.34);
+          };
+          const onLeave = () => {
+            qx(0);
+            qy(0);
+          };
+          el.addEventListener("pointermove", onMove);
+          el.addEventListener("pointerleave", onLeave);
+          magneticCleanups.push(() => {
+            el.removeEventListener("pointermove", onMove);
+            el.removeEventListener("pointerleave", onLeave);
+            gsap.set(el, { x: 0, y: 0 });
+          });
+        });
+      }
+
+      /* ---- (9) nav scroll-spy ---- */
+      const spyLinks = gsap.utils.toArray<HTMLAnchorElement>(
+        '.ix-nav-index a[href^="#"]',
+      );
+      spyLinks.forEach((link) => {
+        const id = link.getAttribute("href")?.slice(1);
+        if (!id) return;
+        const section = document.getElementById(id);
+        if (!section) return;
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top 45%",
+          end: "bottom 45%",
+          onToggle: (self) => {
+            if (self.isActive) {
+              spyLinks.forEach((l) => l.classList.remove("is-active"));
+              link.classList.add("is-active");
+            }
+          },
+        });
+      });
+
+      /* ---- (10) section-head enter choreography ---- */
+      const heads = gsap.utils.toArray<HTMLElement>(
+        ".ix-section-head:not(.reveal)",
+      );
+      heads.forEach((head) => {
+        const kids = head.children;
+        gsap.from(kids, {
+          opacity: 0,
+          y: 22,
+          duration: 0.7,
+          ease: "power3.out",
+          stagger: 0.08,
+          scrollTrigger: { trigger: head, start: "top 85%", once: true },
+        });
+      });
 
       // Re-measure once fonts settle so reveal start positions are accurate.
       ScrollTrigger.refresh();
@@ -134,6 +307,8 @@ export function useMotion(rootRef: RefObject<HTMLElement | null>): void {
       if (onPointerMove) {
         window.removeEventListener("pointermove", onPointerMove);
       }
+      magneticCleanups.forEach((fn) => fn());
+      anchorCleanups.forEach((fn) => fn());
       if (lenis) {
         lenis.destroy();
         document.documentElement.classList.remove("lenis");

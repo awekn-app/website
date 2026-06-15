@@ -1,0 +1,134 @@
+/* ════════════════════════════════════════════════════════════════════════
+   LIQUID GLASS — co-located styles.
+
+   Two visual tiers, identical chrome (border / highlight / shadow / tint):
+     .glass            the frosted FALLBACK — cheap blur+saturate backdrop.
+                       This alone already reads premium (Firefox / older Safari
+                       / mobile / disableFilter all land here).
+     .glass.refract    adds the SVG-refraction layer on top of the frost, so
+                       the cosmic field bends through the pane (Chromium +
+                       modern Safari, wide viewports only).
+
+   Cosmic law: silver hairline, --surface-warm fill, NO gold. Animate nothing
+   here that the caller doesn't ask for (the surface is static); transitions
+   are transform/opacity only and guarded for reduced-motion.
+   ════════════════════════════════════════════════════════════════════════ */
+
+.glass {
+  --lg-radius: 24px;
+  --lg-backdrop-blur: 16px;
+  --lg-saturate: 160%;
+
+  position: relative;
+  isolation: isolate;
+  display: block;
+  border-radius: var(--lg-radius);
+  overflow: hidden;
+
+  /* --surface-warm fill, kept translucent so the cosmic field reads through */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16, 16, 24, 0.58) 0%,
+      rgba(10, 10, 18, 0.74) 100%
+    );
+
+  /* THE FROST. The fallback's whole refraction budget: a real backdrop blur +
+     saturate. Always present; .refract layers SVG distortion ON TOP of it. */
+  backdrop-filter: blur(var(--lg-backdrop-blur)) saturate(var(--lg-saturate));
+  -webkit-backdrop-filter: blur(var(--lg-backdrop-blur)) saturate(var(--lg-saturate));
+
+  /* hairline silver border (cosmic, never gold) */
+  border: 1px solid rgba(233, 234, 240, 0.14);
+
+  /* double-bezel depth:
+       inset top  -> the lit specular bevel
+       inset hair -> a second inner pane edge
+       inset base -> the floor darkens (volume)
+       cast 1 + 2 -> the soft drop shadow, the pane floats */
+  box-shadow:
+    inset 0 1px 0 0 rgba(233, 234, 240, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.025),
+    inset 0 -28px 60px rgba(0, 0, 0, 0.32),
+    0 30px 70px rgba(0, 0, 0, 0.55),
+    0 10px 26px rgba(0, 0, 0, 0.4);
+}
+
+/* the SVG <filter> plumbing — zero-footprint, never painted */
+.filterSvg {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* The refraction layer: full-bleed, behind content, carries the SVG-driven
+   backdrop-filter (set inline in TSX). Clipped to the radius by .glass overflow.
+   Only rendered when .refract is active. */
+.refractLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  /* backdrop-filter (url(#id) blur saturate) applied inline */
+}
+
+/* The upper liquid-glass SHEEN — a clipped specular band, screen-blended, the
+   poured-glass top catching light. ::before so it never intercepts pointers. */
+.glass::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 46%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0.018) 42%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+}
+
+/* A faint cosmic edge-light pooling along the very top hairline — the silver
+   catch-light that makes the pane feel poured, not stamped. */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    120% 80% at 50% -12%,
+    rgba(233, 234, 240, 0.08),
+    transparent 58%
+  );
+}
+
+/* content rides above both the refraction layer and the sheen, always crisp */
+.content {
+  position: relative;
+  z-index: 2;
+  display: block;
+}
+
+/* When refracting, lean the frost slightly lighter — the SVG displacement adds
+   apparent depth, so we don't need to over-blur (cheaper + sharper). */
+.refract {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* No motion of our own; nothing to disable. The block stays for clarity and
+   to guard any inherited transition a consumer might add via className. */
+@media (prefers-reduced-motion: reduce) {
+  .glass {
+    transition: none;
+  }
+}
