@@ -94,11 +94,18 @@ Targets: **LCP < 2.5s · INP < 200ms · CLS < 0.05 · 60fps proven on a real iPh
 
 ---
 
-## Open questions for the founder (decisions that change what I build)
+## Decisions (resolved 2026-06-15)
 
-1. **Display typeface:** PP Neue Montreal (paid license) vs Cabinet Grotesk (free, Fontshare) vs another grotesque. Biggest single visual-identity lever.
-2. **Testimonials:** ship with **zero** (the safe default the critique recommends), or do you have **one real** App Store / user quote to feature? (No fabricated quotes.)
-3. **Android buttons:** keep them visibly "coming soon", or hide Android entirely until the Play listing ships? (Recommendation: hide until live.)
-4. **Seeded numbers** in the centerpiece/curve labeled "illustrative record" (not a real user) — OK? (Recommendation: yes.)
-5. **Pricing display:** USD only on-page ($5.99/mo, $34.99/yr) with a "prices vary by region" line, or geo-aware? (Recommendation: USD + note.)
-6. **Scope/sequencing:** ship Phases 0–3 first (the fast, load-bearing 80%), then layer the heavy WebGL (4–6)? Or build it all before any deploy?
+1. **Direction + scope:** APPROVED. "Do what is best and fastest, no lazy work." → ship the safe load-bearing wins (cleanup, SEO infra, Android label) straight to production; build the heavy visual redesign on a preview branch and merge to production only when it is genuinely world-class.
+2. **Display typeface:** I pick the best **free** grotesque, self-hosted (no paid fonts, per the no-paid-services rule).
+3. **Testimonials:** ship with **zero** now (no fabricated quotes). → see Backlog.
+4. **Android buttons:** keep them visibly **"Coming soon"** (inert) until the Play listing ships.
+5. **Seeded numbers:** label "illustrative record" (not a real user).
+6. **Pricing display:** USD on-page ($5.99/mo, $34.99/yr) with a "prices vary by region" line.
+
+## Backlog (add later — do not forget)
+
+- [ ] **Testimonials / social proof.** Ship launch with zero. Add a real testimonials/reviews section once we have genuine, verifiable App Store reviews or user quotes (NEVER fabricate — it is AI-slop and an App Store liability). Founder asked to keep this on the list (2026-06-15).
+- [ ] Real App Store star rating + review count, pulled in once the listing has reviews.
+- [ ] Press / "as featured in" once available.
+- [ ] Android download button → real Play Store URL once the Android app is live (currently "Coming soon"; placeholder marked in `src/app/page.tsx`).
