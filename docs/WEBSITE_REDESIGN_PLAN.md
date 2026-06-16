@@ -1,6 +1,9 @@
 # awekn.com — world-class rebuild: plan of record
 
-**Status:** awaiting founder approval (plan-first). Date: 2026-06-15.
+**Status:** APPROVED + BUILT + LIVE on awekn.com (iterating). Date: 2026-06-15, updated 2026-06-16.
+
+> **CURRENT STATE (2026-06-16):** THE INSTRUMENT is built from the ground up and live in production. Shipped: the living cosmic ShaderGradient (cosmic black + indigo + a blood-red bloom + grain), a thin silver liquid wordmark, the operable LIVE SET (`LiveSet.tsx`), the scrubbable StrengthCurve, the interactive ConsistencyOrb, the 3D machined-steel SteelScene (r3f), genuine liquid-glass refraction (`LiquidGlass.tsx`) on nav/cards/pricing, GSAP power-on + Lenis + cursor-glow + scroll-linked parallax/count-ups/magnetic-CTAs/scroll-spy, pricing, the vows, the closing. **BRAND CORRECTION (founder): COSMIC = silver + black + a LITTLE blood-red `#B5384C`, NEVER gold; the wordmark is THIN not bold; emerald `#34D399` = completion only.** Mobile-first: the ShaderGradient + SteelScene create no WebGL context on phones/low-end/reduced-motion (painted/CSS posters). Components in `src/app/components/`, motion in `src/app/lib/useMotion.ts`. The founder is still iterating (wants ever heavier effects/interactivity + flawless mobile); prod is the review loop. The section/typography/palette specs below were the original plan; some details evolved during the build (the gold palette was reversed to cosmic silver + blood-red).
+
 **Method:** 3 research passes (7-repo deep-read + current-site audit + world-class benchmarks → effects + heavy-but-fast architecture → a design-council vote). Grounded in the seven founder-supplied references (`docs/DESIGN_SKILLS.md`).
 
 ---

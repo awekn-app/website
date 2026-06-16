@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# awekn.com
 
-## Getting Started
+The marketing website for **awekn** — a premium app for serious lifters (bodybuilding + powerlifting), live on the App Store. Separate repo from the mobile app (`/Users/areeb/awekn`).
 
-First, run the development server:
+Live: https://awekn.com · App Store: https://apps.apple.com/in/app/awekn-lifting-gym-log-diet/id6762414034
+
+## Stack
+
+- **Next.js 16** (App Router) + **React 19** + **TypeScript**, deployed on **Vercel** (push `main` → production; push a branch → a preview deploy).
+- **WebGL / 3D:** `three` + `@react-three/fiber` (v9) + `@shadergradient/react` (the living cosmic gradient + the 3D steel scene).
+- **Motion:** `gsap` (power-on + scroll-linked reveals) + `lenis` (smooth scroll).
+- Analytics: `@vercel/analytics` + `@vercel/speed-insights` (cookieless).
+
+## Design — "THE INSTRUMENT"
+
+A from-scratch, effect-heavy rebuild themed to awekn's **cosmic** brand: **silver + black + a little blood-red** (`#B5384C`), never gold. Emerald (`#34D399`) is reserved for set-completion only. The wordmark is thin + silver. See `docs/WEBSITE_REDESIGN_PLAN.md` and `docs/DESIGN_SKILLS.md` (the 7 design references that drive it).
+
+**Mobile-first:** the full-screen ShaderGradient and the 3D steel scene create *no WebGL context* on phones / low-end / reduced-motion devices — they drop to painted/CSS posters so a phone stays fast.
+
+Key interactive pieces (in `src/app/components/`): `LiveSet` (an operable workout set-row), `StrengthCurve` (a scrubbable e1RM chart), `ConsistencyOrb`, `SteelScene` (3D), `LiquidGlass` (real Apple-style refraction), `LiquidWordmark`, `CosmicBackground`. Motion lives in `src/app/lib/useMotion.ts`.
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build (must pass before deploy)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Routes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`/` (homepage) · `/privacy` · `/terms` · `/delete-account` · `/opengraph-image` (generated OG card).
