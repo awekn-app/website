@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
+/* Fonts are self-hosted via next/font in layout.tsx (Inter + Instrument Serif).
+   No render-blocking @import, no layout shift. Inter is the app's typeface. */
 
 /* ══════════════════════════════════════════════════════════════════
    awekn.com . app-matched "Near-Black + Emerald" (2026-06-28)
@@ -11,21 +12,21 @@
      - White #F5F5F5 primary CTA buttons with near-black ink
      - Gold #E0B054 reserved for a PR moment only (none on the site yet)
      - NO red, NO purple, NO warm-gold surfaces (the prior identity, removed)
-     - Space Grotesk / Inter display, Instrument Serif italic for emphasis,
-       JetBrains Mono for every numeral. Glassmorphism cards.
+     - Inter display + body (the app typeface), Instrument Serif italic for
+       emphasis, Inter tabular-nums for every numeral. Glassmorphism cards.
      - Luxury through restraint, not voids
    ══════════════════════════════════════════════════════════════════ */
 
 :root {
-  --bg: #0B0B0D;               /* near-black canvas, app-true (was pure #000 + color fog) */
+  --bg: #0C0C0C;               /* near-black canvas, EXACT app dark (constants/colors.ts) */
   --bg-deep: #070709;
   --bg-soft: #0C0D12;          /* used only for radial gradient stops */
   --surface: rgba(255, 255, 255, 0.03);
   --surface-raised: rgba(255, 255, 255, 0.05);
 
-  --text: #F5F5F5;
-  --text-dim: #8E8E93;
-  --text-faint: #5A5A5E;
+  --text: #D6D6D6;             /* app body silver (constants/colors.ts dark.text #D4D4D4) */
+  --text-dim: #8E8E93;         /* app secondary gray */
+  --text-faint: #545458;       /* app tertiary */
   --white: #FFFFFF;
 
   /* Accent system — silver/white only. NO color accents. */
@@ -36,9 +37,9 @@
   --border: rgba(255, 255, 255, 0.10);
   --hairline: rgba(255, 255, 255, 0.06);
 
-  /* Bloom — the signature of the brand */
-  --glow-outer: rgba(255, 255, 255, 0.08);
-  --glow-mid:   rgba(255, 255, 255, 0.20);
+  /* Bloom — the brand signature (app DESIGN_LANGUAGE 3-layer white text-shadow) */
+  --glow-outer: rgba(255, 255, 255, 0.10);
+  --glow-mid:   rgba(255, 255, 255, 0.22);
   --glow-core:  rgba(255, 255, 255, 0.45);
 
   --max-wide: 1640px;
@@ -51,9 +52,9 @@
      Legacy token names below (--gold/--blood) now resolve to emerald;
      --champagne/--silver are the cosmic silver. */
   --void: #000000;            /* canvas */
-  --bg-cosmic: #05060f;       /* ShaderGradient base */
+  --bg-cosmic: #0A0A0C;       /* neutral near-black cosmic base (de-blued) */
   --surface-warm: #0a0a12;    /* cosmic card surface (de-warmed) */
-  --indigo: #171448;          /* cosmic bloom */
+  --indigo: #14141A;          /* neutral cosmic depth (de-indigo'd to match the app) */
   /* APP-MATCH 2026-06-28: the site now matches the app - near-black + cosmic
      silver display + EMERALD (#34D399) as the ONE accent (the app's signature
      signal: consistency, completion, streak, the green online dot). No red, no
@@ -66,36 +67,85 @@
   --emerald: #34D399;         /* the app's signature signal - now the primary accent */
   --blood: #34D399;           /* emerald alias (token name kept for stability) */
   --blood-deep: #0F7A56;      /* deep emerald in the cosmic gradient */
+  --emerald-deep: #27B384;    /* deep emerald, gradient start (app home mockup v4) */
+  --emerald-bright: #3EE0A6;  /* bright emerald, gradient end */
+  --amber: #E0B054;           /* app warning/"behind" warm signal - the rare second accent */
   --silver: #E9EAF0;
   --silver-dim: #9A9BA6;
-  --cta: #F5F5F5;             /* white primary CTA fill (matches the app primary button) */
-  --cta-ink: #0B0B0D;         /* near-black ink on the white CTA */
+  --cta: #F5F5F5;             /* white primary CTA fill (app dark.primary #FFFFFF) */
+  --cta-ink: #0C0C0C;         /* near-black ink on the white CTA */
 
   --ease-emphatic: cubic-bezier(0.16, 1, 0.3, 1);  /* the "last rep grind" deceleration */
 
-  /* type roles (next/font sets --font-display/-serif/-mono on <html>) */
-  --font-sans: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  /* type roles (next/font sets --font-display/-serif on <html>). Inter is the
+     app's typeface; numerals are Inter with tabular-nums (the app never uses a
+     mono - every number is Inter tabular). */
+  --font-sans: var(--font-display), "Inter", system-ui, sans-serif;
   --font-editorial: var(--font-serif), "Instrument Serif", Georgia, serif;
-  --font-numeral: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+  --font-numeral: var(--font-display), "Inter", system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 *::selection { background: rgba(52, 211, 153, 0.28); color: #fff; }
 
-/* ───────── THE INSTRUMENT cosmic field + grain (2026-06-15) ─────────
-   A living 3D ShaderGradient (CosmicBackground.tsx) sits at z-index -2 over
-   this CSS fallback at -3, with an animated film-grain overlay at +60. The
-   dark cosmic gradient shows through every transparent section. */
+/* ───────── awekn atmosphere: depth from light, not color ─────────
+   The painted .bg-fallback field sits at z -3 (always on, all devices). On
+   wide / non-reduced-motion devices CosmicBackground.tsx mounts the drifting
+   .cosmic-aurora light layer at z -2 (additive white + one emerald breath),
+   with an animated film-grain overlay at +60. Matches the app's CosmicBackground
+   ambient (a warm near-white pool of light on near-black). */
 .bg-fallback {
   position: fixed;
   inset: 0;
   z-index: -3;
+  /* The app's atmosphere = DEPTH FROM LIGHT, never color fog (CosmicBackground
+     ambient): an additive, off-center, warm near-white "pool of light" behind
+     the hero, one faint emerald breath (the app's single chroma, as light not a
+     halo), and a near-black canvas floor. A colored halo on near-black reads as
+     a dark hole, so every glow is additive white/emerald, never a tinted blob. */
   background:
-    radial-gradient(130% 120% at 22% 86%, rgba(52, 211, 153, 0.10), transparent 52%),
-    radial-gradient(120% 120% at 82% 8%, rgba(44, 56, 74, 0.28), transparent 56%),
-    radial-gradient(140% 140% at 50% 50%, #0c0d12 0%, #070709 72%);
+    radial-gradient(58% 48% at 34% 4%, rgba(255, 246, 238, 0.075), rgba(255, 255, 255, 0.022) 48%, transparent 78%),
+    radial-gradient(52% 46% at 84% 12%, rgba(255, 255, 255, 0.035), transparent 70%),
+    radial-gradient(56% 48% at 16% 96%, rgba(52, 211, 153, 0.05), transparent 64%),
+    radial-gradient(150% 130% at 50% 28%, #101013 0%, #0C0C0C 58%, #070709 100%);
 }
 .bg-gl { will-change: transform; }
+
+/* ───────── COSMIC AURORA — the living "pool of light" (desktop, capable) ─────
+   CosmicBackground.tsx mounts this on wide, non-reduced-motion devices instead
+   of a WebGL canvas: a few additive light blobs that drift slowly over the
+   near-black, screen-blended so they only ever ADD light (the app's depth-from-
+   light law). Pure transform/opacity, GPU-cheap, mobile gets the static field. */
+.cosmic-aurora { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
+.cosmic-aurora i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: blur(72px);
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+.cosmic-aurora .a1 {
+  width: 52vw; height: 52vw; left: 4%; top: -10%;
+  background: radial-gradient(circle, rgba(255, 246, 238, 0.10), transparent 66%);
+  animation: auroraDrift1 28s var(--ease-out) infinite alternate;
+}
+.cosmic-aurora .a2 {
+  width: 44vw; height: 44vw; right: 0%; top: 6%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.06), transparent 64%);
+  animation: auroraDrift2 34s var(--ease-out) infinite alternate;
+}
+.cosmic-aurora .a3 {
+  width: 48vw; height: 48vw; left: 8%; bottom: -16%;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.06), transparent 62%);
+  animation: auroraDrift3 40s var(--ease-out) infinite alternate;
+}
+@keyframes auroraDrift1 { from { transform: translate3d(0,0,0); } to { transform: translate3d(7%, 5%, 0); } }
+@keyframes auroraDrift2 { from { transform: translate3d(0,0,0); } to { transform: translate3d(-6%, 7%, 0); } }
+@keyframes auroraDrift3 { from { transform: translate3d(0,0,0); } to { transform: translate3d(9%, -5%, 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-aurora i { animation: none; }
+}
 .grain {
   position: fixed;
   inset: -6%;
@@ -320,7 +370,7 @@ section, nav, footer, header { max-width: 100%; }
   background: radial-gradient(
     circle at center,
     rgba(233, 234, 240, 0.09) 0%,
-    rgba(52, 211, 153, 0.05) 40%,
+    rgba(233, 234, 240, 0.03) 40%,
     transparent 70%
   );
 }
@@ -503,10 +553,10 @@ section, nav, footer, header { max-width: 100%; }
 }
 .ix-display {
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 400;                 /* app heroes are light Inter, never heavy */
   font-size: clamp(38px, 6vw, 72px);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  line-height: 1.04;
+  letter-spacing: -0.012em;         /* near-zero; the app bans aggressive negative tracking */
   color: var(--champagne);
   text-transform: lowercase;
   text-shadow: 0 0 60px rgba(233, 234, 240, 0.08);

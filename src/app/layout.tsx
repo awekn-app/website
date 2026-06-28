@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Inter, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
-// THE INSTRUMENT type system (self-hosted via next/font = zero layout shift, no
-// render-blocking @import). Display grotesque-with-character + the loved Instrument
-// Serif italic for signature words + a mono for every numeral/stat (the readout edge).
-const display = Space_Grotesk({
+// Type system, self-hosted via next/font (zero layout shift, no render-blocking
+// @import). Inter is THE app typeface (constants/colors.ts + the app's whole UI),
+// at light weights, with the loved Instrument Serif italic for signature words.
+// Every numeral is Inter with tabular-nums (the app never uses a mono).
+const display = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-display",
@@ -18,12 +19,6 @@ const serif = Instrument_Serif({
   weight: "400",
   style: ["normal", "italic"],
   variable: "--font-serif",
-  display: "swap",
-});
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-mono",
   display: "swap",
 });
 
@@ -61,7 +56,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0B0D",
+  themeColor: "#0C0C0C",
   colorScheme: "dark",
 };
 
@@ -91,7 +86,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${display.variable} ${serif.variable} ${mono.variable}`}>
+    <html lang="en" className={`${display.variable} ${serif.variable}`}>
       <head>
         <script
           type="application/ld+json"

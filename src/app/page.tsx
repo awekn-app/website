@@ -9,10 +9,10 @@ import ConsistencyOrb from './components/ConsistencyOrb';
 import LiquidGlass from './components/LiquidGlass';
 import { useMotion } from './lib/useMotion';
 
-// The living cosmic ShaderGradient is client-only WebGL; load it after paint so
-// the CSS fallback gradient + the content show instantly, then (on capable
-// desktops only) the shader streams in. It self-gates to a static field on
-// phones / low-end / reduced-motion devices.
+// The living "pool of light" aurora (additive white + one emerald breath) is
+// client-only and loads after paint, so the painted .bg-fallback field + the
+// content show instantly. Pure CSS drift (no WebGL); self-gates to the static
+// field on phones / reduced-motion. Mirrors the app's CosmicBackground ambient.
 const CosmicBackground = dynamic(() => import('./components/CosmicBackground'), {
   ssr: false,
 });

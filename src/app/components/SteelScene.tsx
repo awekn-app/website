@@ -43,7 +43,7 @@ const SILVER = "#E9EAF0";
 const GUNMETAL = "#3a3d47";
 // the single brand rim accent on the steel — emerald (app-match), kept subtle
 const BLOOD = "#34D399";
-const VOID = "#05060f";
+const VOID = "#0A0A0C"; // neutral near-black stage (app-true; was bluish #05060f)
 
 /* ── capability gate ────────────────────────────────────────────────────
    Decide ONCE, client-side, whether this device should get live steel or
@@ -182,11 +182,12 @@ function useSteelEnv(): THREE.Texture | null {
     let texture: THREE.Texture | null = null;
 
     if (ctx) {
-      // vertical cosmic gradient: cold silver sky -> indigo -> void floor
+      // vertical reflection gradient: cold silver sky -> neutral charcoal -> void
+      // floor (de-indigo'd; the steel now reflects a neutral cosmic field, app-true)
       const g = ctx.createLinearGradient(0, 0, 0, H);
       g.addColorStop(0, "#c7c9d6"); // bright sky (the key reflection)
       g.addColorStop(0.42, "#5b5f73");
-      g.addColorStop(0.62, "#171448"); // indigo bloom
+      g.addColorStop(0.62, "#15161c"); // neutral cosmic depth (was indigo #171448)
       g.addColorStop(1, VOID);
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
