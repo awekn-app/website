@@ -1,28 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
 
 /* ══════════════════════════════════════════════════════════════════
-   awekn.com . premium minimalist "Cosmic Dark"
+   awekn.com . app-matched "Near-Black + Emerald" (2026-06-28)
    ══════════════════════════════════════════════════════════════════
-   Locked design constraints:
-     - Pure pitch black (#000) background
-     - Off-white text (#F5F5F5) primary
-     - Silver / muted gray (#8E8E93) secondary
-     - NO GREEN. NO RED. NO ORANGE. Every accent is silver / white / soft bloom.
-     - All big type uses Inter weight 200 + tracking — same family +
-       weight as the closing wordmark — across hero, sections, manifesto,
-       mode titles, legal title. Italic Instrument Serif (.serif) for
-       inline emphasis spans only.
-     - Inter for body
-     - Soft white text-shadow bloom on logos + key CTAs
-     - Bezel-less screenshots that "sink" into black with inner shadow
-     - Glassmorphism cards (rgba white .03 + 10-20px blur + .10 border)
-     - Spacing kept on the original compact rhythm — luxury through restraint, not voids
+   Design identity (matches the iOS app, constants/colors.ts):
+     - Near-black #0B0B0D canvas (not pure black, not colored fog)
+     - Cosmic silver #E9EAF0 display text, white bloom on big type
+     - EMERALD #34D399 is the ONE accent: active rings, dots, the scroll
+       bar, hovers, completion + streak signals (the app's signature green)
+     - White #F5F5F5 primary CTA buttons with near-black ink
+     - Gold #E0B054 reserved for a PR moment only (none on the site yet)
+     - NO red, NO purple, NO warm-gold surfaces (the prior identity, removed)
+     - Space Grotesk / Inter display, Instrument Serif italic for emphasis,
+       JetBrains Mono for every numeral. Glassmorphism cards.
+     - Luxury through restraint, not voids
    ══════════════════════════════════════════════════════════════════ */
 
 :root {
-  --bg: #000000;
-  --bg-deep: #000000;
-  --bg-soft: #0A0A0A;          /* used only for radial gradient stops */
+  --bg: #0B0B0D;               /* near-black canvas, app-true (was pure #000 + color fog) */
+  --bg-deep: #070709;
+  --bg-soft: #0C0D12;          /* used only for radial gradient stops */
   --surface: rgba(255, 255, 255, 0.03);
   --surface-raised: rgba(255, 255, 255, 0.05);
 
@@ -48,24 +45,31 @@
   --max-reading: 760px;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
-  /* ───────── THE INSTRUMENT tokens (2026-06-15 redesign) ─────────
-     Grounded in the app's REAL Obsidian Gold theme (constants/colors.ts).
-     Gold is rare typographic punctuation; emerald is an EARNED signal
-     fired only on completion/PR, never as a second accent. */
+  /* ───────── THE INSTRUMENT tokens ─────────
+     App-matched palette: near-black canvas, cosmic silver display, and
+     EMERALD as the single accent (active states, signals, completion).
+     Legacy token names below (--gold/--blood) now resolve to emerald;
+     --champagne/--silver are the cosmic silver. */
   --void: #000000;            /* canvas */
   --bg-cosmic: #05060f;       /* ShaderGradient base */
   --surface-warm: #0a0a12;    /* cosmic card surface (de-warmed) */
   --indigo: #171448;          /* cosmic bloom */
-  /* DE-YELLOWED 2026-06-16: awekn is COSMIC - silver / black, with a LITTLE
-     blood-red (igasm-inspired). NOT gold. Token names kept for stability. */
-  --champagne: #E9EAF0;       /* COSMIC SILVER - the main instrument text */
-  --gold: #B5384C;            /* BLOOD RED - the rare accent: CTA bg + active border only */
+  /* APP-MATCH 2026-06-28: the site now matches the app - near-black + cosmic
+     silver display + EMERALD (#34D399) as the ONE accent (the app's signature
+     signal: consistency, completion, streak, the green online dot). No red, no
+     gold. Token names (--gold/--blood) are kept for stability; they now resolve
+     to emerald, so every former red accent is emerald automatically. Primary
+     CTAs are white (--cta), matching the app's white primary button. */
+  --champagne: #E9EAF0;       /* COSMIC SILVER - the main instrument text/display */
+  --gold: #34D399;            /* EMERALD - THE accent: active rings, signals, dots */
   --gold-dim: #9A9BA6;        /* dim cosmic silver */
-  --emerald: #34D399;         /* EARNED completion/PR signal, held in reserve */
-  --blood: #B5384C;           /* blood-red alias */
-  --blood-deep: #7d1f33;      /* deep blood-red in the cosmic gradient */
+  --emerald: #34D399;         /* the app's signature signal - now the primary accent */
+  --blood: #34D399;           /* emerald alias (token name kept for stability) */
+  --blood-deep: #0F7A56;      /* deep emerald in the cosmic gradient */
   --silver: #E9EAF0;
   --silver-dim: #9A9BA6;
+  --cta: #F5F5F5;             /* white primary CTA fill (matches the app primary button) */
+  --cta-ink: #0B0B0D;         /* near-black ink on the white CTA */
 
   --ease-emphatic: cubic-bezier(0.16, 1, 0.3, 1);  /* the "last rep grind" deceleration */
 
@@ -76,7 +80,7 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-*::selection { background: rgba(181, 56, 76, 0.30); color: #fff; }
+*::selection { background: rgba(52, 211, 153, 0.28); color: #fff; }
 
 /* ───────── THE INSTRUMENT cosmic field + grain (2026-06-15) ─────────
    A living 3D ShaderGradient (CosmicBackground.tsx) sits at z-index -2 over
@@ -87,9 +91,9 @@
   inset: 0;
   z-index: -3;
   background:
-    radial-gradient(130% 120% at 24% 88%, rgba(150, 30, 52, 0.30), transparent 50%),
-    radial-gradient(120% 120% at 82% 10%, rgba(40, 26, 78, 0.40), transparent 56%),
-    radial-gradient(140% 140% at 50% 50%, #0a0712 0%, #04040a 72%);
+    radial-gradient(130% 120% at 22% 86%, rgba(52, 211, 153, 0.10), transparent 52%),
+    radial-gradient(120% 120% at 82% 8%, rgba(44, 56, 74, 0.28), transparent 56%),
+    radial-gradient(140% 140% at 50% 50%, #0c0d12 0%, #070709 72%);
 }
 .bg-gl { will-change: transform; }
 .grain {
@@ -257,7 +261,7 @@ section, nav, footer, header { max-width: 100%; }
    The legacy .nav / .nav-* (legal pages) + .legal-* live below, untouched.
    ══════════════════════════════════════════════════════════════════ */
 
-/* shared layout tokens — DE-YELLOWED to cosmic silver (2026-06-16) */
+/* shared layout tokens (cosmic silver + emerald accent) */
 :root {
   --ix-max: 1200px;
   --ix-gutter: 40px;
@@ -267,7 +271,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   SCROLL PROGRESS — a hairline blood-red bar across the very top, scaled
+   SCROLL PROGRESS — a hairline emerald bar across the very top, scaled
    0 -> 1 by useMotion as you read down the page. Pure transform (scaleX),
    GPU-cheap, hidden under reduced-motion (it would never move).
    ───────────────────────────────────────────────────────────────── */
@@ -289,11 +293,11 @@ section, nav, footer, header { max-width: 100%; }
   transform-origin: left center;
   background: linear-gradient(
     90deg,
-    rgba(181, 56, 76, 0.35) 0%,
-    var(--blood) 60%,
-    #d9536a 100%
+    rgba(52, 211, 153, 0.35) 0%,
+    var(--emerald) 60%,
+    #6EE7B7 100%
   );
-  box-shadow: 0 0 12px rgba(181, 56, 76, 0.5);
+  box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
   will-change: transform;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -316,7 +320,7 @@ section, nav, footer, header { max-width: 100%; }
   background: radial-gradient(
     circle at center,
     rgba(233, 234, 240, 0.09) 0%,
-    rgba(181, 56, 76, 0.05) 40%,
+    rgba(52, 211, 153, 0.05) 40%,
     transparent 70%
   );
 }
@@ -404,7 +408,7 @@ section, nav, footer, header { max-width: 100%; }
   outline: none;
   color: var(--champagne);
 }
-/* scroll-spy: the section in view glows + lights a blood-red underline */
+/* scroll-spy: the section in view glows + lights a emerald underline */
 .ix-nav-index a.is-active {
   color: var(--champagne);
 }
@@ -446,17 +450,17 @@ section, nav, footer, header { max-width: 100%; }
   align-items: center;
   padding: 9px 18px;
   border-radius: 100px;
-  background: var(--gold);
-  color: #FCEEF0;
+  background: var(--cta);
+  color: var(--cta-ink);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.1px;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 0 22px rgba(181, 56, 76, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 22px rgba(245, 245, 245, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   transition: transform 0.2s var(--ease-out), box-shadow 0.22s var(--ease-out);
 }
-.ix-nav-cta:hover { box-shadow: 0 0 36px rgba(181, 56, 76, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.28); }
+.ix-nav-cta:hover { box-shadow: 0 0 34px rgba(245, 245, 245, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6); }
 .ix-nav-cta:active { transform: scale(0.97); }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -538,12 +542,12 @@ section, nav, footer, header { max-width: 100%; }
 }
 .ix-btn:active { transform: scale(0.97); }
 .ix-btn-gold {
-  background: var(--gold);
-  color: #FCEEF0;
-  box-shadow: 0 0 30px rgba(181, 56, 76, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  background: var(--cta);
+  color: var(--cta-ink);
+  box-shadow: 0 0 28px rgba(245, 245, 245, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 .ix-btn-gold:hover {
-  box-shadow: 0 0 48px rgba(181, 56, 76, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  box-shadow: 0 0 44px rgba(245, 245, 245, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 .ix-btn-ghost {
   background: rgba(233, 234, 240, 0.04);
@@ -778,10 +782,10 @@ section, nav, footer, header { max-width: 100%; }
   background: radial-gradient(120% 90% at 50% -10%, rgba(233, 234, 240, 0.06), transparent 60%);
 }
 /* BB leans a touch warmer (silver bloom, slightly brighter). PL stays austere.
-   Differentiated by weight, never a chromatic flood. A whisper of blood-red on
+   Differentiated by weight, never a chromatic flood. A whisper of emerald on
    BB's bloom keeps the cosmic accent present without washing the card. */
 .ix-card-bb > [class*='content']::before {
-  background: radial-gradient(120% 90% at 50% -10%, rgba(181, 56, 76, 0.10), transparent 62%);
+  background: radial-gradient(120% 90% at 50% -10%, rgba(52, 211, 153, 0.10), transparent 62%);
 }
 .ix-card-pl > [class*='content']::before {
   background: radial-gradient(120% 90% at 50% -10%, rgba(233, 234, 240, 0.035), transparent 60%);
@@ -801,12 +805,12 @@ section, nav, footer, header { max-width: 100%; }
   border: 1px solid var(--glass-border);
   background: rgba(233, 234, 240, 0.04);
 }
-/* BB gets the rare blood-red tag (the one chromatic punctuation on the pair);
+/* BB gets the rare emerald tag (the one chromatic punctuation on the pair);
    PL stays bare silver hairline, austere by design. */
 .ix-card-bb .ix-card-tag {
-  color: #F4C3CC;
-  border-color: rgba(181, 56, 76, 0.45);
-  background: rgba(181, 56, 76, 0.12);
+  color: #A7F3D0;
+  border-color: rgba(52, 211, 153, 0.42);
+  background: rgba(52, 211, 153, 0.12);
 }
 .ix-card-title {
   position: relative;
@@ -946,7 +950,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   PRICING — centered head, two cards, annual pre-selected (blood-red ring)
+   PRICING — centered head, two cards, annual pre-selected (emerald ring)
    ───────────────────────────────────────────────────────────────── */
 .ix-pricing { text-align: center; }
 .ix-pricing-head { max-width: 620px; margin: 0 auto 52px; }
@@ -962,7 +966,7 @@ section, nav, footer, header { max-width: 100%; }
   text-align: left;
 }
 /* .ix-price IS a <LiquidGlass> root. The flex column lives on the content span.
-   The annual card adds the blood-red active ring on top of the glass shadow. */
+   The annual card adds the emerald active ring on top of the glass shadow. */
 .ix-price {
   transition: transform 0.4s var(--ease-emphatic), box-shadow 0.4s var(--ease-emphatic);
   will-change: transform;
@@ -979,9 +983,9 @@ section, nav, footer, header { max-width: 100%; }
 .ix-price-active {
   box-shadow:
     inset 0 1px 0 0 rgba(233, 234, 240, 0.2),
-    0 0 0 1px rgba(181, 56, 76, 0.45),
+    0 0 0 1px rgba(52, 211, 153, 0.45),
     0 30px 70px rgba(0, 0, 0, 0.5),
-    0 0 50px rgba(181, 56, 76, 0.14) !important;
+    0 0 50px rgba(52, 211, 153, 0.14) !important;
 }
 .ix-price-head {
   display: flex;
@@ -1002,7 +1006,7 @@ section, nav, footer, header { max-width: 100%; }
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #FCEEF0;
+  color: #04130D;
   background: var(--gold);
   padding: 4px 9px;
   border-radius: 100px;

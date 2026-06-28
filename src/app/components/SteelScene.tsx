@@ -19,7 +19,8 @@ import * as THREE from "three";
    A real r3f scene: a torus of gunmetal steel (MeshStandardMaterial,
    metalness ~1, low roughness) lit by a procedurally-baked PMREM
    environment so its reflections read as a cold cosmic studio with a
-   single faint blood-red rim light. It turns slowly on its own and leans
+   single faint emerald rim light (the app's signature accent). It turns
+   slowly on its own and leans
    a touch toward the pointer; scroll nudges it. The iron, idling.
 
    MOBILE LAW (most users are on a phone):
@@ -40,7 +41,8 @@ import * as THREE from "three";
 
 const SILVER = "#E9EAF0";
 const GUNMETAL = "#3a3d47";
-const BLOOD = "#b5384c";
+// the single brand rim accent on the steel — emerald (app-match), kept subtle
+const BLOOD = "#34D399";
 const VOID = "#05060f";
 
 /* ── capability gate ────────────────────────────────────────────────────
@@ -160,7 +162,7 @@ function usePointerDrive() {
    We bake a tiny gradient scene into a PMREM cube so the steel has real,
    physically-plausible reflections WITHOUT pulling an example HDRI or any
    drei dependency. Top-down cold silver light, a near-black cosmic floor,
-   and one blood-red panel that becomes the rim highlight on the ring.
+   and one emerald panel that becomes the rim highlight on the ring.
    Built once, disposed on unmount. */
 function useSteelEnv(): THREE.Texture | null {
   const { gl } = useThree();
@@ -189,7 +191,7 @@ function useSteelEnv(): THREE.Texture | null {
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
 
-      // one soft blood-red rim panel low on the side -> the red edge light
+      // one soft emerald rim panel low on the side -> the emerald edge light
       const rim = ctx.createRadialGradient(
         W * 0.82,
         H * 0.66,
@@ -198,8 +200,8 @@ function useSteelEnv(): THREE.Texture | null {
         H * 0.66,
         W * 0.4,
       );
-      rim.addColorStop(0, "rgba(181,56,76,0.85)");
-      rim.addColorStop(1, "rgba(181,56,76,0)");
+      rim.addColorStop(0, "rgba(52,211,153,0.7)");
+      rim.addColorStop(1, "rgba(52,211,153,0)");
       ctx.fillStyle = rim;
       ctx.fillRect(0, 0, W, H);
 
@@ -340,14 +342,14 @@ function SteelRing({
 
 /* ── lights ──────────────────────────────────────────────────────────────
    The PMREM env does most of the work; these just shape the form and add
-   the single blood-red rim accent the brand calls for. */
+   the single emerald rim accent the brand calls for. */
 function Rig() {
   return (
     <>
       <ambientLight intensity={0.25} />
       <directionalLight position={[3, 4, 5]} intensity={1.1} color={SILVER} />
-      {/* the rare blood-red rim, from below-behind */}
-      <pointLight position={[-3, -2, -2]} intensity={2.2} color={BLOOD} />
+      {/* the rare emerald rim, from below-behind — subtle brand catch-light */}
+      <pointLight position={[-3, -2, -2]} intensity={1.3} color={BLOOD} />
     </>
   );
 }
@@ -418,7 +420,7 @@ const LazySteelCanvas = dynamic(() => Promise.resolve(SteelCanvas), {
 
 /* ── the static metallic poster ─────────────────────────────────────────
    Pure CSS/SVG. A conic gunmetal sweep with a silver specular streak and a
-   faint blood-red rim — the same ring, frozen. NO WebGL: this is what
+   faint emerald rim, the same ring, frozen. NO WebGL: this is what
    phones, reduced-motion, and low-end devices get, so we never open a
    second GL context or drain a battery. */
 export function SteelPoster() {
@@ -455,8 +457,8 @@ export function SteelPoster() {
             <stop offset="100%" stopColor="rgba(233,234,240,0)" />
           </linearGradient>
           <radialGradient id="steel-poster-rim" cx="74%" cy="76%" r="55%">
-            <stop offset="0%" stopColor="rgba(181,56,76,0.9)" />
-            <stop offset="100%" stopColor="rgba(181,56,76,0)" />
+            <stop offset="0%" stopColor="rgba(52,211,153,0.75)" />
+            <stop offset="100%" stopColor="rgba(52,211,153,0)" />
           </radialGradient>
           <mask id="steel-poster-ring">
             <rect width="400" height="400" fill="black" />
@@ -478,7 +480,7 @@ export function SteelPoster() {
             transform="rotate(-24 200 200)"
             opacity="0.85"
           />
-          {/* blood-red rim accent */}
+          {/* emerald rim accent */}
           <circle cx="200" cy="200" r="150" fill="url(#steel-poster-rim)" />
         </g>
 

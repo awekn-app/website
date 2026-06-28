@@ -13,7 +13,7 @@
   position: relative;
   isolation: isolate;
 }
-/* the cosmic halo behind the card — lit from within, a whisper of blood-red */
+/* the cosmic halo behind the card — lit from within, a whisper of emerald */
 .shell::before {
   content: "";
   position: absolute;

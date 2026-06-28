@@ -84,8 +84,8 @@ function useCosmicLive(): { ready: boolean; live: boolean } {
 
 /**
  * THE INSTRUMENT cosmic field. A real 3D animated gradient (ShaderGradient /
- * react-three-fiber), tuned to awekn's dark cosmic palette: near-black void ->
- * deep indigo bloom -> a faint blood-red ember. The CSS .bg-fallback sits
+ * react-three-fiber), tuned to awekn's app-matched palette: near-black void ->
+ * deep emerald-black bloom -> a faint emerald glow. The CSS .bg-fallback sits
  * behind it (and stands in entirely on phones / reduced-motion / low-end
  * devices), so the field shows instantly and never blocks first paint.
  */
@@ -122,9 +122,9 @@ export default function CosmicBackground() {
             uDensity={1.4}
             uFrequency={5.5}
             uAmplitude={0}
-            color1="#06060e"
-            color2="#2a1030"
-            color3="#7d1f33"
+            color1="#05070b"
+            color2="#0a1a16"
+            color3="#0f3a2c"
             grain="on"
             reflection={0.1}
             brightness={1.0}
