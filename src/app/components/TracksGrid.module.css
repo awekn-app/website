@@ -1,0 +1,236 @@
+/* ════════════════════════════════════════════════════════════════════════
+   THE BREADTH - styles for the all-in-one tracks grid.
+
+   A responsive bento of the things awekn tracks. Each cell is a silver glass
+   card (--glass-* + a hairline) with a drawn inline-SVG glyph, a lowercase
+   title and a one-line sub. Black + silver + cosmic only: NO emerald, NO
+   color. Hover lift (translateY + a brighter hairline) is pointer:fine only.
+   A quiet entrance stagger rides in on transform/opacity. Reduced motion snaps.
+
+   GRID BREAKPOINTS:
+     - wide (default)   : 3 columns (a true bento, two cells span 2)
+     - <= 880px         : 2 columns (the spans relax to a clean 2-up rhythm)
+     - <= 540px         : 1 column (everything stacks, full-width cards)
+   ════════════════════════════════════════════════════════════════════════ */
+
+.shell {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  isolation: isolate;
+}
+/* a soft cosmic pool behind the whole grid so it reads as lit from within */
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: -8% -6% -12%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 64% 54% at 50% 30%,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(233, 234, 240, 0.035) 46%,
+    transparent 74%
+  );
+  pointer-events: none;
+}
+
+/* ── the bento grid ──
+   3 cols by default. Two feature cells span two columns so the grid breathes
+   with an intentional, non-uniform rhythm (never nine identical boxes). */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+/* the two wide feature cells (workouts + powerlifting bookend the set) */
+.cellWide { grid-column: span 2; }
+
+/* ── a single track card: silver glass + hairline + double bezel ── */
+.cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 168px;
+  padding: 24px 24px 22px;
+  border-radius: 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 0 rgba(233, 234, 240, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 24px 54px rgba(0, 0, 0, 0.42);
+  overflow: hidden;
+  /* entrance: rests offset, useReveal flips data-shown to ride it in */
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.7s var(--ease-emphatic),
+    transform 0.7s var(--ease-emphatic),
+    border-color 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
+  transition-delay: var(--enter-delay, 0ms);
+  will-change: transform, opacity;
+}
+.cell[data-shown="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* a faint top-edge bloom so each card catches the cosmic light */
+.cell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    130% 90% at 50% -12%,
+    rgba(233, 234, 240, 0.07),
+    transparent 58%
+  );
+}
+/* the wide feature cells lean a hair brighter (more light, never more color) */
+.cellWide::before {
+  background: radial-gradient(
+    130% 90% at 50% -12%,
+    rgba(233, 234, 240, 0.1),
+    transparent 60%
+  );
+}
+
+/* hover lift - pointer:fine only, so touch scroll is never fought */
+@media (hover: hover) and (pointer: fine) {
+  .cell:hover {
+    transform: translateY(-5px);
+    border-color: rgba(233, 234, 240, 0.26);
+    box-shadow:
+      inset 0 1px 0 0 rgba(233, 234, 240, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+      0 34px 72px rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(255, 255, 255, 0.05);
+  }
+  /* keep the entrance-resting cells from "hovering" before they arrive */
+  .cell[data-shown="false"]:hover { transform: translateY(20px); }
+  /* the glyph brightens a touch on hover - light, not color */
+  .cell:hover .glyph { color: var(--champagne); }
+  .cell:hover .glyphTile {
+    border-color: rgba(233, 234, 240, 0.24);
+    background: rgba(233, 234, 240, 0.06);
+  }
+}
+
+/* ── the glyph tile: a small silver-glass square holding the line-art ── */
+.glyphTile {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(233, 234, 240, 0.035);
+  border: 1px solid rgba(233, 234, 240, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    background-color 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out);
+}
+.glyph {
+  display: block;
+  color: var(--gold-dim);
+  transition: color 0.4s var(--ease-out);
+}
+/* silver line-art: every stroke inherits currentColor, no fills */
+.glyph path,
+.glyph line,
+.glyph circle,
+.glyph rect,
+.glyph polyline,
+.glyph polygon {
+  vector-effect: non-scaling-stroke;
+}
+
+/* ── the text block ── */
+.copy {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.title {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  line-height: 1.12;
+  color: var(--champagne);
+  text-transform: lowercase;
+}
+.sub {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.1px;
+  color: var(--gold-dim);
+}
+/* the wide cells get a touch more room for their longer sub */
+.cellWide .title { font-size: 19px; }
+
+/* honest caption under the grid */
+.caption {
+  margin-top: 20px;
+  font-family: var(--font-numeral);
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: lowercase;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+/* ── 880px : two columns. The wide spans relax to a clean 2-up so the grid
+   never leaves a lonely orphan cell. ── */
+@media (max-width: 880px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .cellWide { grid-column: span 2; }
+  .cell { min-height: 152px; padding: 22px 22px 20px; }
+}
+
+/* ── 540px : one column. Everything stacks full-width, spans collapse. ── */
+@media (max-width: 540px) {
+  .grid { grid-template-columns: 1fr; gap: 12px; }
+  .cellWide { grid-column: span 1; }
+  .cell {
+    min-height: 0;
+    padding: 20px 20px 18px;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+  }
+  /* on phones the copy sits beside the glyph (no auto-push), a tidy list row */
+  .copy { margin-top: 0; }
+  .glyphTile { width: 44px; height: 44px; }
+  .title { font-size: 17px; }
+  .cellWide .title { font-size: 17px; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION - no stagger, no lift. Cards rest fully visible.
+   ════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .cell {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: border-color 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  }
+  .cell[data-shown="false"]:hover,
+  .cell:hover { transform: none; }
+  .glyphTile, .glyph { transition: none; }
+}

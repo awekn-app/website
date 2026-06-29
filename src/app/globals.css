@@ -907,53 +907,31 @@ section, nav, footer, header { max-width: 100%; }
 .ix-card-bb .ix-card-list li::before { background: var(--gold); }
 
 /* ─────────────────────────────────────────────────────────────────
-   THE STEEL - a dedicated 3D moment (machined steel ring). A full-bleed
-   band that breaks the card rhythm: the live ring (or its CSS poster on
-   phones / low-end) idles behind an austere two-line caption.
+   THE YEAR - the 365-day training heatmap. A full-bleed band that breaks
+   the card rhythm: an austere two-line caption above the live silver grid
+   (cells sweep in left-to-right; hover / focus / tap reads a day). The grid
+   self-scrolls sideways on narrow screens, so the band never breaks the page.
    ───────────────────────────────────────────────────────────────── */
-.ix-steel-band {
+.ix-year-band {
   position: relative;
   z-index: 1;
   width: 100%;
-  min-height: clamp(420px, 58vh, 640px);
   margin: 40px 0;
+  padding: 24px 0 8px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  gap: 36px;
 }
-/* the GL/poster host: SteelScene fills it (position:absolute inset:0) */
-.ix-steel-stage {
-  position: absolute;
-  inset: 0;
-  /* let the ring breathe inside the band without spilling into neighbours */
-  z-index: 0;
-}
-/* a soft top + bottom fade so the band dissolves into the cosmic field */
-.ix-steel-band::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    var(--void) 0%,
-    transparent 22%,
-    transparent 78%,
-    var(--void) 100%
-  );
-  opacity: 0.7;
-}
-.ix-steel-copy {
+/* the austere caption above the grid */
+.ix-year-copy {
   position: relative;
   z-index: 2;
   text-align: center;
   padding: 0 24px;
-  pointer-events: none;
 }
-.ix-steel-eyebrow { justify-content: center; }
-.ix-steel-line {
+.ix-year-eyebrow { justify-content: center; }
+.ix-year-line {
   font-family: var(--font-sans);
   font-size: clamp(30px, 6vw, 60px);
   font-weight: 500;
@@ -963,13 +941,22 @@ section, nav, footer, header { max-width: 100%; }
   text-transform: lowercase;
   text-shadow: 0 0 50px rgba(5, 6, 15, 0.9), 0 2px 30px rgba(0, 0, 0, 0.8);
 }
-.ix-steel-line .ix-serif { font-weight: 400; }
-.ix-steel-note {
-  margin-top: 16px;
+.ix-year-line .ix-serif { font-weight: 400; }
+.ix-year-note {
+  margin: 16px auto 0;
+  max-width: 440px;
   font-size: 14px;
   letter-spacing: 0.2px;
   color: var(--gold-dim);
   text-shadow: 0 1px 20px rgba(0, 0, 0, 0.8);
+}
+/* the heatmap stage: full content width, the card centres itself */
+.ix-year-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 980px;
+  padding: 0 24px;
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -1039,6 +1026,117 @@ section, nav, footer, header { max-width: 100%; }
 }
 @media (max-width: 880px) {
   .ix-workshop-pair { grid-template-columns: 1fr; gap: 20px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   v3 (2026-06-29): clear hero (barbell + value-prop + breadth strip),
+   the SEE IT WORK showcase moved above the fold, the EVERYTHING breadth
+   grid, and the folded close-price. Mobile-first: most traffic is phones.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* hero: the machined barbell graphic under the wordmark. Sized so the wordmark,
+   barbell, value-prop, breadth strip and the Download CTA all land in one view. */
+.ix-hero-barbell {
+  width: 100%;
+  max-width: 600px;
+  margin: 2px auto 0;
+  pointer-events: none;
+}
+
+/* hero: the breadth strip - the explicit "what awekn tracks" line */
+.ix-hero-breadth {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px 20px;
+  margin: 20px auto 0;
+  padding: 0;
+  max-width: 640px;
+  font-family: var(--font-numeral);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.ix-hero-breadth li { position: relative; }
+.ix-hero-breadth li + li::before {
+  content: '·';
+  position: absolute;
+  left: -12px;
+  color: var(--text-faint);
+}
+
+/* hero: the subtle folded price under the CTA */
+.ix-hero-price {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--gold-dim);
+}
+.ix-hero-price .ix-mono { color: var(--champagne); font-variant-numeric: tabular-nums; }
+
+/* SEE IT WORK showcase - the interactive proof, all the cards in one place */
+.ix-showcase { text-align: center; }
+.ix-showcase .ix-section-head { max-width: 680px; margin: 0 auto 44px; }
+.ix-showcase .ix-eyebrow,
+.ix-showcase .ix-lede { margin-left: auto; margin-right: auto; }
+.ix-showcase .ix-lede { text-align: center; }
+.ix-showcase-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+.ix-showcase-lead { width: 100%; display: flex; justify-content: center; }
+.ix-showcase-pair {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+  text-align: left;
+}
+.ix-showcase-cell { display: flex; justify-content: center; min-width: 0; }
+.ix-showcase .ix-showcase-pair .ix-showcase-cell > * { width: 100%; max-width: 560px; }
+@media (max-width: 880px) {
+  .ix-showcase-pair { grid-template-columns: 1fr; gap: 20px; }
+}
+
+/* EVERYTHING IN ONE LOG - the breadth grid */
+.ix-tracks { text-align: center; }
+.ix-tracks .ix-section-head { max-width: 680px; margin: 0 auto 44px; }
+.ix-tracks .ix-eyebrow,
+.ix-tracks .ix-lede { margin-left: auto; margin-right: auto; }
+.ix-tracks .ix-lede { text-align: center; }
+.ix-tracks-stage { max-width: 1100px; margin: 0 auto; }
+
+/* closing: the folded price line (pricing is no longer a standalone section) */
+.ix-closing-price {
+  margin: 22px auto 0;
+  max-width: 460px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--gold-dim);
+}
+.ix-closing-price .ix-mono { color: var(--champagne); font-variant-numeric: tabular-nums; }
+
+/* MOBILE-FIRST hero: most users are on a phone. Let the hero size to its
+   content (no forced 100svh that would clip the barbell + strip + CTA), and
+   tighten the equipment graphic + strip so wordmark, value-prop, barbell, and
+   the Download button all land in the first view. */
+@media (max-width: 640px) {
+  .ix-hero {
+    min-height: auto;
+    padding-top: 116px;
+    padding-bottom: 56px;
+  }
+  .ix-hero-barbell { max-width: 100%; margin: 10px auto 2px; }
+  .ix-hero-breadth { font-size: 9.5px; letter-spacing: 1.6px; gap: 7px 14px; }
+  .ix-hero-breadth li + li::before { left: -9px; }
+  .ix-hero-price { font-size: 12px; margin-top: 14px; }
+  .ix-showcase .ix-section-head,
+  .ix-tracks .ix-section-head { margin-bottom: 32px; }
+  .ix-showcase-stack { gap: 18px; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -1350,7 +1448,8 @@ section, nav, footer, header { max-width: 100%; }
   .ix-readout-grid { grid-template-columns: 1fr; }
   .ix-readout-caption { position: static; display: block; text-align: right; padding: 10px 16px; }
 
-  .ix-steel-band { min-height: clamp(360px, 46vh, 480px); margin: 24px 0; }
+  .ix-year-band { margin: 24px 0; gap: 28px; }
+  .ix-year-stage { padding: 0 16px; }
 
   .ix-footer-grid { grid-template-columns: 1fr 1fr; }
   .ix-footer-brand { grid-column: 1 / -1; }
@@ -1376,7 +1475,8 @@ section, nav, footer, header { max-width: 100%; }
   .ix-price-num { font-size: 42px; }
   .ix-card-title { font-size: 26px; }
 
-  .ix-steel-band { min-height: 340px; }
+  .ix-year-band { gap: 22px; }
+  .ix-year-stage { padding: 0 12px; }
 
   .ix-closing-cta { width: 100%; }
   .ix-footer-grid { grid-template-columns: 1fr; gap: 26px; }

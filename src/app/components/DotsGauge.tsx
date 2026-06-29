@@ -459,8 +459,10 @@ export default function DotsGauge() {
                 stroke={`url(#${trackGradId})`}
               />
 
-              {/* band-segment hairlines on the track (subtle separators) */}
-              {BAND_TICKS.map((t) => {
+              {/* band-segment ticks on the track at the MEANINGFUL thresholds
+                  only (200 / 300 / 400). The arc ends (0 and the ceiling) get no
+                  tick - those end marks read as errant little arrows. */}
+              {BAND_TICKS.filter((t) => t > 0 && t < GAUGE_MAX).map((t) => {
                 const tf = frac(t);
                 const aDeg = angleFor(tf);
                 const pOut = polar(CX, CY, R_TRACK + 14, aDeg);

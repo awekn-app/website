@@ -8,7 +8,7 @@ Live: https://awekn.com · App Store: https://apps.apple.com/in/app/awekn-liftin
 
 - **Next.js 16** (App Router) + **React 19** + **TypeScript**, deployed on **Vercel** (push `main` -> production; push a branch -> a preview deploy).
 - **Typography:** **Inter** (the app's typeface, light weights, tabular numerals) + **Instrument Serif** italic for signature words, self-hosted via `next/font`.
-- **WebGL / 3D:** `three` + `@react-three/fiber` (v9) for the `SteelScene` machined-ring (poster fallback on phones).
+- **No WebGL on the page:** the atmosphere and every instrument are pure CSS/SVG, so a phone stays fast and never janks. (`three`/`@react-three/fiber` linger as deps but the old 3D steel ring was retired for the year heatmap.)
 - **Motion:** `gsap` (power-on + scroll-linked reveals) + `lenis` (smooth scroll).
 - Analytics: `@vercel/analytics` + `@vercel/speed-insights` (cookieless).
 
@@ -18,12 +18,14 @@ The site wears the iOS/Android app's identity so the two feel like one world (se
 
 - **Near-black `#0C0C0C` canvas** (the app's dark theme), never pure black, never colored fog.
 - **Depth from light, not color:** an additive near-white "pool of light" behind the hero (`CosmicBackground` + the static `.bg-fallback`), plus one faint emerald breath. A colored halo on near-black reads as a dark hole, so every glow is additive white/emerald.
-- **Emerald `#34D399` is the one accent** (the app's universal signal: streaks, active rings, dots, completion, the scroll bar). Amber `#E0B054` is the rare second signal. No red, no purple, no gold.
+- **Silver / white is the one accent for ALL chrome** (scroll bar, dots, nav, tags, the active price ring, links). Black + silver + cosmic is the signature, NOT green. Emerald `#34D399` survives only as a rare EARNED micro-signal inside the interactive cards (a completed set, a kept week, a PR dot). No red, no purple, no gold, no green chrome.
 - **Silver + white bloom** on hero type (the app's 3-layer text-shadow + silver-sheen wordmark). Lowercase wordmark, positive tracking.
 
-**Mobile-first:** the aurora and the 3D steel scene create *no WebGL context* on phones / low-end / reduced-motion devices — they drop to the painted `.bg-fallback` field / CSS posters so a phone stays fast.
+**Mobile-first (the priority - most visitors are on a phone):** no WebGL anywhere; the aurora is CSS and self-gates to the static painted `.bg-fallback` field on phones / reduced-motion. The hero sizes to its content, the barbell + breadth strip tighten, and the showcase pairs go single-column, so the whole top lands cleanly on a phone.
 
-Key interactive pieces (in `src/app/components/`): `LiveSet` (an operable workout set-row), `StrengthCurve` (a scrubbable e1RM chart), `ConsistencyOrb`, `SteelScene` (3D, poster fallback), `LiquidGlass` (real Apple-style refraction), `LiquidWordmark` (silver-sheen), `CosmicBackground` (the living pool-of-light aurora). Motion lives in `src/app/lib/useMotion.ts`.
+**Page structure** (`src/app/page.tsx`, v3): hero (silver wordmark + `HeroBarbell` graphic + a clear value-prop "lift, eat, recover. track all of it." + a breadth strip + a folded price) -> **see it work** (all the operable instruments, above the fold) -> **everything in one log** (`TracksGrid`, the breadth) -> two disciplines -> **the year** (`YearHeatmap`) -> private -> closing (+ price). Pricing is folded into the hero/close, not a standalone section.
+
+Operable instruments (`src/app/components/`, real app math, silver/cosmic, drag + keyboard + touch, no WebGL): `LiveSet` (log a set, live e1RM), `PlateLoader` (load a barbell, exact plate math), `ConsistencyStreak` (a clear calendar-month streak; replaced the abstract `ConsistencyOrb`), `DotsGauge` (DOTS score gauge), `RpeCalculator` (RPE -> e1RM), `StrengthCurve` (scrubbable e1RM chart), `YearHeatmap` (365-day grid; replaced the old `SteelScene` ring). Plus `HeroBarbell` (hero graphic), `LiquidGlass` (Apple-style refraction), `LiquidWordmark` (silver-sheen), `CosmicBackground` (CSS pool-of-light aurora). Motion: `src/app/lib/useMotion.ts`. `ConsistencyOrb.tsx` + `SteelScene.tsx` are unused (retired).
 
 ## Develop
 

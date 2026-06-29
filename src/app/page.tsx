@@ -3,12 +3,14 @@
 import { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import LiquidWordmark from './components/LiquidWordmark';
+import HeroBarbell from './components/HeroBarbell';
 import LiveSet from './components/LiveSet';
 import StrengthCurve from './components/StrengthCurve';
-import ConsistencyOrb from './components/ConsistencyOrb';
+import ConsistencyStreak from './components/ConsistencyStreak';
 import PlateLoader from './components/PlateLoader';
 import RpeCalculator from './components/RpeCalculator';
 import DotsGauge from './components/DotsGauge';
+import TracksGrid from './components/TracksGrid';
 import LiquidGlass from './components/LiquidGlass';
 import { useMotion } from './lib/useMotion';
 
@@ -20,10 +22,12 @@ const CosmicBackground = dynamic(() => import('./components/CosmicBackground'), 
   ssr: false,
 });
 
-// The machined steel ring is its own lazy, intersection-gated WebGL island.
-// It renders a pure CSS/SVG poster on phones + low-end + reduced-motion, so it
-// never opens a second live GL context there.
-const SteelScene = dynamic(() => import('./components/SteelScene'), {
+// The year training heatmap - the app's signature 365-day grid. A meaningful,
+// animated, interactive instrument (cells sweep in left-to-right, hover/focus/
+// tap reads a day, arrow keys navigate). Pure CSS transforms, no WebGL. Lazy +
+// client-only so it loads after paint; self-gates to a static paint on
+// reduced-motion. Replaces the old decorative steel ring.
+const YearHeatmap = dynamic(() => import('./components/YearHeatmap'), {
   ssr: false,
 });
 
@@ -76,28 +80,23 @@ export default function Home() {
         <a href="#top" className="ix-nav-brand">awekn</a>
         <ol className="ix-nav-index" aria-label="Sections">
           <li>
-            <a href="#record">
-              <span className="ix-nav-num">01</span>The record
+            <a href="#showcase">
+              <span className="ix-nav-num">01</span>See it work
+            </a>
+          </li>
+          <li>
+            <a href="#tracks">
+              <span className="ix-nav-num">02</span>Everything
             </a>
           </li>
           <li>
             <a href="#disciplines">
-              <span className="ix-nav-num">02</span>Two disciplines
+              <span className="ix-nav-num">03</span>Disciplines
             </a>
           </li>
           <li>
-            <a href="#set">
-              <span className="ix-nav-num">03</span>The set
-            </a>
-          </li>
-          <li>
-            <a href="#workshop">
-              <span className="ix-nav-num">04</span>The workshop
-            </a>
-          </li>
-          <li>
-            <a href="#pricing">
-              <span className="ix-nav-num">05</span>Pricing
+            <a href="#year">
+              <span className="ix-nav-num">04</span>The year
             </a>
           </li>
         </ol>
@@ -125,9 +124,23 @@ export default function Home() {
           <LiquidWordmark text="awekn" />
         </div>
 
+        <div className="ix-hero-barbell reveal" aria-hidden>
+          <HeroBarbell />
+        </div>
+
         <p className="hero-sub ix-hero-sub">
-          Training is a kind of <span className="ix-serif">devotion</span>.
+          lift, eat, recover. <span className="ix-serif">track</span> all of it.
         </p>
+
+        <ul className="ix-hero-breadth" aria-label="What awekn tracks">
+          <li>workouts</li>
+          <li>cardio</li>
+          <li>macros</li>
+          <li>supplements</li>
+          <li>peptides</li>
+          <li>prs</li>
+          <li>consistency</li>
+        </ul>
 
         <div className="hero-cta ix-hero-cta">
           <a
@@ -151,62 +164,83 @@ export default function Home() {
           </button>
         </div>
 
-        <a href="#record" className="ix-scroll-cue" aria-label="Scroll to begin">
+        <p className="ix-hero-price">
+          <span className="ix-mono">7 days free</span>, then $34.99/yr. everything
+          included. cancel anytime.
+        </p>
+
+        <a href="#showcase" className="ix-scroll-cue" aria-label="See it work">
           <span className="ix-scroll-line" aria-hidden />
-          <span className="ix-scroll-word">begin the record</span>
+          <span className="ix-scroll-word">see it work</span>
         </a>
       </header>
 
-      {/* ════════════ 01 · THE RECORD - the signature orb gets the room ════════════ */}
-      <section className="ix-section ix-record" id="record">
+      {/* ════════════ 01 · SEE IT WORK - the interactive proof, right up top ════════════ */}
+      <section className="ix-section ix-showcase" id="showcase">
         <div className="ix-section-head reveal">
           <span className="ix-eyebrow">
-            <span className="ix-index-num">01</span>The record
+            <span className="ix-index-num">01</span>See it work
           </span>
           <h2 className="ix-display">
-            the iron <span className="ix-serif">remembers</span>
+            drive it <span className="ix-serif">yourself</span>
           </h2>
           <p className="ix-lede">
-            Every session you keep is written down and never overwritten. The
-            consistency you build, the streak you hold, the volume you move. A
-            ledger of the work, kept honest by the numbers.
+            These are the real instruments from the app, running right here. Log a
+            set, load a bar, read your month, score a total. Drag, tap, scrub.
+            None of it is a mockup.
           </p>
         </div>
 
-        <div className="ix-record-body">
-          {/* the operable signature instrument, given its own stage */}
-          <div className="ix-record-orb reveal">
-            <ConsistencyOrb />
+        <div className="ix-showcase-stack">
+          <div className="ix-showcase-lead reveal">
+            <LiveSet />
           </div>
+          <div className="ix-showcase-lead reveal">
+            <PlateLoader />
+          </div>
+          <div className="ix-showcase-pair">
+            <div className="ix-showcase-cell reveal">
+              <ConsistencyStreak />
+            </div>
+            <div
+              className="ix-showcase-cell reveal"
+              style={{ transitionDelay: '0.08s' }}
+            >
+              <DotsGauge />
+            </div>
+          </div>
+          <div className="ix-showcase-pair">
+            <div className="ix-showcase-cell reveal">
+              <RpeCalculator />
+            </div>
+            <div
+              className="ix-showcase-cell reveal"
+              style={{ transitionDelay: '0.08s' }}
+            >
+              <StrengthCurve />
+            </div>
+          </div>
+        </div>
+      </section>
 
-          {/* the mono readout, count-up on enter */}
-          <div className="ix-readout-grid reveal">
-            <figure className="ix-stat">
-              <figcaption className="ix-stat-label">Consistency</figcaption>
-              <div className="ix-stat-value">
-                <span className="ix-stat-num" data-countup="87">87</span>
-                <span className="ix-stat-unit">%</span>
-              </div>
-              <p className="ix-stat-note">days kept, this month</p>
-            </figure>
-            <figure className="ix-stat ix-stat-streak">
-              <figcaption className="ix-stat-label">Current streak</figcaption>
-              <div className="ix-stat-value">
-                <span className="ix-stat-num" data-countup="14">14</span>
-                <span className="ix-stat-unit">days</span>
-              </div>
-              <p className="ix-stat-note">since you last missed</p>
-            </figure>
-            <figure className="ix-stat">
-              <figcaption className="ix-stat-label">Volume moved</figcaption>
-              <div className="ix-stat-value">
-                <span className="ix-stat-num" data-countup="75.9">75.9</span>
-                <span className="ix-stat-unit">k kg</span>
-              </div>
-              <p className="ix-stat-note">across the last thirty days</p>
-            </figure>
-            <p className="ix-readout-caption">illustrative record</p>
-          </div>
+      {/* ════════════ 02 · EVERYTHING IN ONE LOG - the breadth ════════════ */}
+      <section className="ix-section ix-tracks" id="tracks">
+        <div className="ix-section-head reveal">
+          <span className="ix-eyebrow">
+            <span className="ix-index-num">02</span>Everything in one log
+          </span>
+          <h2 className="ix-display">
+            not just <span className="ix-serif">workouts</span>
+          </h2>
+          <p className="ix-lede">
+            awekn tracks the whole of your training. Lifting and cardio, diet and
+            supplements, the private stuff, every PR, and the consistency under
+            all of it. One app, one log, on your device first.
+          </p>
+        </div>
+
+        <div className="ix-tracks-stage reveal">
+          <TracksGrid />
         </div>
       </section>
 
@@ -269,173 +303,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════════════ THE STEEL - a dedicated 3D moment between sections ════════════ */}
-      <section className="ix-steel-band" aria-label="The iron, idling">
-        <div className="ix-steel-stage">
-          <SteelScene />
-        </div>
-        <div className="ix-steel-copy reveal">
-          <span className="ix-eyebrow ix-steel-eyebrow">
-            <span className="ix-index-num">·</span>The iron
+      {/* ════════════ THE YEAR - the 365-day training heatmap ════════════ */}
+      <section className="ix-year-band" id="year" aria-label="A year of training">
+        <div className="ix-year-copy reveal">
+          <span className="ix-eyebrow ix-year-eyebrow">
+            <span className="ix-index-num">·</span>The year
           </span>
-          <p className="ix-steel-line">
-            cold, machined, <span className="ix-serif">honest</span>.
+          <p className="ix-year-line">
+            every day, <span className="ix-serif">counted</span>.
           </p>
-          <p className="ix-steel-note">
-            the same steel, every session. the record is what changes.
+          <p className="ix-year-note">
+            one square per day, the whole year on one screen. the grid is the
+            record.
           </p>
+        </div>
+        <div className="ix-year-stage reveal">
+          <YearHeatmap />
         </div>
       </section>
 
-      {/* ════════════ 03 · THE SET - the operable centerpiece ════════════ */}
-      <section className="ix-section ix-set" id="set">
-        <div className="ix-section-head ix-set-head reveal">
-          <span className="ix-eyebrow">
-            <span className="ix-index-num">03</span>The set
-          </span>
-          <h2 className="ix-display">
-            log it like you <span className="ix-serif">mean it</span>
-          </h2>
-          <p className="ix-lede">
-            This is the real row from the app, running right here. Drag the
-            weight, hit the check, and watch the estimate climb. The moment is
-            brief. The record is forever.
-          </p>
-        </div>
+      {/* (the set / strength / workshop cards now live in the SEE IT WORK
+          showcase above; their old standalone sections were removed in v3) */}
 
-        <div className="ix-set-stage reveal">
-          <LiveSet />
-        </div>
-      </section>
-
-      {/* ════════════ 04 · STRENGTH ════════════ */}
-      <section className="ix-section ix-strength">
-        <div className="ix-section-head reveal">
-          <span className="ix-eyebrow">
-            <span className="ix-index-num">04</span>Strength
-          </span>
-          <h2 className="ix-display">
-            your strength, <span className="ix-serif">plotted</span> in full
-          </h2>
-          <p className="ix-lede">
-            Every exercise tells a curve. Every session is a point on it. Over
-            weeks, the line rises, or it stalls. Either way, you will know.
-          </p>
-        </div>
-
-        <div className="ix-strength-stage reveal">
-          <StrengthCurve />
-        </div>
-      </section>
-
-      {/* ════════════ THE WORKSHOP - operable instruments you can drive ════════════ */}
-      <section className="ix-section ix-workshop" id="workshop">
-        <div className="ix-section-head reveal">
-          <span className="ix-eyebrow">
-            <span className="ix-index-num">·</span>The workshop
-          </span>
-          <h2 className="ix-display">
-            run the <span className="ix-serif">numbers</span> yourself
-          </h2>
-          <p className="ix-lede">
-            The same math the app runs, live in your hands. Load a bar, back-solve
-            a one-rep max, score a total. Drag anything. None of it is a mockup.
-          </p>
-        </div>
-
-        {/* showpiece: load a real barbell */}
-        <div className="ix-workshop-hero reveal">
-          <PlateLoader />
-        </div>
-
-        {/* the calculator pair */}
-        <div className="ix-workshop-pair">
-          <div className="ix-workshop-cell reveal">
-            <RpeCalculator />
-          </div>
-          <div
-            className="ix-workshop-cell reveal"
-            style={{ transitionDelay: '0.08s' }}
-          >
-            <DotsGauge />
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════ PRICING ════════════ */}
-      <section className="ix-section ix-pricing" id="pricing">
-        <div className="ix-section-head ix-pricing-head reveal">
-          <span className="ix-eyebrow">
-            <span className="ix-index-num">·</span>Pricing
-          </span>
-          <h2 className="ix-display">
-            one price, <span className="ix-serif">no maze</span>
-          </h2>
-          <p className="ix-lede">
-            Everything is included. No tiers, no upsells, no ads. Seven days
-            free, then a single subscription. Cancel any time.
-          </p>
-        </div>
-
-        <div className="ix-price-pair reveal">
-          <LiquidGlass
-            as="article"
-            className="ix-price ix-price-active"
-            intensity={0.55}
-            style={{ borderColor: 'var(--gold)' }}
-          >
-            <header className="ix-price-head">
-              <span className="ix-price-name">Annual</span>
-              <span className="ix-price-flag">7-day free trial</span>
-            </header>
-            <div className="ix-price-amount">
-              <span className="ix-price-currency">$</span>
-              <span className="ix-price-num" data-countup="34.99">34.99</span>
-              <span className="ix-price-cycle">/ yr</span>
-            </div>
-            <p className="ix-price-note">
-              <span className="ix-mono">$2.92</span> a month, billed once a
-              year. The way most lifters stay.
-            </p>
-            <a
-              href={APP_STORE}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ix-btn ix-btn-gold ix-price-cta"
-              data-magnetic
-            >
-              <AppleGlyph />
-              Start the free trial
-            </a>
-          </LiquidGlass>
-
-          <LiquidGlass as="article" className="ix-price" intensity={0.4}>
-            <header className="ix-price-head">
-              <span className="ix-price-name">Monthly</span>
-            </header>
-            <div className="ix-price-amount">
-              <span className="ix-price-currency">$</span>
-              <span className="ix-price-num" data-countup="5.99">5.99</span>
-              <span className="ix-price-cycle">/ mo</span>
-            </div>
-            <p className="ix-price-note">
-              Billed every month. Same app, same access, more flexibility.
-            </p>
-            <a
-              href={APP_STORE}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ix-btn ix-btn-ghost ix-price-cta"
-            >
-              Choose monthly
-            </a>
-          </LiquidGlass>
-        </div>
-
-        <p className="ix-price-fine reveal">
-          7-day free trial on both. Prices shown in USD; prices vary by region.
-        </p>
-      </section>
+      {/* (pricing is no longer a standalone bottom section in v3; it is folded
+          into the hero sub-line and the closing CTA below) */}
 
       {/* ════════════ PRIVATE / OFFLINE-FIRST ════════════ */}
       <section className="ix-section ix-private">
@@ -498,7 +389,7 @@ export default function Home() {
           <LiquidWordmark text="awekn" />
         </div>
         <p className="ix-closing-line">
-          Begin the <span className="ix-serif">record</span>.
+          start the <span className="ix-serif">record</span>.
         </p>
         <a
           href={APP_STORE}
@@ -510,9 +401,12 @@ export default function Home() {
           <AppleGlyph />
           Download on iOS
         </a>
-        <p className="ix-closing-fine">
-          7-day free trial · prices vary by region
+        <p className="ix-closing-price">
+          <span className="ix-mono">7 days free</span>, then{' '}
+          <span className="ix-mono">$34.99</span>/yr or{' '}
+          <span className="ix-mono">$5.99</span>/mo. everything included, no tiers.
         </p>
+        <p className="ix-closing-fine">cancel anytime · prices vary by region</p>
       </section>
 
       {/* ════════════ FOOTER ════════════ */}
@@ -524,11 +418,10 @@ export default function Home() {
           </div>
           <nav className="ix-footer-col" aria-label="The app">
             <h4>The app</h4>
-            <a href="#record">The record</a>
+            <a href="#showcase">See it work</a>
+            <a href="#tracks">Everything</a>
             <a href="#disciplines">Disciplines</a>
-            <a href="#set">The set</a>
-            <a href="#workshop">The workshop</a>
-            <a href="#pricing">Pricing</a>
+            <a href="#year">The year</a>
           </nav>
           <nav className="ix-footer-col" aria-label="Reach">
             <h4>Reach</h4>
