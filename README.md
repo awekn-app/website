@@ -1,6 +1,6 @@
 # awekn.com
 
-The marketing website for **awekn** — a premium app for serious lifters (bodybuilding + powerlifting), live on the App Store. Separate repo from the mobile app (`/Users/areeb/awekn`).
+The marketing website for **awekn** - a premium app for serious lifters (bodybuilding + powerlifting), live on the App Store. Separate repo from the mobile app (`/Users/areeb/awekn`).
 
 Live: https://awekn.com · App Store: https://apps.apple.com/in/app/awekn-lifting-gym-log-diet/id6762414034
 
@@ -12,7 +12,7 @@ Live: https://awekn.com · App Store: https://apps.apple.com/in/app/awekn-liftin
 - **Motion:** `gsap` (power-on + scroll-linked reveals) + `lenis` (smooth scroll).
 - Analytics: `@vercel/analytics` + `@vercel/speed-insights` (cookieless).
 
-## Design — matched to the app
+## Design - matched to the app
 
 The site wears the iOS/Android app's identity so the two feel like one world (see `constants/colors.ts` in the app repo and `docs/WEBSITE_APP_THEME_MATCH_PLAN.md`):
 
@@ -23,9 +23,9 @@ The site wears the iOS/Android app's identity so the two feel like one world (se
 
 **Mobile-first (the priority - most visitors are on a phone):** no WebGL anywhere; the aurora is CSS and self-gates to the static painted `.bg-fallback` field on phones / reduced-motion. The hero sizes to its content, the barbell + breadth strip tighten, and the showcase pairs go single-column, so the whole top lands cleanly on a phone.
 
-**Page structure** (`src/app/page.tsx`, v4): hero (silver wordmark + `HeroBarbell` graphic + the value-prop "lift, eat, recover. track all of it." + a breadth strip + a folded price) -> **see it work** = a guided, operable TOUR: 4 alternating story beats (each instrument introduced with a number + headline + a line of story + a "try it" hint, beside its live card), then a paired "and the math, in your hands" close -> **everything in one log** (`TracksGrid`, a compact premium tile matrix) -> two disciplines -> **the year** (`YearHeatmap`) -> private -> closing (+ price). The tour + breadth grid are the v4 rework (v3 dumped the cards in one grid with no story; v3 breadth cards looked empty). Pricing is folded into the hero/close, not a standalone section.
+**Page structure** (`src/app/page.tsx`, v4): hero (silver wordmark + a REAL statue cutout - `.ix-hero-figure` paints `public/statue-atlas-cut.png`, Atlas straining under a crushing boulder, emerging from the black - the value-prop "lift, eat, recover. track all of it." + a breadth strip + a folded price) -> **see it work** = a guided, operable TOUR: 4 alternating story beats (each instrument introduced with a number + headline + a line of story + a "try it" hint, beside its live card), then a paired "and the math, in your hands" close -> **everything in one log** (`TracksGrid`, a compact premium tile matrix) -> two disciplines -> **the year** (`YearHeatmap`) -> private -> closing (+ price). The tour + breadth grid are the v4 rework (v3 dumped the cards in one grid with no story; v3 breadth cards looked empty). Pricing is folded into the hero/close, not a standalone section.
 
-Operable instruments (`src/app/components/`, real app math, silver/cosmic, drag + keyboard + touch, no WebGL): `LiveSet` (log a set, live e1RM), `PlateLoader` (load a barbell, exact plate math), `ConsistencyStreak` (a clear calendar-month streak; replaced the abstract `ConsistencyOrb`), `DotsGauge` (DOTS score gauge), `RpeCalculator` (RPE -> e1RM), `StrengthCurve` (scrubbable e1RM chart), `YearHeatmap` (365-day grid; replaced the old `SteelScene` ring). Plus `HeroBarbell` (hero graphic), `LiquidGlass` (Apple-style refraction), `LiquidWordmark` (silver-sheen), `CosmicBackground` (CSS pool-of-light aurora). Motion: `src/app/lib/useMotion.ts`. `ConsistencyOrb.tsx` + `SteelScene.tsx` are unused (retired).
+Operable instruments (`src/app/components/`, real app math, silver/cosmic, drag + keyboard + touch, no WebGL): `LiveSet` (log a set, live e1RM), `PlateLoader` (load a barbell, exact plate math), `ConsistencyStreak` (a clear calendar-month streak; replaced the abstract `ConsistencyOrb`), `DotsGauge` (DOTS score gauge), `RpeCalculator` (RPE -> e1RM), `StrengthCurve` (scrubbable e1RM chart), `YearHeatmap` (365-day grid; replaced the old `SteelScene` ring). Plus `LiquidGlass` (Apple-style refraction), `LiquidWordmark` (silver-sheen), `CosmicBackground` (CSS pool-of-light aurora). Motion: `src/app/lib/useMotion.ts`. The HERO image is a REAL photograph, not a vector: `public/statue-atlas-cut.png` is `statue-atlas.jpg` with its black background baked out to transparent (alpha curved from the photo's own luminance, via Pillow) so it composites onto the dark hero with no box. The lesson: vector/SVG always reads "AI / fake" for things that need to look real and brutal - use a real photo cut out on transparency. The old `HeroBarbell*` SVGs, `ConsistencyOrb.tsx`, `SteelScene.tsx` are retired/deleted.
 
 ## Develop
 

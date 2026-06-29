@@ -3,7 +3,8 @@
 import { useRef } from 'react';
 import dynamic from 'next/dynamic';
 import LiquidWordmark from './components/LiquidWordmark';
-import HeroBarbell from './components/HeroBarbell';
+// (the hero figure is now a REAL statue photo, treated to melt into the black,
+//  not a vector barbell - see the ix-hero-figure element below)
 import LiveSet from './components/LiveSet';
 import StrengthCurve from './components/StrengthCurve';
 import ConsistencyStreak from './components/ConsistencyStreak';
@@ -124,9 +125,7 @@ export default function Home() {
           <LiquidWordmark text="awekn" />
         </div>
 
-        <div className="ix-hero-barbell reveal" aria-hidden>
-          <HeroBarbell />
-        </div>
+        <div className="ix-hero-figure reveal" role="img" aria-label="Atlas straining under a crushing weight" />
 
         <p className="hero-sub ix-hero-sub">
           lift, eat, recover. <span className="ix-serif">track</span> all of it.

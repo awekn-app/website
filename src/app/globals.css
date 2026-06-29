@@ -1034,12 +1034,34 @@ section, nav, footer, header { max-width: 100%; }
    grid, and the folded close-price. Mobile-first: most traffic is phones.
    ═══════════════════════════════════════════════════════════════════ */
 
-/* hero: the machined barbell graphic under the wordmark. Sized so the wordmark,
-   barbell, value-prop, breadth strip and the Download CTA all land in one view. */
-.ix-hero-barbell {
+/* hero figure: a REAL statue photograph (Atlas straining under a crushing
+   weight), treated to read brutal + heavy and masked so it dissolves into the
+   cosmic black - no box, no vector "AI" look. A desaturated, high-contrast
+   marble titan rising out of the dark under the wordmark. */
+.ix-hero-figure {
+  position: relative;
   width: 100%;
-  max-width: 600px;
-  margin: 2px auto 0;
+  height: 440px;
+  margin: -48px auto -8px;
+  /* statue-atlas-cut.png = the titan with its black background baked out to
+     TRANSPARENT (alpha curved from the photo's own luminance). It composites
+     straight onto the cosmic field - no box, no mask, no hard edge. He emerges
+     from the dark itself. High-contrast B&W marble reads brutal + real. */
+  background: url("/statue-atlas-cut.png") no-repeat center / contain;
+  filter: contrast(1.07) brightness(1.05);
+  pointer-events: none;
+}
+/* a soft halo of cosmic light behind the titan so he reads lit from within */
+.ix-hero-figure::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 40% 50% at 50% 46%,
+    rgba(233, 234, 240, 0.13),
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -1219,7 +1241,7 @@ section, nav, footer, header { max-width: 100%; }
     padding-top: 116px;
     padding-bottom: 56px;
   }
-  .ix-hero-barbell { max-width: 100%; margin: 10px auto 2px; }
+  .ix-hero-figure { height: 300px; margin: -26px auto -4px; }
   .ix-hero-breadth { font-size: 9.5px; letter-spacing: 1.6px; gap: 7px 14px; }
   .ix-hero-breadth li + li::before { left: -9px; }
   .ix-hero-price { font-size: 12px; margin-top: 14px; }
