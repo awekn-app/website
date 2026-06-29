@@ -1,5 +1,5 @@
 /* ════════════════════════════════════════════════════════════════════════
-   THE CONSISTENCY ORB — co-located styles.
+   THE CONSISTENCY ORB - co-located styles.
    Matches the LiveSet / StrengthCurve liquid-glass grammar. Silver
    (--champagne) is the chrome; --emerald is the EARNED ring fill only.
    Only transform / opacity / clip-path / stroke-dashoffset animate.
@@ -13,7 +13,8 @@
   position: relative;
   isolation: isolate;
 }
-/* the cosmic halo behind the card — lit from within, a whisper of emerald */
+/* the cosmic halo behind the card, lit from within with an additive white bloom
+   (a colored blob reads as a dark hole on near-black, so the glow stays white) */
 .shell::before {
   content: "";
   position: absolute;
@@ -21,8 +22,8 @@
   z-index: -1;
   background: radial-gradient(
     ellipse 70% 60% at 50% 40%,
-    rgba(52, 211, 153, 0.1) 0%,
-    rgba(23, 20, 72, 0.12) 44%,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(233, 234, 240, 0.05) 44%,
     transparent 72%
   );
   pointer-events: none;
@@ -50,7 +51,7 @@
     0 12px 30px rgba(0, 0, 0, 0.45);
   overflow: hidden;
 }
-/* the upper liquid-glass sheen — a clipped specular band, screen-blended */
+/* the upper liquid-glass sheen - a clipped specular band, screen-blended */
 .card::before {
   content: "";
   position: absolute;
@@ -104,7 +105,7 @@
   text-transform: lowercase;
 }
 
-/* the streak chip — dim by default, lights emerald when on + earned */
+/* the streak chip: dim silver by default, brightens to silver-white when on */
 .streak {
   display: flex;
   flex-direction: column;
@@ -125,8 +126,8 @@
     text-shadow 0.42s var(--ease-emphatic);
 }
 .streakOn .streakNum {
-  color: var(--emerald);
-  text-shadow: 0 0 22px rgba(52, 211, 153, 0.35);
+  color: var(--champagne);
+  text-shadow: 0 0 22px rgba(255, 255, 255, 0.22);
 }
 .streakUnit {
   font-size: 9px;
@@ -162,7 +163,7 @@
   stroke-width: 12;
 }
 
-/* the filled arc — stroke-dashoffset animates (compositor-cheap on a path) */
+/* the filled arc - stroke-dashoffset animates (compositor-cheap on a path) */
 .fill {
   stroke-width: 12;
   /* a stiff damped glide when the offset retargets (scrub / log). The raf
@@ -209,12 +210,12 @@
   margin-left: 1px;
 }
 /* once over the honesty threshold, the big number turns silver-bright with a
-   soft emerald bloom — the EARNED signal, never decoration */
+   soft additive WHITE cosmic bloom (the emerald lives on the arc alone) */
 .pctEarned .pctNum {
   color: var(--champagne);
   text-shadow:
-    0 0 30px rgba(52, 211, 153, 0.28),
-    0 0 12px rgba(233, 234, 240, 0.25);
+    0 0 40px rgba(255, 255, 255, 0.1),
+    0 0 18px rgba(255, 255, 255, 0.22);
 }
 .pctEarned .pctSign {
   color: var(--champagne);
@@ -269,8 +270,9 @@
   border-color: rgba(233, 234, 240, 0.16);
 }
 
-/* a single day-cell — a small disc. Rest = hairline ring, trained = silver
-   dot, today's logged = emerald, future = faint dotted, active = lifted. */
+/* a single day-cell - a small disc. Rest = hairline ring, trained = silver
+   dot, today's logged = bright silver, future = faint dotted, active = lifted.
+   (the cells are chrome; only the ring arc carries the earned emerald.) */
 .cell {
   position: relative;
   width: 100%;
@@ -284,37 +286,37 @@
     border-color 0.4s var(--ease-emphatic),
     box-shadow 0.4s var(--ease-emphatic);
 }
-/* a trained (rest-day complement) cell — solid silver */
+/* a trained (rest-day complement) cell - solid silver */
 .cellTrained {
   background: var(--champagne);
   border-color: var(--champagne);
 }
-/* a future, not-yet-reached day — faint dotted outline */
+/* a future, not-yet-reached day - faint dotted outline */
 .cellFuture {
   border-style: dotted;
   border-color: rgba(233, 234, 240, 0.14);
   opacity: 0.7;
 }
-/* the active (playhead) cell — lifted + ringed */
+/* the active (playhead) cell - lifted + ringed */
 .cellActive {
   transform: scale(1.42);
   box-shadow: 0 0 0 2px rgba(233, 234, 240, 0.4);
   z-index: 1;
 }
-/* today's cell — when trained it carries the earned emerald */
+/* today's cell, when trained, reads bright silver-white with a soft bloom */
 .cellToday.cellTrained {
-  background: var(--emerald);
-  border-color: var(--emerald);
-  box-shadow: 0 0 12px rgba(52, 211, 153, 0.55);
+  background: var(--white);
+  border-color: var(--white);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
 }
 .cellToday.cellActive.cellTrained {
   box-shadow:
-    0 0 0 2px rgba(52, 211, 153, 0.5),
-    0 0 14px rgba(52, 211, 153, 0.6);
+    0 0 0 2px rgba(233, 234, 240, 0.5),
+    0 0 14px rgba(255, 255, 255, 0.45);
 }
-/* today's cell un-logged — a brighter dashed ring, the "log me" target */
+/* today's cell un-logged, a brighter silver ring, the "log me" target */
 .cellToday:not(.cellTrained) {
-  border-color: rgba(52, 211, 153, 0.55);
+  border-color: rgba(233, 234, 240, 0.55);
   border-style: solid;
   opacity: 1;
 }
@@ -351,7 +353,7 @@
   border: 1px solid rgba(233, 234, 240, 0.1);
 }
 
-/* the LOG TODAY button — ghost by default, fills emerald once logged */
+/* the LOG TODAY button: ghost by default, fills bright silver once logged */
 .logBtn {
   display: inline-flex;
   align-items: center;
@@ -387,14 +389,14 @@
   outline-offset: 3px;
 }
 .logBtnDone {
-  background: var(--emerald);
-  border-color: var(--emerald);
-  color: #04130d;
-  box-shadow: 0 0 22px rgba(52, 211, 153, 0.4);
+  background: var(--champagne);
+  border-color: var(--champagne);
+  color: #0c0c12;
+  box-shadow: 0 0 22px rgba(255, 255, 255, 0.22);
 }
 .logBtnDone:hover {
-  background: var(--emerald);
-  border-color: var(--emerald);
+  background: var(--white);
+  border-color: var(--white);
 }
 .logGlyph {
   display: flex;
@@ -451,7 +453,7 @@
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   REDUCED MOTION — instrument stays live, theatre stops. The count-up snaps
+   REDUCED MOTION - instrument stays live, theatre stops. The count-up snaps
    in JS (prefersReduced gate); here we kill every keyframe + transition while
    leaving scrub + log fully usable.
    ════════════════════════════════════════════════════════════════════════ */

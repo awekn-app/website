@@ -14,12 +14,14 @@ import styles from "./StrengthCurve.module.css";
    THE STRENGTH CURVE
    A scrubbable, illustrative record of an e1RM grind across ~12 sessions:
    a believable upward climb with one small deload dip near the end. The
-   line is drawn in champagne (gold IS the text), fading dim -> bright as
-   the record accrues. The PEAK session wears a single --gold dot. A
+   line is drawn in cosmic silver (silver IS the text), fading dim -> bright
+   as the record accrues, lifted by a faint white bloom. The PEAK session
+   wears the single --signal emerald dot (the PR, the one earned moment). A
    draggable playhead (pointer + touch + keyboard) tracks a vertical
-   readout line and surfaces that session's e1RM in big mono numerals,
-   with the delta-from-start fired in --emerald only when it is positive
-   (an earned signal, never decoration).
+   readout line and surfaces that session's e1RM in big tabular numerals
+   with a white-bloom shadow, with the delta-from-start fired in --signal
+   emerald only when it is a genuine positive gain (an earned accent, never
+   decoration); otherwise silver.
 
    Motion law: only transform / opacity / clip-path animate. The entrance
    sweep is a clip-path reveal; the playhead moves by transform. Honors
@@ -27,7 +29,7 @@ import styles from "./StrengthCurve.module.css";
    ────────────────────────────────────────────────────────────────────── */
 
 // Illustrative e1RM (lbs) across 12 sessions: a grind up, a deload dip at
-// session 9, then a new peak. Not real user data — clearly a sample.
+// session 9, then a new peak. Not real user data, clearly a sample.
 const SERIES = [
   225, 235, 240, 250, 255, 268, 275, 285, 272, 290, 300, 312,
 ];
@@ -53,7 +55,7 @@ export default function StrengthCurve() {
   const pointerIdRef = useRef<number | null>(null);
 
   // Active session index (the playhead). Starts at the peak so the readout
-  // opens on the strongest number — the record's high-water mark.
+  // opens on the strongest number (the record's high-water mark).
   const peakIndex = useMemo(
     () => SERIES.indexOf(Math.max(...SERIES)),
     [],
@@ -220,7 +222,7 @@ export default function StrengthCurve() {
   return (
     <figure className={styles.wrap} aria-labelledby={`${uid}-cap`}>
       <div className={styles.frame}>
-        {/* Big numeric readout — the sacred number, in mono, tabular. */}
+        {/* Big numeric readout: the sacred number, tabular numerals. */}
         <div
           className={styles.readout}
           aria-live="polite"
@@ -271,16 +273,17 @@ export default function StrengthCurve() {
           onKeyDown={onKeyDown}
         >
           <defs>
-            {/* Stroke fades dim -> bright as the record accrues left to right. */}
+            {/* Stroke fades dim silver -> bright silver -> white as the record
+               accrues left to right, so the most recent grind reads brightest. */}
             <linearGradient id={strokeGradId} x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="var(--gold-dim)" stopOpacity="0.55" />
-              <stop offset="55%" stopColor="var(--champagne)" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="var(--champagne)" stopOpacity="1" />
+              <stop offset="0%" stopColor="var(--silver-dim)" stopOpacity="0.5" />
+              <stop offset="55%" stopColor="var(--silver)" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="var(--white)" stopOpacity="1" />
             </linearGradient>
-            {/* Area fill: a whisper of warmth under the line, never a flood. */}
+            {/* Area fill: a whisper of white under the line, never a flood. */}
             <linearGradient id={fillGradId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--champagne)" stopOpacity="0.14" />
-              <stop offset="100%" stopColor="var(--champagne)" stopOpacity="0" />
+              <stop offset="0%" stopColor="var(--white)" stopOpacity="0.1" />
+              <stop offset="100%" stopColor="var(--white)" stopOpacity="0" />
             </linearGradient>
             <filter
               id={glowId}
@@ -324,7 +327,7 @@ export default function StrengthCurve() {
             />
           </g>
 
-          {/* every session node — quiet dots */}
+          {/* every session node: quiet dots */}
           {points.map((p, i) => (
             <circle
               key={i}
@@ -337,7 +340,7 @@ export default function StrengthCurve() {
             />
           ))}
 
-          {/* the PEAK — the single --gold dot */}
+          {/* the PEAK: the single --signal emerald dot (the PR) */}
           <circle
             className={styles.peakDot}
             cx={points[peakIndex].x}

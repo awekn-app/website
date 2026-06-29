@@ -12,7 +12,7 @@ import {
 import styles from "./LiquidGlass.module.css";
 
 /* ════════════════════════════════════════════════════════════════════════
-   LIQUID GLASS — a reusable, REAL liquid-glass surface.
+   LIQUID GLASS - a reusable, REAL liquid-glass surface.
 
    The genuine Apple / liquid-glass-js technique, faithfully implemented:
 
@@ -20,7 +20,7 @@ import styles from "./LiquidGlass.module.css";
         feDisplacementMap. Driven onto the backdrop via
         `backdrop-filter: url(#id) blur() saturate()`, it REFRACTS the cosmic
         field behind the card (the content sitting under the glass bends), the
-        way real glass distorts what is behind it — not a texture painted ON
+        way real glass distorts what is behind it - not a texture painted ON
         the element.
      2. A standalone backdrop blur + saturate for the frost.
      3. A hairline silver border (cosmic, never gold).
@@ -32,7 +32,7 @@ import styles from "./LiquidGlass.module.css";
    backdrop-filter or drop backdrop-filter entirely. We feature-detect at mount
    and, when the refraction is unsupported, fall back to a frosted
    blur+saturate surface that still reads premium (same border, highlight,
-   shadow, tint) — never a flat box.
+   shadow, tint) - never a flat box.
 
    MOBILE PERFORMANCE. The displacement map is the only expensive part. We keep
    the turbulence subtle (low baseFrequency, scale ~ intensity) and, below a
@@ -110,7 +110,7 @@ export default function LiquidGlass({
 
   // Subtle, mobile-cheap displacement. baseFrequency low so the refraction is a
   // gentle bend (organic glass), not a watery wobble. scale scales with i but
-  // stays small — large scale = visible pixelation + GPU cost.
+  // stays small - large scale = visible pixelation + GPU cost.
   const baseFrequency = (0.006 + i * 0.006).toFixed(4); // 0.006..0.012
   const dispScale = Math.round(8 + i * 26); // 8..34 px max displacement
   const preBlur = (0.4 + i * 0.8).toFixed(2); // soften the noise map a touch
@@ -169,7 +169,7 @@ export default function LiquidGlass({
       data-refract={refract ? "on" : "off"}
     >
       {/* The SVG filter only exists when we will actually use it. It is
-          width/height 0, absolutely positioned, aria-hidden — pure plumbing. */}
+          width/height 0, absolutely positioned, aria-hidden - pure plumbing. */}
       {refract && (
         <svg
           className={styles.filterSvg}

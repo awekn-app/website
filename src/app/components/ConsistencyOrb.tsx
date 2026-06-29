@@ -11,24 +11,26 @@ import {
 import styles from "./ConsistencyOrb.module.css";
 
 /* ════════════════════════════════════════════════════════════════════════
-   THE CONSISTENCY ORB — awekn's signature ring, made operable.
+   THE CONSISTENCY ORB - awekn's signature ring, made operable.
 
-   A circular SVG ring fills to a month's consistency %, with a big mono
-   count-up at its core (every numeral is --font-numeral). The arc is
-   --emerald above the honest-threshold (~40%) and a dim silver band below
-   it — emerald is EARNED, never decoration.
+   A circular SVG ring fills to a month's consistency %, with a big silver
+   count-up at its core (every numeral is --font-numeral) lifted by a soft
+   white cosmic bloom. The arc is the ONE earned signal: --signal emerald at
+   or above the honest-threshold (~40%), and a silver/white band below it.
+   Everything else (track, day-grid, number, labels, glow) is silver/white.
 
    Two interactions live on the same instrument, the way the app feels:
-     1. SCRUB — drag horizontally across the day-grid (or tap a day-cell, or
+     1. SCRUB - drag horizontally across the day-grid (or tap a day-cell, or
         arrow the keyboard) to walk through the month. The ring + the % +
         the day-readout all respond live. You are reading the record.
-     2. LOG TODAY — hit the round check to mark today done. The ring springs
+     2. LOG TODAY - hit the round check to mark today done. The ring springs
         up to fill the next earned day, the % count-up ticks, the cell flips
-        to an emerald dot, and a soft 0.97 -> 1 pulse runs. You are writing
-        the record.
+        to a bright silver dot, and a soft 0.97 -> 1 pulse runs. You are
+        writing the record.
 
    Brand + motion law honoured (matches LiveSet / StrengthCurve):
-     - silver (--champagne) IS the chrome; --emerald is the earned fill only.
+     - silver (--champagne) IS the chrome; --signal emerald is the earned arc
+       fill ONLY (one micro-moment), never decoration on anything else.
      - transform / opacity / clip-path only (60fps). scale(0.97) on :active.
      - the ring fills via stroke-dashoffset on a transform-friendly path; the
        count-up runs on requestAnimationFrame with a stiff damped approach
@@ -39,7 +41,7 @@ import styles from "./ConsistencyOrb.module.css";
 
 // A believable month: 30 day-cells. `true` = trained, `null` = a future day
 // (not yet reached, shown as a dim outline you can still "log"). This is an
-// illustrative record — a strong-but-human ~63% month with a live tail.
+// illustrative record - a strong-but-human ~63% month with a live tail.
 const TOTAL_DAYS = 30;
 
 // The seeded month up to "today" (day 18). A realistic grind: a couple of
@@ -50,8 +52,9 @@ const SEED: boolean[] = [
 ];
 const TODAY_INDEX = SEED.length - 1; // the live edge, day 18 (0-based 17)
 
-// Below this, the ring reads as the dim "not-yet-earned" band; at/above it
-// the arc turns --emerald. Mirrors the app's consistency honesty floor.
+// Below this, the ring reads as the silver "not-yet-earned" band; at/above it
+// the arc turns --signal emerald (the one earned moment). Mirrors the app's
+// consistency honesty floor.
 const EARNED_THRESHOLD = 0.4;
 
 // Ring geometry in a fixed viewBox; CSS scales it responsively so all the
@@ -72,7 +75,7 @@ function prefersReduced(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-// The round check glyph — outline when un-logged today, a filled sharp tick
+// The round check glyph - outline when un-logged today, a filled sharp tick
 // once today is logged (Ionicons checkmark -> checkmark-sharp, same as the
 // LiveSet completion grammar).
 function CheckGlyph({ done }: { done: boolean }) {
@@ -151,7 +154,7 @@ export default function ConsistencyOrb() {
           rafId.current = null;
           return target;
         }
-        // stiff damped approach — decelerating, no overshoot
+        // stiff damped approach - decelerating, no overshoot
         const next = cur + delta * 0.18;
         rafId.current = requestAnimationFrame(tick);
         return next;
@@ -346,15 +349,34 @@ export default function ConsistencyOrb() {
             aria-label={`${pctWhole} percent consistency through ${dayLabel}`}
           >
             <defs>
-              {/* the earned arc — emerald, brightening along its sweep */}
+              {/* EARNED: the arc becomes a luminous COSMIC SILVER -> WHITE sweep
+                  (brighter than the building band). Black + silver + cosmic, the
+                  reward is light, not color. */}
               <linearGradient id={ringGradId} x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="var(--emerald)" stopOpacity="0.65" />
-                <stop offset="100%" stopColor="var(--emerald)" stopOpacity="1" />
+                <stop
+                  offset="0%"
+                  stopColor="var(--silver-dim)"
+                  stopOpacity="0.85"
+                />
+                <stop offset="55%" stopColor="var(--champagne)" stopOpacity="1" />
+                <stop
+                  offset="100%"
+                  stopColor="var(--white)"
+                  stopOpacity="1"
+                />
               </linearGradient>
-              {/* the dim (not-yet-earned) band — silver */}
+              {/* the not-yet-earned band: silver, brightening to white */}
               <linearGradient id={dimGradId} x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="var(--gold-dim)" stopOpacity="0.5" />
-                <stop offset="100%" stopColor="var(--champagne)" stopOpacity="0.8" />
+                <stop
+                  offset="0%"
+                  stopColor="var(--gold-dim)"
+                  stopOpacity="0.55"
+                />
+                <stop
+                  offset="100%"
+                  stopColor="var(--champagne)"
+                  stopOpacity="0.9"
+                />
               </linearGradient>
               <filter id={glowId} x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur stdDeviation="4" result="b" />
@@ -376,7 +398,7 @@ export default function ConsistencyOrb() {
               transform={`rotate(${RING_ROTATION} ${CENTER} ${CENTER})`}
             />
 
-            {/* the filled arc — dashoffset is the ONLY thing that animates */}
+            {/* the filled arc - dashoffset is the ONLY thing that animates */}
             <circle
               className={styles.fill}
               cx={CENTER}
@@ -392,7 +414,7 @@ export default function ConsistencyOrb() {
             />
           </svg>
 
-          {/* the core — big mono count-up + unit, absolutely centered */}
+          {/* the core - big mono count-up + unit, absolutely centered */}
           <div className={styles.core} aria-live="polite" aria-atomic="true">
             <div
               className={`${styles.pct} ${earned ? styles.pctEarned : ""}`}

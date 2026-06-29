@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-/* ── CosmicBackground — the living "pool of light" ────────────────────────────
+/* ── CosmicBackground - the living "pool of light" ────────────────────────────
    The app gets its atmosphere from DEPTH-FROM-LIGHT (CosmicBackground ambient:
    an additive near-white glow on near-black), never colored fog. We mirror that
    on the web with a few additive light blobs that drift slowly, screen-blended

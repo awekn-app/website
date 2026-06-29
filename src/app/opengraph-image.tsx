@@ -5,8 +5,8 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 // A premium dark OG card grounded in the app-matched brand: near-black void with
-// a faint emerald glow, a cosmic-silver wordmark (silver IS the display text), one
-// hairline emerald rule, the oath. Emerald is the app's signature accent.
+// an additive near-white pool of light, a cosmic-silver wordmark (silver IS the
+// display text), one hairline silver rule, the oath. Black + silver + cosmic.
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -19,7 +19,7 @@ export default function OpengraphImage() {
           alignItems: "center",
           justifyContent: "center",
           background:
-            "radial-gradient(130% 120% at 24% 88%, rgba(52,211,153,0.20) 0%, transparent 52%), radial-gradient(120% 120% at 82% 12%, rgba(44,56,74,0.30) 0%, transparent 56%), radial-gradient(140% 140% at 50% 40%, #0b0d12 0%, #070709 74%, #050506 100%)",
+            "radial-gradient(120% 110% at 38% 22%, rgba(246,248,255,0.10) 0%, rgba(255,255,255,0.03) 42%, transparent 72%), radial-gradient(140% 140% at 50% 40%, #101013 0%, #0C0C0C 60%, #070709 100%)",
           color: "#E9EAF0",
           fontFamily: "Georgia, serif",
         }}
@@ -39,8 +39,8 @@ export default function OpengraphImage() {
           style={{
             width: 120,
             height: 2,
-            background: "#34D399",
-            opacity: 0.9,
+            background: "#E9EAF0",
+            opacity: 0.8,
             marginTop: 14,
             marginBottom: 30,
           }}

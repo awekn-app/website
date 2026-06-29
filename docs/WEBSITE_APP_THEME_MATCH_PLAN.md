@@ -92,6 +92,54 @@ desktop 1280 + mobile 375 (hero pool-of-light + silver-sheen wordmark, the emera
 streak readout, BB-emerald / PL-austere discipline cards, emerald-ringed annual
 pricing card + white iOS CTA). NOT merged to `main` (founder presses go-live).
 
+## v2 (2026-06-29): black + silver + cosmic (NOT green) + interactive instruments
+
+Founder feedback on v1: the emerald read as a "green tilt." The signature is
+BLACK + SILVER + COSMIC, not green. And the operable cards are the retention
+engine: improve them a lot and add more, different kinds. Premium feel + dwell time.
+
+### A. De-green to the true signature
+- Silver/white is the ONE accent for ALL chrome: scroll-progress bar, eyebrow dots,
+  nav active underline/number, section accents, the pricing "active" ring, the BB
+  discipline tag, links, focus rings. (`--gold` and `--blood` aliases repointed to
+  cosmic silver; the literal emerald chrome spots recolored to silver/white.)
+- "Cosmic" = silver on near-black + the white bloom + the additive pool-of-light
+  atmosphere (already in place). Add a touch more cool cosmic depth (a whisper of
+  cool-silver, never blue/purple/green fog).
+- Emerald `#34D399` survives ONLY as a rare, EARNED micro-signal INSIDE the
+  interactive instruments (a set you complete, a ring you fill, a PR dot). One
+  semantic `--signal` token. Everywhere else: silver/white. Net effect: the site
+  reads silver-cosmic, green is a reward you trigger, not a theme.
+
+### B. Improve the existing instruments (silver-cosmic + better feel)
+- LiveSet (operable set row): recolor to silver; the only green is the set-complete
+  tick. Smoother scrub, crisper completed state, better PREVIOUS adoption affordance.
+- ConsistencyOrb (scrub days / log today): the ring fills SILVER/white (cosmic), with
+  a faint emerald only at the "earned" threshold. Tighter scrub + count-up.
+- StrengthCurve (scrub e1RM): silver line + glow, a single emerald peak/PR dot.
+
+### C. Add NEW interactive instruments (different kinds, all app-real, all silver-cosmic)
+Each is a self-contained operable component (pointer + keyboard + reduced-motion +
+touch-action), no WebGL, faithful to the app's real math:
+1. PlateLoader (the showpiece): set a target weight (drag / stepper / kg-lb toggle);
+   plates snap onto a barbell with the app's exact per-side plate math
+   (`utils/plate-calculator.ts`). Silver machined plates, white readout. Tactile, very
+   "lifting," high wow.
+2. RpeCalculator: pick weight + reps + RPE; the live estimated 1RM + %-of-1RM compute
+   from the app's RPE table (`utils/rpe-chart.ts`). Silver dials, white numbers.
+3. DotsGauge: enter bodyweight + SBD total; a silver semicircular gauge needle shows
+   the DOTS score + classification (Beginner -> Elite) from `utils/pl-scoring.ts`.
+4. (stretch) ConsistencyHeatmap: a 365-day silver heatmap, hover/scrub a day to read
+   it; cells brighten silver -> white, "met" days a faint emerald.
+
+### D. Build approach
+Hand-do the globals de-green (shared file, coherence). Use a workflow to build the new
+instruments + recolor the existing ones in parallel (each scoped to its own files, to a
+strict palette spec + the app math + the LiveSet pattern as the quality bar). Then I
+integrate into page.tsx, add the section styling, build clean, and verify every
+instrument in-browser at desktop + mobile (operate each one, screenshot), then commit.
+Not merged to main until the founder sees it.
+
 ## Out of scope (this pass)
 
 - New sections/copy, testimonials, Android download wiring (Android not public yet), the SteelScene "make it a real app surface" idea. This pass is purely making the existing site wear the app's skin, flawlessly.

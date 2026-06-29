@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 
 /**
- * The awekn motion system — "the instrument, powering on".
+ * The awekn motion system - "the instrument, powering on".
  *
  * Adapted from the igasm reference and deepened (2026-06-16) into a heavier,
  * scroll-LINKED system the founder asked for. Behaviors:

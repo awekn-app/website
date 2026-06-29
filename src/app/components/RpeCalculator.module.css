@@ -1,0 +1,480 @@
+/* ════════════════════════════════════════════════════════════════════════
+   THE RPE CALCULATOR - styles for the operable autoregulation instrument.
+   Silver / white / near-black only. NO emerald (this is a calculator, not an
+   earned moment). Transform / opacity only; reduced-motion snaps everything.
+   ════════════════════════════════════════════════════════════════════════ */
+
+.shell {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+  isolation: isolate;
+}
+/* a soft cosmic halo behind the card so it reads as lit from within */
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: -14% -10% -18%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 70% 58% at 50% 30%,
+    rgba(233, 234, 240, 0.15) 0%,
+    rgba(23, 20, 72, 0.08) 44%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+/* ── the liquid-glass card ── */
+.card {
+  position: relative;
+  padding: clamp(20px, 4vw, 30px);
+  border-radius: 26px;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 16, 26, 0.74) 0%,
+    rgba(8, 8, 16, 0.84) 100%
+  );
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(233, 234, 240, 0.14);
+  box-shadow:
+    inset 0 1px 0 0 rgba(233, 234, 240, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    inset 0 -24px 60px rgba(0, 0, 0, 0.35),
+    0 40px 90px rgba(0, 0, 0, 0.6),
+    0 12px 30px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+/* the upper liquid-glass sheen - a clipped specular band, screen-blended */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 42%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.015) 40%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── header ── */
+.head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(233, 234, 240, 0.1);
+}
+.headLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.kicker {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.title {
+  font-family: var(--font-sans);
+  font-size: clamp(20px, 5vw, 26px);
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  line-height: 1.04;
+  color: var(--champagne);
+  text-transform: lowercase;
+}
+.titleSerif {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* unit toggle (kg / lb) */
+.unitToggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  padding: 3px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(233, 234, 240, 0.12);
+}
+.unitBtn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-family: var(--font-numeral);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: lowercase;
+  color: var(--gold-dim);
+  padding: 5px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    color 0.24s var(--ease-out),
+    background-color 0.24s var(--ease-out);
+}
+.unitBtn:hover {
+  color: var(--champagne);
+}
+.unitOn {
+  color: var(--bg-deep, #070709);
+  background: var(--champagne);
+}
+.unitOn:hover {
+  color: var(--bg-deep, #070709);
+}
+.unitBtn:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 2px;
+}
+
+/* ── the hero readout ── */
+.hero {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 22px 0 20px;
+}
+.heroLabel {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 8px;
+}
+.heroValue {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+}
+.heroNum {
+  font-family: var(--font-numeral);
+  font-size: clamp(54px, 16vw, 76px);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -2px;
+  color: var(--white, #ffffff);
+  font-variant-numeric: tabular-nums;
+  /* the cosmic bloom - additive white, 3 soft layers */
+  text-shadow:
+    0 0 40px rgba(255, 255, 255, 0.1),
+    0 0 18px rgba(255, 255, 255, 0.22),
+    0 0 6px rgba(255, 255, 255, 0.16);
+}
+.heroUnit {
+  font-family: var(--font-numeral);
+  font-size: clamp(16px, 4vw, 20px);
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  color: var(--gold-dim);
+  text-transform: lowercase;
+}
+.heroSub {
+  font-family: var(--font-numeral);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: var(--gold-dim);
+  margin-top: 10px;
+  text-transform: lowercase;
+}
+.heroSubNum {
+  color: var(--champagne);
+  font-variant-numeric: tabular-nums;
+}
+
+/* the thin silver % of 1RM track */
+.track {
+  position: relative;
+  width: min(78%, 320px);
+  height: 3px;
+  margin-top: 16px;
+  border-radius: 99px;
+  background: rgba(233, 234, 240, 0.1);
+  overflow: hidden;
+}
+.trackFill {
+  position: absolute;
+  inset: 0;
+  border-radius: 99px;
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    rgba(154, 155, 166, 0.7) 0%,
+    var(--champagne) 100%
+  );
+  box-shadow: 0 0 10px rgba(233, 234, 240, 0.3);
+  transition: transform 0.45s var(--ease-emphatic);
+  will-change: transform;
+}
+.trackCap {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-numeral);
+  font-size: 7px;
+  letter-spacing: 0.4px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+/* ── a control block (weight / reps / rpe) ── */
+.control {
+  position: relative;
+  z-index: 2;
+  padding-top: 16px;
+  margin-top: 14px;
+  border-top: 1px solid rgba(233, 234, 240, 0.08);
+}
+.controlHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.controlLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.controlHint {
+  font-family: var(--font-numeral);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  text-transform: lowercase;
+}
+
+/* ── WEIGHT: scrub + stepper ── */
+.weightWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.step {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-numeral);
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--gold-dim);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(233, 234, 240, 0.12);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    transform 0.16s var(--ease-out),
+    background-color 0.16s var(--ease-out),
+    color 0.16s var(--ease-out);
+}
+.step:hover {
+  background: rgba(233, 234, 240, 0.1);
+  color: var(--champagne);
+}
+.step:active {
+  transform: scale(0.9);
+}
+.step:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 2px;
+}
+
+.weight {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 5px;
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none; /* own horizontal drag; vertical page scroll handled by page */
+  padding: 6px 4px;
+  border-radius: 12px;
+  transition:
+    transform 0.16s var(--ease-out),
+    background-color 0.16s var(--ease-out);
+}
+.weight:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 3px;
+}
+.weightNum {
+  font-family: var(--font-numeral);
+  font-size: clamp(30px, 8vw, 40px);
+  font-weight: 500;
+  letter-spacing: -1px;
+  line-height: 1;
+  color: var(--champagne);
+  font-variant-numeric: tabular-nums;
+}
+.weightUnit {
+  font-family: var(--font-numeral);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gold-dim);
+  text-transform: lowercase;
+}
+/* live scrub feedback - a faint lift + wash, transform-cheap */
+.weightScrub .weight {
+  background: rgba(233, 234, 240, 0.07);
+  transform: scale(1.03);
+}
+
+/* ── chip rows (reps + rpe) ── */
+.chips {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+}
+.chipsRpe {
+  grid-template-columns: repeat(9, 1fr);
+}
+.chip {
+  appearance: none;
+  position: relative;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-numeral);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  color: var(--gold-dim);
+  font-variant-numeric: tabular-nums;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(233, 234, 240, 0.1);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    transform 0.16s var(--ease-out),
+    background-color 0.24s var(--ease-out),
+    border-color 0.24s var(--ease-out),
+    color 0.24s var(--ease-out),
+    box-shadow 0.24s var(--ease-out);
+}
+.chipRpe {
+  font-size: 12px;
+}
+.chip:hover {
+  color: var(--champagne);
+  border-color: rgba(233, 234, 240, 0.24);
+  background: rgba(233, 234, 240, 0.07);
+}
+.chip:active {
+  transform: scale(0.93);
+}
+.chip:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 2px;
+}
+/* the selected chip - filled silver, near-black numeral, soft white bloom.
+   silver, not emerald: selection is chrome, not an earned signal. */
+.chipOn {
+  color: var(--bg-deep, #070709);
+  background: var(--champagne);
+  border-color: var(--champagne);
+  box-shadow:
+    0 0 18px rgba(233, 234, 240, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.chipOn:hover {
+  color: var(--bg-deep, #070709);
+  background: var(--white, #ffffff);
+  border-color: var(--white, #ffffff);
+}
+
+/* honest caption */
+.caption {
+  position: relative;
+  z-index: 2;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(233, 234, 240, 0.08);
+  font-family: var(--font-numeral);
+  font-size: 10px;
+  letter-spacing: 0.4px;
+  color: var(--text-faint);
+  text-align: center;
+  text-transform: lowercase;
+}
+
+/* ── narrow phones: tighten chips, keep tap targets generous ── */
+@media (max-width: 420px) {
+  .chips {
+    gap: 4px;
+  }
+  .chip {
+    height: 34px;
+    font-size: 12px;
+    border-radius: 9px;
+  }
+  .chipRpe {
+    font-size: 10.5px;
+  }
+  .step {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION - snap, no ramp. The e1RM jumps to target in JS
+   (prefersReduced gate); here we kill every transition + transform pop.
+   ════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .trackFill,
+  .chip,
+  .step,
+  .weight,
+  .unitBtn {
+    transition: none;
+  }
+  .step:active,
+  .chip:active,
+  .weightScrub .weight {
+    transform: none;
+  }
+}

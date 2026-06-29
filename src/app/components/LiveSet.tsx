@@ -4,30 +4,33 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./LiveSet.module.css";
 
 /* ════════════════════════════════════════════════════════════════════════
-   THE LIVE SET — the owned, operable centerpiece.
+   THE LIVE SET - the owned, operable centerpiece.
 
    This is the app's real workout SetRow, rebuilt to run in the browser. It is
    not a screenshot. You drag the weight, hit the round check, and the exact
-   in-app completion grammar fires: the row border + fill ease to --emerald, the
+   in-app completion grammar fires: the row border + fill ease to --signal, the
    outline check swaps to a filled sharp checkmark, a soft 0.97 -> 1 pulse runs,
    and the header e1RM ticks up via requestAnimationFrame.
 
-   Brand law honoured:
-     - gold (--champagne) IS the text in instrument contexts; --emerald is the
-       EARNED signal, fired ONLY on completion (never decoration).
-     - every numeral is --font-numeral (JetBrains Mono), tabular-nums.
+   Brand law honoured (black + silver + cosmic, NOT green):
+     - cosmic silver (--champagne) IS the text and ALL chrome in this
+       instrument; --signal emerald is the ONE earned signal, fired ONLY on the
+       set-complete tick + the completed-row wash (never decoration, never
+       chrome). Everything else - e1RM readout, scrubber, reps, PREVIOUS,
+       badges, borders, tracks - is silver / white / near-black.
+     - every numeral is --font-numeral, tabular-nums.
      - transform / opacity / clip-path only (60fps). scale(0.97) on :active.
      - reduced-motion: snap, no animation, no raf ramp.
      - keyboard operable (arrows scrub weight, space/enter complete), SSR-guarded.
 
    Faithful to /Users/areeb/awekn/components/workout/SetRow.tsx:
      - PREVIOUS column in muted mono, the true U+00D7 multiplication sign.
-     - set-number badge fills emerald + white numeral on completion.
-     - completed row gets the rgba(52,211,153,…) wash + rounded inset.
-     - 44x44 round check, checkmark -> checkmark-sharp swap.
+     - set-number badge brightens to a silver fill on completion (no emerald).
+     - completed row gets the subtle --signal wash + rounded inset.
+     - 44x44 round check, checkmark -> checkmark-sharp swap (the earned tick).
    ════════════════════════════════════════════════════════════════════════ */
 
-const STEP = 2.5; // kg per scrub step — the app's plate-math increment
+const STEP = 2.5; // kg per scrub step - the app's plate-math increment
 const MIN_W = 20; // an empty bar floor
 const MAX_W = 360; // a sane ceiling so a runaway drag never breaks layout
 const PX_PER_STEP = 8; // horizontal pixels of drag per 2.5 kg
@@ -104,7 +107,7 @@ function CheckSharp() {
 export default function LiveSet() {
   const [rows, setRows] = useState<Row[]>(INITIAL_ROWS);
 
-  // The header e1RM is the running BEST across completed sets — that is what
+  // The header e1RM is the running BEST across completed sets - that is what
   // the app surfaces (your top working estimate today). It animates toward its
   // target via raf when a set lands.
   const [e1rmDisplay, setE1rmDisplay] = useState(0);
@@ -136,7 +139,7 @@ export default function LiveSet() {
           rafId.current = null;
           return target;
         }
-        // stiff damped approach — no overshoot, just a decelerating climb
+        // stiff damped approach - no overshoot, just a decelerating climb
         const next = cur + delta * 0.16;
         rafId.current = requestAnimationFrame(tick);
         return next;
@@ -266,7 +269,7 @@ export default function LiveSet() {
           >
             <span className={styles.readoutLabel}>e1RM</span>
             <span className={styles.readoutValue}>
-              <span className={styles.readoutNum}>{e1rmWhole || "—"}</span>
+              <span className={styles.readoutNum}>{e1rmWhole || "-"}</span>
               <span className={styles.readoutUnit}>kg</span>
             </span>
           </div>

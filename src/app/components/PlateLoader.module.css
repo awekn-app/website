@@ -1,0 +1,433 @@
+/* ════════════════════════════════════════════════════════════════════════
+   THE PLATE LOADER - styles for the machined barbell instrument.
+   Pure silver / white / near-black. NO emerald (loading a bar is not earned).
+   Transform / opacity only on the moving plates. Reduced-motion snaps them.
+   ════════════════════════════════════════════════════════════════════════ */
+
+.shell {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  position: relative;
+  isolation: isolate;
+}
+/* a soft cosmic halo behind the card so it reads as lit from within */
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: -14% -8% -18%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 72% 58% at 50% 42%,
+    rgba(233, 234, 240, 0.14) 0%,
+    rgba(233, 234, 240, 0.05) 44%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+/* ── the liquid-glass card ── */
+.card {
+  position: relative;
+  padding: clamp(20px, 4vw, 30px);
+  border-radius: 26px;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 16, 24, 0.74) 0%,
+    rgba(8, 8, 14, 0.86) 100%
+  );
+  backdrop-filter: blur(26px) saturate(140%);
+  -webkit-backdrop-filter: blur(26px) saturate(140%);
+  border: 1px solid rgba(233, 234, 240, 0.14);
+  box-shadow:
+    inset 0 1px 0 0 rgba(233, 234, 240, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    inset 0 -24px 60px rgba(0, 0, 0, 0.35),
+    0 40px 90px rgba(0, 0, 0, 0.6),
+    0 12px 30px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 42%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.015) 42%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── header ── */
+.head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(233, 234, 240, 0.1);
+}
+.headLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.kicker {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.title {
+  font-family: var(--font-sans);
+  font-size: clamp(19px, 4.6vw, 24px);
+  font-weight: 500;
+  letter-spacing: -0.3px;
+  line-height: 1.04;
+  color: var(--champagne);
+}
+
+/* ── kg / lb toggle ── */
+.unitToggle {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  width: 84px;
+  height: 32px;
+  padding: 3px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(233, 234, 240, 0.12);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.unitToggle:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 2px;
+}
+.unitOpt {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  font-family: var(--font-numeral);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  color: var(--text-faint);
+  transition: color 0.28s var(--ease-out);
+  pointer-events: none;
+}
+.unitOn {
+  color: #0b0b10;
+  font-weight: 600;
+}
+.unitThumb {
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  bottom: 3px;
+  width: calc(50% - 3px);
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f1f2f7 0%, #c4c5cf 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.32s var(--ease-emphatic);
+}
+.unitThumb[data-unit="kg"] {
+  transform: translateX(3px);
+}
+.unitThumb[data-unit="lb"] {
+  transform: translateX(calc(100% + 3px));
+}
+
+/* ── the big silver total, cosmic-bloomed ── */
+.readout {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px 0 6px;
+}
+.readoutNum {
+  font-family: var(--font-numeral);
+  font-size: clamp(48px, 13vw, 76px);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -2px;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+  /* the brand cosmic bloom: soft 3-layer additive white text-shadow */
+  text-shadow:
+    0 0 40px rgba(255, 255, 255, 0.1),
+    0 0 18px rgba(255, 255, 255, 0.22),
+    0 1px 0 rgba(0, 0, 0, 0.4);
+}
+.readoutUnit {
+  font-family: var(--font-numeral);
+  font-size: clamp(16px, 4vw, 22px);
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: var(--gold-dim);
+}
+
+/* ── the barbell ── */
+.barWrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin: 4px 0 6px;
+}
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.barOnlyHint {
+  font-family: var(--font-numeral);
+  font-size: 13px;
+  letter-spacing: 1.2px;
+  text-transform: lowercase;
+}
+
+/* a plate spins in from inboard (scaleX from 0) and fades, transform-only.
+   transformOrigin/transformBox are set inline (view-box, bar center) so the
+   disc grows outward off the sleeve. */
+.plate {
+  animation: plateIn 0.42s var(--ease-emphatic) both;
+}
+@keyframes plateIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.plateReduced {
+  animation: none;
+}
+
+/* ── controls: drag track + steppers ── */
+.controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.step {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-numeral);
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--champagne);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(233, 234, 240, 0.14);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    transform 0.16s var(--ease-out),
+    background-color 0.16s var(--ease-out),
+    border-color 0.16s var(--ease-out);
+}
+.step:hover {
+  background: rgba(233, 234, 240, 0.1);
+  border-color: rgba(233, 234, 240, 0.24);
+}
+.step:active {
+  transform: scale(0.9);
+}
+.step:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 2px;
+}
+
+.track {
+  position: relative;
+  flex: 1;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(233, 234, 240, 0.12);
+  cursor: ew-resize;
+  overflow: hidden;
+  /* own the horizontal drag; let vertical page-scroll still pass through */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.track:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 2px;
+}
+/* the filled portion: a silver wash scaled on X (transform-cheap) */
+.trackFill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    rgba(233, 234, 240, 0.1) 0%,
+    rgba(233, 234, 240, 0.22) 100%
+  );
+  pointer-events: none;
+}
+/* a faint tick grid so the loadable steps read */
+.track::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(5% - 1px),
+    rgba(233, 234, 240, 0.06) calc(5% - 1px),
+    rgba(233, 234, 240, 0.06) 5%
+  );
+}
+.trackThumb {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 26px;
+  margin-left: -7px;
+  transform: translateY(-50%);
+  border-radius: 5px;
+  background: linear-gradient(180deg, #f2f3f8 0%, #b9bac4 55%, #8a8b96 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 7px rgba(0, 0, 0, 0.5),
+    0 0 14px rgba(255, 255, 255, 0.16);
+  pointer-events: none;
+  transition: left 0.18s var(--ease-out);
+}
+.trackScrub .trackThumb {
+  transition: none;
+}
+.trackThumbGrip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 12px;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.28);
+  box-shadow:
+    -3px 0 0 rgba(0, 0, 0, 0.18),
+    3px 0 0 rgba(0, 0, 0, 0.18);
+}
+
+/* ── per-side breakdown ── */
+.breakdown {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(233, 234, 240, 0.1);
+}
+.perSide {
+  font-family: var(--font-numeral);
+  font-size: clamp(13px, 3.4vw, 16px);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: var(--champagne);
+  font-variant-numeric: tabular-nums;
+  min-width: 0;
+}
+.barSub {
+  flex-shrink: 0;
+  font-family: var(--font-numeral);
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  color: var(--gold-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* honest caption */
+.caption {
+  position: relative;
+  z-index: 2;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(233, 234, 240, 0.08);
+  font-family: var(--font-numeral);
+  font-size: 10px;
+  letter-spacing: 0.4px;
+  color: var(--text-faint);
+  text-align: center;
+  text-transform: lowercase;
+}
+
+/* ── narrow phones ── */
+@media (max-width: 460px) {
+  .readoutNum {
+    letter-spacing: -1.2px;
+  }
+  .breakdown {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .step {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION - no plate spin, no thumb ease, no toggle slide.
+   The instrument stays fully operable; only the ramps are killed.
+   ════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .plate {
+    animation: none;
+  }
+  .unitThumb,
+  .trackThumb,
+  .step,
+  .unitOpt {
+    transition: none;
+  }
+  .step:active {
+    transform: none;
+  }
+}

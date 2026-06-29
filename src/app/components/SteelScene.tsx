@@ -14,7 +14,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 /* ──────────────────────────────────────────────────────────────────────
-   THE STEEL — a machined Olympic-steel ring, knurled like a barbell sleeve.
+   THE STEEL - a machined Olympic-steel ring, knurled like a barbell sleeve.
 
    A real r3f scene: a torus of gunmetal steel (MeshStandardMaterial,
    metalness ~1, low roughness) lit by a procedurally-baked PMREM
@@ -32,7 +32,7 @@ import * as THREE from "three";
      while visible, and stop the moment it leaves the viewport
    - DPR clamped (1.5 desktop / 1 mobile)
    - on a small screen (<=820px) OR prefers-reduced-motion OR a low-end
-     device, NO WebGL at all — a static CSS/SVG metallic poster stands in
+     device, NO WebGL at all - a static CSS/SVG metallic poster stands in
      (never a second live WebGL context)
 
    Motion law: only transform/opacity animate in the DOM layer; SSR-guarded
@@ -41,13 +41,13 @@ import * as THREE from "three";
 
 const SILVER = "#E9EAF0";
 const GUNMETAL = "#3a3d47";
-// the single brand rim accent on the steel — emerald (app-match), kept subtle
+// the single brand rim accent on the steel - emerald (app-match), kept subtle
 const BLOOD = "#34D399";
 const VOID = "#0A0A0C"; // neutral near-black stage (app-true; was bluish #05060f)
 
 /* ── capability gate ────────────────────────────────────────────────────
    Decide ONCE, client-side, whether this device should get live steel or
-   the poster. Errs toward the poster — a flawless static frame beats a
+   the poster. Errs toward the poster - a flawless static frame beats a
    janky canvas on a mid-range phone. */
 function useSteelCapability(): { ready: boolean; live: boolean } {
   const [state, setState] = useState<{ ready: boolean; live: boolean }>({
@@ -349,7 +349,7 @@ function Rig() {
     <>
       <ambientLight intensity={0.25} />
       <directionalLight position={[3, 4, 5]} intensity={1.1} color={SILVER} />
-      {/* the rare emerald rim, from below-behind — subtle brand catch-light */}
+      {/* the rare emerald rim, from below-behind - subtle brand catch-light */}
       <pointLight position={[-3, -2, -2]} intensity={1.3} color={BLOOD} />
     </>
   );
@@ -508,7 +508,7 @@ export function SteelPoster() {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
-   DEFAULT EXPORT — the placement-ready instrument.
+   DEFAULT EXPORT - the placement-ready instrument.
 
    Renders an absolutely-filled layer inside whatever positioned host you
    drop it in. Decides live-vs-poster once, gates the live canvas on the
@@ -524,7 +524,7 @@ export function SteelPoster() {
      </div>
 
    The host MUST be position:relative (or absolute/fixed) and have a height
-   — SteelScene fills it (position:absolute inset:0). Good as a hero side
+   - SteelScene fills it (position:absolute inset:0). Good as a hero side
    element, a section divider, or a backdrop behind a headline.
    ────────────────────────────────────────────────────────────────────── */
 export default function SteelScene({

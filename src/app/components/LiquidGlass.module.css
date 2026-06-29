@@ -1,8 +1,8 @@
 /* ════════════════════════════════════════════════════════════════════════
-   LIQUID GLASS — co-located styles.
+   LIQUID GLASS - co-located styles.
 
    Two visual tiers, identical chrome (border / highlight / shadow / tint):
-     .glass            the frosted FALLBACK — cheap blur+saturate backdrop.
+     .glass            the frosted FALLBACK - cheap blur+saturate backdrop.
                        This alone already reads premium (Firefox / older Safari
                        / mobile / disableFilter all land here).
      .glass.refract    adds the SVG-refraction layer on top of the frost, so
@@ -54,7 +54,7 @@
     0 10px 26px rgba(0, 0, 0, 0.4);
 }
 
-/* the SVG <filter> plumbing — zero-footprint, never painted */
+/* the SVG <filter> plumbing - zero-footprint, never painted */
 .filterSvg {
   position: absolute;
   width: 0;
@@ -75,7 +75,7 @@
   /* backdrop-filter (url(#id) blur saturate) applied inline */
 }
 
-/* The upper liquid-glass SHEEN — a clipped specular band, screen-blended, the
+/* The upper liquid-glass SHEEN - a clipped specular band, screen-blended, the
    poured-glass top catching light. ::before so it never intercepts pointers. */
 .glass::before {
   content: "";
@@ -95,7 +95,7 @@
   mix-blend-mode: screen;
 }
 
-/* A faint cosmic edge-light pooling along the very top hairline — the silver
+/* A faint cosmic edge-light pooling along the very top hairline - the silver
    catch-light that makes the pane feel poured, not stamped. */
 .glass::after {
   content: "";
@@ -118,7 +118,7 @@
   display: block;
 }
 
-/* When refracting, lean the frost slightly lighter — the SVG displacement adds
+/* When refracting, lean the frost slightly lighter - the SVG displacement adds
    apparent depth, so we don't need to over-blur (cheaper + sharper). */
 .refract {
   backdrop-filter: none;

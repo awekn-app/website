@@ -1,7 +1,8 @@
 /* ════════════════════════════════════════════════════════════════════════
-   THE LIVE SET — styles for the operable workout-set centerpiece.
-   Transform / opacity / clip-path only. Gold (--champagne) is the text;
-   --emerald is the earned completion signal, never decoration.
+   THE LIVE SET - styles for the operable workout-set centerpiece.
+   Transform / opacity / clip-path only. Cosmic silver (--champagne) is the
+   text and ALL chrome; --signal emerald is the ONE earned completion signal,
+   fired only on the set-complete tick + row wash, never decoration.
    ════════════════════════════════════════════════════════════════════════ */
 
 .shell {
@@ -19,8 +20,8 @@
   z-index: -1;
   background: radial-gradient(
     ellipse 70% 60% at 50% 38%,
-    rgba(233, 234, 240, 0.16) 0%,
-    rgba(23, 20, 72, 0.1) 42%,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(233, 234, 240, 0.07) 42%,
     transparent 72%
   );
   pointer-events: none;
@@ -50,7 +51,7 @@
     0 12px 30px rgba(0, 0, 0, 0.45);
   overflow: hidden;
 }
-/* the upper liquid-glass sheen — a clipped specular band, screen-blended */
+/* the upper liquid-glass sheen - a clipped specular band, screen-blended */
 .card::before {
   content: "";
   position: absolute;
@@ -182,20 +183,22 @@
   border-radius: 12px;
   border: 1px solid transparent;
   background: transparent;
-  /* animate ONLY transform-safe paint props — color/border/bg/shadow are
+  /* animate ONLY transform-safe paint props - color/border/bg/shadow are
      cheap here (one card, three rows) and reduced-motion is honoured below */
   transition:
     background-color 0.42s var(--ease-emphatic),
     border-color 0.42s var(--ease-emphatic),
     box-shadow 0.42s var(--ease-emphatic);
 }
-/* the completed state — the app's exact wash, now bordered + lifted */
+/* the completed state: a subtle SILVER wash + hairline + soft additive WHITE
+   glow (black + silver + cosmic). The only green on a completed set is the tiny
+   tick glyph itself; the row stays silver, so green never tilts the whole row. */
 .rowDone {
-  background-color: rgba(52, 211, 153, 0.08);
-  border-color: rgba(52, 211, 153, 0.32);
+  background-color: rgba(233, 234, 240, 0.05);
+  border-color: rgba(233, 234, 240, 0.22);
   box-shadow:
-    inset 0 0 0 1px rgba(52, 211, 153, 0.12),
-    0 0 24px rgba(52, 211, 153, 0.1);
+    inset 0 0 0 1px rgba(233, 234, 240, 0.08),
+    0 0 22px rgba(255, 255, 255, 0.06);
 }
 /* the soft 0.97 -> 1 completion pulse, transform-only */
 .row[data-pulse="on"] {
@@ -207,7 +210,8 @@
   100% { transform: scale(1); }
 }
 
-/* set-number badge — fills emerald with a white numeral when done */
+/* set-number badge - chrome, so it stays cosmic silver. It brightens to a
+   white-silver fill on completion (no emerald: the tick alone earns green). */
 .setBadge {
   width: 28px;
   height: 28px;
@@ -229,12 +233,12 @@
     border-color 0.42s var(--ease-emphatic);
 }
 .rowDone .setBadge {
-  background: var(--emerald);
-  color: #04130d;
-  border-color: var(--emerald);
+  background: rgba(233, 234, 240, 0.16);
+  color: var(--champagne);
+  border-color: rgba(233, 234, 240, 0.3);
 }
 
-/* PREVIOUS column — muted gold-dim mono reference */
+/* PREVIOUS column - muted cosmic-silver-dim mono reference */
 .prev {
   font-family: var(--font-numeral);
   font-size: 11px;
@@ -304,7 +308,7 @@
   outline: 2px solid var(--champagne);
   outline-offset: 3px;
 }
-/* live scrub feedback — a faint lift + a hairline track, transform-cheap */
+/* live scrub feedback - a faint lift + a hairline track, transform-cheap */
 .weightScrub .weight {
   background: rgba(233, 234, 240, 0.08);
   transform: scale(1.04);
@@ -361,11 +365,13 @@
   outline: 2px solid var(--champagne);
   outline-offset: 3px;
 }
+/* the EARNED tick - the single emerald moment. Filled --signal with a dark
+   ink glyph and a soft additive emerald glow, kept subtle. */
 .rowDone .check {
-  background: var(--emerald);
-  border-color: var(--emerald);
+  background: var(--signal);
+  border-color: var(--signal);
   color: #04130d;
-  box-shadow: 0 0 20px rgba(52, 211, 153, 0.4);
+  box-shadow: 0 0 18px rgba(52, 211, 153, 0.32);
 }
 /* the glyph swap gets its own tiny transform pop on completion */
 .checkGlyph {
@@ -410,7 +416,7 @@
 }
 
 /* ════════════════════════════════════════════════════════════════════════
-   REDUCED MOTION — snap, no ramp, no pulse. The e1RM jumps to target in JS
+   REDUCED MOTION - snap, no ramp, no pulse. The e1RM jumps to target in JS
    (prefersReduced gate); here we kill every keyframe + transition.
    ════════════════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {

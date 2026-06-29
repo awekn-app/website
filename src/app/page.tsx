@@ -6,6 +6,9 @@ import LiquidWordmark from './components/LiquidWordmark';
 import LiveSet from './components/LiveSet';
 import StrengthCurve from './components/StrengthCurve';
 import ConsistencyOrb from './components/ConsistencyOrb';
+import PlateLoader from './components/PlateLoader';
+import RpeCalculator from './components/RpeCalculator';
+import DotsGauge from './components/DotsGauge';
 import LiquidGlass from './components/LiquidGlass';
 import { useMotion } from './lib/useMotion';
 
@@ -36,7 +39,7 @@ function AppleGlyph() {
   );
 }
 
-// The Android robot silhouette, drawn quiet — it never lights up (inert).
+// The Android robot silhouette, drawn quiet - it never lights up (inert).
 function AndroidGlyph() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -62,7 +65,7 @@ export default function Home() {
         <span className="ix-progress-bar" />
       </div>
 
-      {/* ════════════ NAV — REAL liquid-glass pill ════════════ */}
+      {/* ════════════ NAV - REAL liquid-glass pill ════════════ */}
       <LiquidGlass
         as="nav"
         className="ix-nav"
@@ -88,8 +91,13 @@ export default function Home() {
             </a>
           </li>
           <li>
+            <a href="#workshop">
+              <span className="ix-nav-num">04</span>The workshop
+            </a>
+          </li>
+          <li>
             <a href="#pricing">
-              <span className="ix-nav-num">04</span>Pricing
+              <span className="ix-nav-num">05</span>Pricing
             </a>
           </li>
         </ol>
@@ -149,7 +157,7 @@ export default function Home() {
         </a>
       </header>
 
-      {/* ════════════ 01 · THE RECORD — the signature orb gets the room ════════════ */}
+      {/* ════════════ 01 · THE RECORD - the signature orb gets the room ════════════ */}
       <section className="ix-section ix-record" id="record">
         <div className="ix-section-head reveal">
           <span className="ix-eyebrow">
@@ -202,7 +210,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════════════ 02 · TWO DISCIPLINES — REAL liquid-glass cards ════════════ */}
+      {/* ════════════ 02 · TWO DISCIPLINES - REAL liquid-glass cards ════════════ */}
       <section className="ix-section ix-disciplines" id="disciplines">
         <div className="ix-section-head reveal">
           <span className="ix-eyebrow">
@@ -261,7 +269,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════════════ THE STEEL — a dedicated 3D moment between sections ════════════ */}
+      {/* ════════════ THE STEEL - a dedicated 3D moment between sections ════════════ */}
       <section className="ix-steel-band" aria-label="The iron, idling">
         <div className="ix-steel-stage">
           <SteelScene />
@@ -279,7 +287,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════════════ 03 · THE SET — the operable centerpiece ════════════ */}
+      {/* ════════════ 03 · THE SET - the operable centerpiece ════════════ */}
       <section className="ix-section ix-set" id="set">
         <div className="ix-section-head ix-set-head reveal">
           <span className="ix-eyebrow">
@@ -317,6 +325,40 @@ export default function Home() {
 
         <div className="ix-strength-stage reveal">
           <StrengthCurve />
+        </div>
+      </section>
+
+      {/* ════════════ THE WORKSHOP - operable instruments you can drive ════════════ */}
+      <section className="ix-section ix-workshop" id="workshop">
+        <div className="ix-section-head reveal">
+          <span className="ix-eyebrow">
+            <span className="ix-index-num">·</span>The workshop
+          </span>
+          <h2 className="ix-display">
+            run the <span className="ix-serif">numbers</span> yourself
+          </h2>
+          <p className="ix-lede">
+            The same math the app runs, live in your hands. Load a bar, back-solve
+            a one-rep max, score a total. Drag anything. None of it is a mockup.
+          </p>
+        </div>
+
+        {/* showpiece: load a real barbell */}
+        <div className="ix-workshop-hero reveal">
+          <PlateLoader />
+        </div>
+
+        {/* the calculator pair */}
+        <div className="ix-workshop-pair">
+          <div className="ix-workshop-cell reveal">
+            <RpeCalculator />
+          </div>
+          <div
+            className="ix-workshop-cell reveal"
+            style={{ transitionDelay: '0.08s' }}
+          >
+            <DotsGauge />
+          </div>
         </div>
       </section>
 
@@ -485,6 +527,7 @@ export default function Home() {
             <a href="#record">The record</a>
             <a href="#disciplines">Disciplines</a>
             <a href="#set">The set</a>
+            <a href="#workshop">The workshop</a>
             <a href="#pricing">Pricing</a>
           </nav>
           <nav className="ix-footer-col" aria-label="Reach">

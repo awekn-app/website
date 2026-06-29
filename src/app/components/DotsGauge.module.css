@@ -1,0 +1,461 @@
+/* ════════════════════════════════════════════════════════════════════════
+   THE DOTS GAUGE - styles for the strength-score instrument.
+   Black + silver + cosmic. NO emerald (a score is not an earned moment).
+   The needle and active arc are bright silver / white; the big number wears
+   the brand cosmic bloom. Transform / opacity only; reduced-motion honoured.
+   ════════════════════════════════════════════════════════════════════════ */
+
+.shell {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  position: relative;
+  isolation: isolate;
+}
+/* a soft cosmic halo behind the card so it reads as lit from within */
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: -14% -10% -18%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 70% 56% at 50% 34%,
+    rgba(233, 234, 240, 0.16) 0%,
+    rgba(23, 20, 72, 0.08) 44%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
+/* ── the liquid-glass card ── */
+.card {
+  position: relative;
+  padding: clamp(20px, 4vw, 30px);
+  border-radius: 26px;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 16, 26, 0.74) 0%,
+    rgba(8, 8, 16, 0.84) 100%
+  );
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid var(--glass-border, rgba(233, 234, 240, 0.14));
+  box-shadow:
+    inset 0 1px 0 0 rgba(233, 234, 240, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    inset 0 -24px 60px rgba(0, 0, 0, 0.35),
+    0 40px 90px rgba(0, 0, 0, 0.6),
+    0 12px 30px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+/* upper specular sheen */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 42%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.015) 40%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── header ── */
+.head {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(233, 234, 240, 0.1);
+}
+.headLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.title {
+  font-family: var(--font-sans);
+  font-size: clamp(20px, 5vw, 26px);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  line-height: 1.04;
+  color: var(--champagne);
+}
+
+/* ── segmented toggles (gender + units share the look) ── */
+.genderToggle,
+.unitToggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  padding: 3px;
+  gap: 2px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(233, 234, 240, 0.12);
+}
+.genderBtn,
+.unitBtn {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: lowercase;
+  color: var(--gold-dim);
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition:
+    color 0.28s var(--ease-out),
+    background-color 0.28s var(--ease-out),
+    box-shadow 0.28s var(--ease-out);
+}
+.genderBtn:hover,
+.unitBtn:hover {
+  color: var(--champagne);
+}
+.genderOn,
+.unitOn {
+  color: var(--cta-ink, #0c0c0c);
+  background: var(--champagne);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+.genderBtn:focus-visible,
+.unitBtn:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 2px;
+}
+
+/* ── gauge ── */
+.gaugeWrap {
+  position: relative;
+  z-index: 2;
+  margin: 6px 0 4px;
+}
+.gauge {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.trackArc {
+  fill: none;
+  stroke-width: 14;
+  stroke-linecap: round;
+}
+.activeArc {
+  fill: none;
+  stroke-width: 14;
+  stroke-linecap: round;
+  /* the lit arc gets a soft white bloom (additive, brand-correct) */
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.28));
+}
+
+.majorTick {
+  stroke: rgba(233, 234, 240, 0.55);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.minorTick {
+  stroke: rgba(233, 234, 240, 0.2);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.tickLabel {
+  font-family: var(--font-numeral);
+  font-size: 26px;
+  font-weight: 500;
+  fill: var(--gold-dim);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+}
+
+/* ── the needle ──
+   Rotation is applied via the SVG transform ATTRIBUTE about the explicit hub
+   (rotate(deg, 500, 500)) in the component, not CSS, so the pivot is exact and
+   independent of the parent group's translate. The raf re-renders the angle
+   each frame, so no CSS transition is needed (one would double-up / lag). */
+.needleGroup {
+  transition: none;
+}
+.needle {
+  stroke: var(--white);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.hubOuter {
+  fill: #14141a;
+  stroke: rgba(233, 234, 240, 0.55);
+  stroke-width: 2.5;
+}
+.hubInner {
+  fill: var(--white);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.45));
+}
+
+/* ── the centred readout (number + band) over the dial ── */
+.readout {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* sit it low inside the semicircle, just above the hub */
+  bottom: 4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+.scoreNum {
+  font-family: var(--font-numeral);
+  font-size: clamp(48px, 13vw, 72px);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -1.5px;
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+  /* THE COSMIC BLOOM: soft 3-layer white text-shadow */
+  text-shadow:
+    0 0 40px rgba(255, 255, 255, 0.1),
+    0 0 18px rgba(255, 255, 255, 0.22),
+    0 0 6px rgba(255, 255, 255, 0.18);
+}
+.bandWord {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2.6px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+/* ── controls ── */
+.controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(233, 234, 240, 0.1);
+}
+
+.unitRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.unitLabel {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.controlTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.controlLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.controlValue {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.controlNum {
+  font-family: var(--font-numeral);
+  font-size: clamp(18px, 4.6vw, 22px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.4px;
+  color: var(--champagne);
+  font-variant-numeric: tabular-nums;
+}
+.controlUnit {
+  font-family: var(--font-numeral);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gold-dim);
+}
+
+/* ── slider row: stepper · track · stepper ── */
+.sliderRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.step {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-numeral);
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--gold-dim);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(233, 234, 240, 0.12);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    transform 0.16s var(--ease-out),
+    background-color 0.16s var(--ease-out),
+    color 0.16s var(--ease-out);
+}
+.step:hover {
+  background: rgba(233, 234, 240, 0.1);
+  color: var(--champagne);
+}
+.step:active {
+  transform: scale(0.9);
+}
+.step:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 2px;
+}
+
+.track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(233, 234, 240, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  /* own the horizontal drag; let vertical page scroll still pass */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+  transition: box-shadow 0.2s var(--ease-out);
+}
+.track:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 3px;
+}
+.trackActive {
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(233, 234, 240, 0.2);
+}
+.trackFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(154, 155, 166, 0.3) 0%,
+    rgba(233, 234, 240, 0.5) 100%
+  );
+  pointer-events: none;
+  /* width changes are not animated mid-drag; raf is not needed for a 1D bar,
+     a short ease keeps stepper taps smooth without lagging the drag */
+  transition: width 0.08s linear;
+}
+.thumb {
+  position: absolute;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid rgba(12, 12, 20, 0.6);
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.5),
+    0 0 10px rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: left 0.08s linear;
+}
+
+/* ── honest caption ── */
+.caption {
+  position: relative;
+  z-index: 2;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(233, 234, 240, 0.08);
+  font-family: var(--font-numeral);
+  font-size: 10px;
+  letter-spacing: 0.4px;
+  color: var(--text-faint);
+  text-align: center;
+  text-transform: lowercase;
+}
+
+/* ── narrow phones ── */
+@media (max-width: 420px) {
+  .tickLabel {
+    font-size: 30px;
+  }
+  .step {
+    width: 28px;
+    height: 28px;
+  }
+  .head {
+    flex-wrap: wrap;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   REDUCED MOTION - kill every ramp/transition. The needle + number snap to
+   target in JS (prefersReduced gate); here we strip the CSS easing too.
+   ════════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .needleGroup,
+  .trackFill,
+  .thumb,
+  .step,
+  .track,
+  .genderBtn,
+  .unitBtn {
+    transition: none;
+  }
+  .step:active {
+    transform: none;
+  }
+}

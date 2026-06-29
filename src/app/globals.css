@@ -2,16 +2,20 @@
    No render-blocking @import, no layout shift. Inter is the app's typeface. */
 
 /* ══════════════════════════════════════════════════════════════════
-   awekn.com . app-matched "Near-Black + Emerald" (2026-06-28)
+   awekn.com . app-matched "Black + Silver + Cosmic" (2026-06-29)
    ══════════════════════════════════════════════════════════════════
-   Design identity (matches the iOS app, constants/colors.ts):
-     - Near-black #0B0B0D canvas (not pure black, not colored fog)
+   Design identity (matches the iOS app, constants/colors.ts). The signature is
+   BLACK + SILVER + COSMIC, NOT green (founder, 2026-06-29):
+     - Near-black #0C0C0C canvas (the app dark theme; not pure black, not fog)
      - Cosmic silver #E9EAF0 display text, white bloom on big type
-     - EMERALD #34D399 is the ONE accent: active rings, dots, the scroll
-       bar, hovers, completion + streak signals (the app's signature green)
+     - SILVER / WHITE is the ONE accent for ALL chrome: scroll bar, dots, nav
+       active, tags, the active pricing ring, links, focus rings
+     - "Cosmic" = silver on near-black + the white bloom + an additive
+       pool-of-light atmosphere (depth from LIGHT, never colored fog)
+     - EMERALD #34D399 survives ONLY as a rare EARNED micro-signal inside the
+       interactive instruments (a set you complete, a ring you fill, a PR dot)
      - White #F5F5F5 primary CTA buttons with near-black ink
-     - Gold #E0B054 reserved for a PR moment only (none on the site yet)
-     - NO red, NO purple, NO warm-gold surfaces (the prior identity, removed)
+     - NO red, NO purple, NO gold, NO green chrome (prior identities, removed)
      - Inter display + body (the app typeface), Instrument Serif italic for
        emphasis, Inter tabular-nums for every numeral. Glassmorphism cards.
      - Luxury through restraint, not voids
@@ -29,7 +33,7 @@
   --text-faint: #545458;       /* app tertiary */
   --white: #FFFFFF;
 
-  /* Accent system — silver/white only. NO color accents. */
+  /* Accent system - silver/white only. NO color accents. */
   --accent: #F5F5F5;
   --accent-soft: #C7C7CC;
   --accent-faint: rgba(245, 245, 245, 0.5);
@@ -37,7 +41,7 @@
   --border: rgba(255, 255, 255, 0.10);
   --hairline: rgba(255, 255, 255, 0.06);
 
-  /* Bloom — the brand signature (app DESIGN_LANGUAGE 3-layer white text-shadow) */
+  /* Bloom - the brand signature (app DESIGN_LANGUAGE 3-layer white text-shadow) */
   --glow-outer: rgba(255, 255, 255, 0.10);
   --glow-mid:   rgba(255, 255, 255, 0.22);
   --glow-core:  rgba(255, 255, 255, 0.45);
@@ -47,25 +51,25 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 
   /* ───────── THE INSTRUMENT tokens ─────────
-     App-matched palette: near-black canvas, cosmic silver display, and
-     EMERALD as the single accent (active states, signals, completion).
-     Legacy token names below (--gold/--blood) now resolve to emerald;
-     --champagne/--silver are the cosmic silver. */
+     Black + silver + cosmic. Legacy token names (--gold/--blood) are kept for
+     stability but now resolve to COSMIC SILVER (they used to be emerald, then
+     red); --champagne/--silver are the cosmic silver. --signal/--emerald is the
+     rare earned green, used ONLY inside the interactive instruments. */
   --void: #000000;            /* canvas */
   --bg-cosmic: #0A0A0C;       /* neutral near-black cosmic base (de-blued) */
   --surface-warm: #0a0a12;    /* cosmic card surface (de-warmed) */
   --indigo: #14141A;          /* neutral cosmic depth (de-indigo'd to match the app) */
-  /* APP-MATCH 2026-06-28: the site now matches the app - near-black + cosmic
-     silver display + EMERALD (#34D399) as the ONE accent (the app's signature
-     signal: consistency, completion, streak, the green online dot). No red, no
-     gold. Token names (--gold/--blood) are kept for stability; they now resolve
-     to emerald, so every former red accent is emerald automatically. Primary
-     CTAs are white (--cta), matching the app's white primary button. */
+  /* 2026-06-29 (founder): the signature is BLACK + SILVER + COSMIC, not green.
+     --gold and --blood (the chrome accents) now resolve to cosmic silver, so
+     every active/accent surface across the site is silver/white. Emerald is
+     demoted to --signal and spent only on the one earned moment inside an
+     interactive instrument. Primary CTAs are white (--cta). */
   --champagne: #E9EAF0;       /* COSMIC SILVER - the main instrument text/display */
-  --gold: #34D399;            /* EMERALD - THE accent: active rings, signals, dots */
+  --gold: #E9EAF0;            /* COSMIC SILVER - the accent for ALL chrome (founder: black + silver + cosmic, NOT green) */
   --gold-dim: #9A9BA6;        /* dim cosmic silver */
-  --emerald: #34D399;         /* the app's signature signal - now the primary accent */
-  --blood: #34D399;           /* emerald alias (token name kept for stability) */
+  --emerald: #34D399;         /* the rare EARNED signal - used ONLY inside the interactive instruments */
+  --signal: #34D399;          /* the earned/complete/PR micro-signal (instruments only, never chrome) */
+  --blood: #E9EAF0;           /* cosmic silver (chrome active states are silver, no longer emerald) */
   --blood-deep: #0F7A56;      /* deep emerald in the cosmic gradient */
   --emerald-deep: #27B384;    /* deep emerald, gradient start (app home mockup v4) */
   --emerald-bright: #3EE0A6;  /* bright emerald, gradient end */
@@ -86,7 +90,7 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-*::selection { background: rgba(52, 211, 153, 0.28); color: #fff; }
+*::selection { background: rgba(233, 234, 240, 0.22); color: #fff; }
 
 /* ───────── awekn atmosphere: depth from light, not color ─────────
    The painted .bg-fallback field sits at z -3 (always on, all devices). On
@@ -104,14 +108,14 @@
      halo), and a near-black canvas floor. A colored halo on near-black reads as
      a dark hole, so every glow is additive white/emerald, never a tinted blob. */
   background:
-    radial-gradient(58% 48% at 34% 4%, rgba(255, 246, 238, 0.075), rgba(255, 255, 255, 0.022) 48%, transparent 78%),
+    radial-gradient(58% 48% at 34% 4%, rgba(246, 248, 255, 0.075), rgba(255, 255, 255, 0.022) 48%, transparent 78%),
     radial-gradient(52% 46% at 84% 12%, rgba(255, 255, 255, 0.035), transparent 70%),
-    radial-gradient(56% 48% at 16% 96%, rgba(52, 211, 153, 0.05), transparent 64%),
+    radial-gradient(56% 48% at 16% 96%, rgba(206, 214, 232, 0.045), transparent 64%),
     radial-gradient(150% 130% at 50% 28%, #101013 0%, #0C0C0C 58%, #070709 100%);
 }
 .bg-gl { will-change: transform; }
 
-/* ───────── COSMIC AURORA — the living "pool of light" (desktop, capable) ─────
+/* ───────── COSMIC AURORA - the living "pool of light" (desktop, capable) ─────
    CosmicBackground.tsx mounts this on wide, non-reduced-motion devices instead
    of a WebGL canvas: a few additive light blobs that drift slowly over the
    near-black, screen-blended so they only ever ADD light (the app's depth-from-
@@ -137,7 +141,7 @@
 }
 .cosmic-aurora .a3 {
   width: 48vw; height: 48vw; left: 8%; bottom: -16%;
-  background: radial-gradient(circle, rgba(52, 211, 153, 0.06), transparent 62%);
+  background: radial-gradient(circle, rgba(206, 214, 232, 0.06), transparent 62%);
   animation: auroraDrift3 40s var(--ease-out) infinite alternate;
 }
 @keyframes auroraDrift1 { from { transform: translate3d(0,0,0); } to { transform: translate3d(7%, 5%, 0); } }
@@ -211,7 +215,7 @@ section, nav, footer, header { max-width: 100%; }
     radial-gradient(ellipse 900px 600px at 50% 100%, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
 }
 
-/* Italic serif emphasis — Awekn signature on words like "devotion",
+/* Italic serif emphasis - Awekn signature on words like "devotion",
    "sculptor", "titan", "Kept", "plotted", "next". The editorial counterpoint
    to the airy Inter 200 around it. */
 .serif {
@@ -302,7 +306,7 @@ section, nav, footer, header { max-width: 100%; }
 
 
 /* ══════════════════════════════════════════════════════════════════
-   THE INSTRUMENT — homepage (2026-06-15 ground-up rebuild)
+   THE INSTRUMENT - homepage (2026-06-15 ground-up rebuild)
    Champagne-cosmic instrument-panel. Liquid-glass nav + cards, a numbered
    narrative with a VARIED rhythm (never three identical zigzags), the hero,
    pricing, closing, footer. Gold is rare typographic punctuation; emerald is
@@ -321,7 +325,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   SCROLL PROGRESS — a hairline emerald bar across the very top, scaled
+   SCROLL PROGRESS - a hairline emerald bar across the very top, scaled
    0 -> 1 by useMotion as you read down the page. Pure transform (scaleX),
    GPU-cheap, hidden under reduced-motion (it would never move).
    ───────────────────────────────────────────────────────────────── */
@@ -343,11 +347,11 @@ section, nav, footer, header { max-width: 100%; }
   transform-origin: left center;
   background: linear-gradient(
     90deg,
-    rgba(52, 211, 153, 0.35) 0%,
-    var(--emerald) 60%,
-    #6EE7B7 100%
+    rgba(233, 234, 240, 0.35) 0%,
+    var(--silver) 60%,
+    #FFFFFF 100%
   );
-  box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+  box-shadow: 0 0 12px rgba(233, 234, 240, 0.45);
   will-change: transform;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -398,7 +402,7 @@ section, nav, footer, header { max-width: 100%; }
 .reveal { will-change: transform, opacity; }
 
 /* ─────────────────────────────────────────────────────────────────
-   NAV — REAL liquid-glass pill (rendered by <LiquidGlass as="nav">).
+   NAV - REAL liquid-glass pill (rendered by <LiquidGlass as="nav">).
    LiquidGlass owns the frost / border / refraction / shadow; .ix-nav only
    positions the pill and lays out its content span as a flex row.
    ───────────────────────────────────────────────────────────────── */
@@ -539,8 +543,8 @@ section, nav, footer, header { max-width: 100%; }
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--emerald);
-  box-shadow: 0 0 10px rgba(52, 211, 153, 0.7);
+  background: var(--silver);
+  box-shadow: 0 0 10px rgba(233, 234, 240, 0.6);
 }
 .ix-eyebrow-sep { opacity: 0.5; }
 .ix-index-num {
@@ -619,7 +623,7 @@ section, nav, footer, header { max-width: 100%; }
 .ix-btn-ghost[disabled]:active { transform: none; }
 
 /* ─────────────────────────────────────────────────────────────────
-   HERO — centered, the liquid wordmark as the headline
+   HERO - centered, the liquid wordmark as the headline
    ───────────────────────────────────────────────────────────────── */
 .ix-hero {
   position: relative;
@@ -711,7 +715,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   01 · THE RECORD — head left, the signature orb beside a mono readout
+   01 · THE RECORD - head left, the signature orb beside a mono readout
    ───────────────────────────────────────────────────────────────── */
 .ix-record .ix-section-head { margin-bottom: 56px; }
 .ix-record-body {
@@ -769,7 +773,7 @@ section, nav, footer, header { max-width: 100%; }
   letter-spacing: -0.02em;
   line-height: 1;
 }
-.ix-stat-streak .ix-stat-num { color: var(--emerald); }
+.ix-stat-streak .ix-stat-num { color: var(--champagne); }
 .ix-stat-unit {
   font-size: 17px;
   color: var(--gold-dim);
@@ -792,7 +796,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   02 · TWO DISCIPLINES — head left, two liquid-glass cards
+   02 · TWO DISCIPLINES - head left, two liquid-glass cards
    ───────────────────────────────────────────────────────────────── */
 .ix-disciplines .ix-section-head { margin-bottom: 48px; }
 .ix-discipline-pair {
@@ -831,11 +835,10 @@ section, nav, footer, header { max-width: 100%; }
   z-index: 0;
   background: radial-gradient(120% 90% at 50% -10%, rgba(233, 234, 240, 0.06), transparent 60%);
 }
-/* BB leans a touch warmer (silver bloom, slightly brighter). PL stays austere.
-   Differentiated by weight, never a chromatic flood. A whisper of emerald on
-   BB's bloom keeps the cosmic accent present without washing the card. */
+/* BB leans a touch brighter (a stronger silver bloom). PL stays austere.
+   Differentiated by LIGHT/weight, never by color (founder: black + silver + cosmic). */
 .ix-card-bb > [class*='content']::before {
-  background: radial-gradient(120% 90% at 50% -10%, rgba(52, 211, 153, 0.10), transparent 62%);
+  background: radial-gradient(120% 90% at 50% -10%, rgba(233, 234, 240, 0.10), transparent 62%);
 }
 .ix-card-pl > [class*='content']::before {
   background: radial-gradient(120% 90% at 50% -10%, rgba(233, 234, 240, 0.035), transparent 60%);
@@ -855,12 +858,12 @@ section, nav, footer, header { max-width: 100%; }
   border: 1px solid var(--glass-border);
   background: rgba(233, 234, 240, 0.04);
 }
-/* BB gets the rare emerald tag (the one chromatic punctuation on the pair);
-   PL stays bare silver hairline, austere by design. */
+/* BB gets a brighter SILVER tag (the active discipline); PL stays a dim silver
+   hairline, austere by design. Distinguished by brightness, never by color. */
 .ix-card-bb .ix-card-tag {
-  color: #A7F3D0;
-  border-color: rgba(52, 211, 153, 0.42);
-  background: rgba(52, 211, 153, 0.12);
+  color: var(--champagne);
+  border-color: rgba(233, 234, 240, 0.30);
+  background: rgba(233, 234, 240, 0.08);
 }
 .ix-card-title {
   position: relative;
@@ -904,7 +907,7 @@ section, nav, footer, header { max-width: 100%; }
 .ix-card-bb .ix-card-list li::before { background: var(--gold); }
 
 /* ─────────────────────────────────────────────────────────────────
-   THE STEEL — a dedicated 3D moment (machined steel ring). A full-bleed
+   THE STEEL - a dedicated 3D moment (machined steel ring). A full-bleed
    band that breaks the card rhythm: the live ring (or its CSS poster on
    phones / low-end) idles behind an austere two-line caption.
    ───────────────────────────────────────────────────────────────── */
@@ -970,7 +973,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   03 · THE SET — centered head, the operable centerpiece on a stage
+   03 · THE SET - centered head, the operable centerpiece on a stage
    ───────────────────────────────────────────────────────────────── */
 .ix-set {
   text-align: center;
@@ -987,7 +990,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   04 · STRENGTH — centered head, the curve on a wide stage
+   04 · STRENGTH - centered head, the curve on a wide stage
    ───────────────────────────────────────────────────────────────── */
 .ix-strength { text-align: center; }
 .ix-strength .ix-section-head { max-width: 680px; margin: 0 auto 48px; }
@@ -1000,7 +1003,39 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   PRICING — centered head, two cards, annual pre-selected (emerald ring)
+   THE WORKSHOP - the operable instruments (plate loader showpiece, then
+   the RPE and DOTS calculators side by side). The instruments center
+   themselves; these wrappers just lay out the stage. The whole section is
+   the retention engine: things to drag, not just read.
+   ───────────────────────────────────────────────────────────────── */
+.ix-workshop { text-align: center; }
+.ix-workshop .ix-section-head { max-width: 680px; margin: 0 auto 52px; }
+.ix-workshop .ix-eyebrow,
+.ix-workshop .ix-lede { margin-left: auto; margin-right: auto; }
+.ix-workshop .ix-lede { text-align: center; }
+.ix-workshop-hero {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+.ix-workshop-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+  text-align: left;
+}
+.ix-workshop-cell {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+@media (max-width: 880px) {
+  .ix-workshop-pair { grid-template-columns: 1fr; gap: 20px; }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PRICING - centered head, two cards, annual pre-selected (silver ring)
    ───────────────────────────────────────────────────────────────── */
 .ix-pricing { text-align: center; }
 .ix-pricing-head { max-width: 620px; margin: 0 auto 52px; }
@@ -1032,10 +1067,10 @@ section, nav, footer, header { max-width: 100%; }
 }
 .ix-price-active {
   box-shadow:
-    inset 0 1px 0 0 rgba(233, 234, 240, 0.2),
-    0 0 0 1px rgba(52, 211, 153, 0.45),
+    inset 0 1px 0 0 rgba(233, 234, 240, 0.28),
+    0 0 0 1px rgba(233, 234, 240, 0.42),
     0 30px 70px rgba(0, 0, 0, 0.5),
-    0 0 50px rgba(52, 211, 153, 0.14) !important;
+    0 0 50px rgba(233, 234, 240, 0.12) !important;
 }
 .ix-price-head {
   display: flex;
@@ -1056,8 +1091,8 @@ section, nav, footer, header { max-width: 100%; }
   font-weight: 600;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #04130D;
-  background: var(--gold);
+  color: var(--cta-ink);
+  background: var(--silver);
   padding: 4px 9px;
   border-radius: 100px;
 }
@@ -1090,7 +1125,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   PRIVATE — head left, four vows in a 2-up grid
+   PRIVATE - head left, four vows in a 2-up grid
    ───────────────────────────────────────────────────────────────── */
 .ix-private .ix-section-head { margin-bottom: 44px; }
 .ix-vows {
@@ -1138,7 +1173,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   CLOSING — giant wordmark, the oath, one CTA
+   CLOSING - giant wordmark, the oath, one CTA
    ───────────────────────────────────────────────────────────────── */
 .ix-closing {
   position: relative;
@@ -1247,7 +1282,7 @@ section, nav, footer, header { max-width: 100%; }
 }
 
 /* ═════════════════════════════════════════════════════════════════
-   MOBILE-FIRST OVERHAUL (2026-06-16) — most users are on a phone, so
+   MOBILE-FIRST OVERHAUL (2026-06-16) - most users are on a phone, so
    the phone is the priority surface. Touch-first (44px targets, no
    hover-only affordances), responsive type/spacing, zero horizontal
    scroll. Breakpoints: 980 (tablet), 820 (phone-landscape / small
@@ -1285,7 +1320,7 @@ section, nav, footer, header { max-width: 100%; }
   .ix-price:hover { transform: none; }
 }
 
-/* ── 980px : tablet — pricing/cards still side-by-side, tighten gutters ── */
+/* ── 980px : tablet - pricing/cards still side-by-side, tighten gutters ── */
 @media (max-width: 980px) {
   .ix-record-body { grid-template-columns: 1fr; gap: 28px; }
   .ix-readout-grid { grid-template-columns: repeat(3, 1fr); max-width: 720px; margin: 0 auto; }
@@ -1341,7 +1376,7 @@ section, nav, footer, header { max-width: 100%; }
   .ix-footer-bottom { justify-content: center; text-align: center; }
 }
 
-/* ── 390px : narrow phone (iPhone mini class) — the wordmark must fit ── */
+/* ── 390px : narrow phone (iPhone mini class) - the wordmark must fit ── */
 @media (max-width: 390px) {
   .ix-section { padding: 64px 16px; }
   .ix-hero { padding: 100px 16px 56px; }
@@ -1389,7 +1424,7 @@ section, nav, footer, header { max-width: 100%; }
 
 
 /* ══════════════════════════════════════════════════════════════════
-   Legacy nav (legal pages) — mobile
+   Legacy nav (legal pages) - mobile
    ══════════════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
   .nav { top: 12px; padding: 8px 8px 8px 18px; gap: 12px; max-width: calc(100vw - 24px); }
