@@ -360,13 +360,13 @@ export default function RpeCalculator() {
             at <span className={styles.heroSubNum}>{pct}%</span> of 1rm
           </span>
 
-          {/* the thin silver % of 1RM track */}
+          {/* the thin silver % of 1RM track (the value is stated above as
+              "at NN% of 1rm", so the bar stays clean with no end label) */}
           <div className={styles.track} aria-hidden="true">
             <span
               className={styles.trackFill}
               style={{ transform: `scaleX(${pctWidth / 100})` }}
             />
-            <span className={styles.trackCap}>100%</span>
           </div>
         </div>
 

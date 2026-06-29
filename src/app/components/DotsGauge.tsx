@@ -416,7 +416,7 @@ export default function DotsGauge() {
         <div className={styles.gaugeWrap}>
           <svg
             className={styles.gauge}
-            viewBox={`0 0 ${VB_W} 280`}
+            viewBox={`0 0 ${VB_W} 430`}
             role="img"
             aria-hidden="true"
             preserveAspectRatio="xMidYMin meet"

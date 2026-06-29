@@ -1030,6 +1030,13 @@ section, nav, footer, header { max-width: 100%; }
   justify-content: center;
   min-width: 0;
 }
+/* both cards in the pair fill their cell so they read as an equal, intentional
+   set (the two instruments ship at slightly different intrinsic widths). The
+   extra selector depth beats each component's own root max-width. */
+.ix-workshop .ix-workshop-pair .ix-workshop-cell > * {
+  width: 100%;
+  max-width: 560px;
+}
 @media (max-width: 880px) {
   .ix-workshop-pair { grid-template-columns: 1fr; gap: 20px; }
 }
