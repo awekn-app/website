@@ -53,7 +53,7 @@ export default function OpengraphImage() {
             letterSpacing: "0.5px",
           }}
         >
-          Training is a kind of devotion.
+          lift, eat, recover. track all of it.
         </div>
         <div
           style={{

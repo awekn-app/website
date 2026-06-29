@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: "awekn . Lifting, Gym Log & Diet",
   description:
-    "A chronicle of every rep, every meal, every day you return to the iron. Bodybuilding and powerlifting, an honest consistency score, offline-first, on your device first and kept there forever.",
+    "Lift, eat, recover, track all of it. awekn is the all-in-one log for serious lifters: workouts, cardio, macros, supplements, peptides, PRs, and the consistency under all of it. Bodybuilding and powerlifting, on your device first.",
   keywords: [
     "workout tracker", "gym log", "bodybuilding app", "powerlifting app",
     "lifting tracker", "workout log", "diet tracker", "macro tracker",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "awekn . Lifting, Gym Log & Diet",
     description:
-      "Training is a kind of devotion. A chronicle of every rep, every meal, every day you return to the iron.",
+      "Lift, eat, recover. Track all of it. The all-in-one log for serious lifters: workouts, cardio, macros, supplements, peptides, and every PR.",
     type: "website",
     url: SITE,
     siteName: "awekn",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "awekn . Lifting, Gym Log & Diet",
-    description: "Training is a kind of devotion.",
+    description: "Lift, eat, recover. Track all of it. The all-in-one log for serious lifters.",
   },
   appleWebApp: { capable: true, title: "awekn", statusBarStyle: "black-translucent" },
   robots: { index: true, follow: true },
