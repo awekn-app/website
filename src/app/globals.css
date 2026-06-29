@@ -1075,31 +1075,120 @@ section, nav, footer, header { max-width: 100%; }
 }
 .ix-hero-price .ix-mono { color: var(--champagne); font-variant-numeric: tabular-nums; }
 
-/* SEE IT WORK showcase - the interactive proof, all the cards in one place */
-.ix-showcase { text-align: center; }
-.ix-showcase .ix-section-head { max-width: 680px; margin: 0 auto 44px; }
-.ix-showcase .ix-eyebrow,
-.ix-showcase .ix-lede { margin-left: auto; margin-right: auto; }
-.ix-showcase .ix-lede { text-align: center; }
-.ix-showcase-stack {
+/* SEE IT WORK - the guided, operable TOUR. Each instrument is a story beat
+   (number + headline + a line of story + a "try it" hint) beside its live card,
+   alternating sides on desktop, stacked on mobile. Not a grid-dump: a told
+   story you can drive. */
+.ix-tour { text-align: center; }
+.ix-tour .ix-section-head { max-width: 680px; margin: 0 auto 60px; }
+.ix-tour .ix-section-head .ix-eyebrow,
+.ix-tour .ix-section-head .ix-lede { margin-left: auto; margin-right: auto; }
+.ix-tour .ix-section-head .ix-lede { text-align: center; }
+
+/* the beats: a vertical sequence of alternating split rows */
+.ix-beats {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  align-items: center;
+  gap: 92px;
+  max-width: 1080px;
+  margin: 0 auto;
 }
-.ix-showcase-lead { width: 100%; display: flex; justify-content: center; }
-.ix-showcase-pair {
-  width: 100%;
+.ix-beat {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 52px;
+  text-align: left;
+}
+/* flipped beats put the card on the left, the copy on the right (desktop) */
+.ix-beat--flip .ix-beat-copy { order: 2; }
+.ix-beat--flip .ix-beat-card { order: 1; }
+
+.ix-beat-copy { max-width: 460px; }
+.ix-beat-num {
+  display: block;
+  font-family: var(--font-numeral);
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--gold-dim);
+  opacity: 0.6;
+  margin-bottom: 16px;
+}
+.ix-beat-title {
+  font-family: var(--font-sans);
+  font-size: clamp(26px, 3.3vw, 38px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  color: var(--champagne);
+  text-transform: lowercase;
+}
+.ix-beat-title .ix-serif { text-transform: none; }
+.ix-beat-story {
+  margin-top: 18px;
+  font-size: 16px;
+  line-height: 1.62;
+  color: var(--text);
+  max-width: 430px;
+}
+.ix-beat-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 22px;
+  font-family: var(--font-numeral);
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.ix-beat-hint::before {
+  content: "";
+  width: 20px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+.ix-beat-card { width: 100%; min-width: 0; display: flex; justify-content: center; }
+.ix-beat-card > * { width: 100%; max-width: 540px; }
+
+/* the calculators: the math, in your hands (a paired close to the tour) */
+.ix-tour-math { max-width: 1080px; margin: 108px auto 0; text-align: center; }
+.ix-tour-math-head { max-width: 620px; margin: 0 auto 40px; }
+.ix-tour-math-head .ix-eyebrow { margin: 0 auto 16px; justify-content: center; }
+.ix-tour-math-head .ix-lede { margin: 0 auto; text-align: center; }
+.ix-tour-math-pair {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   align-items: stretch;
   text-align: left;
 }
-.ix-showcase-cell { display: flex; justify-content: center; min-width: 0; }
-.ix-showcase .ix-showcase-pair .ix-showcase-cell > * { width: 100%; max-width: 560px; }
-@media (max-width: 880px) {
-  .ix-showcase-pair { grid-template-columns: 1fr; gap: 20px; }
+.ix-tour-math-cell { display: flex; justify-content: center; min-width: 0; }
+.ix-tour-math-cell > * { width: 100%; max-width: 540px; }
+
+@media (max-width: 900px) {
+  .ix-beats { gap: 60px; }
+  .ix-beat {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    justify-items: center;
+    text-align: center;
+  }
+  /* on mobile, copy ALWAYS above the card, regardless of desktop flip */
+  .ix-beat-copy {
+    order: 1 !important;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .ix-beat--flip .ix-beat-copy { order: 1; }
+  .ix-beat-card { order: 2 !important; }
+  .ix-beat--flip .ix-beat-card { order: 2; }
+  .ix-beat-story { margin-left: auto; margin-right: auto; }
+  .ix-tour-math { margin-top: 76px; }
+  .ix-tour-math-pair { grid-template-columns: 1fr; gap: 20px; }
 }
 
 /* EVERYTHING IN ONE LOG - the breadth grid */
@@ -1134,9 +1223,8 @@ section, nav, footer, header { max-width: 100%; }
   .ix-hero-breadth { font-size: 9.5px; letter-spacing: 1.6px; gap: 7px 14px; }
   .ix-hero-breadth li + li::before { left: -9px; }
   .ix-hero-price { font-size: 12px; margin-top: 14px; }
-  .ix-showcase .ix-section-head,
-  .ix-tracks .ix-section-head { margin-bottom: 32px; }
-  .ix-showcase-stack { gap: 18px; }
+  .ix-tour .ix-section-head,
+  .ix-tracks .ix-section-head { margin-bottom: 40px; }
 }
 
 /* ─────────────────────────────────────────────────────────────────

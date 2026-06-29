@@ -175,49 +175,122 @@ export default function Home() {
         </a>
       </header>
 
-      {/* ════════════ 01 · SEE IT WORK - the interactive proof, right up top ════════════ */}
-      <section className="ix-section ix-showcase" id="showcase">
+      {/* ════════════ 01 · SEE IT WORK - the guided, operable tour ════════════
+          Each instrument gets a STORY beat (number + headline + a line of story
+          + a "try it" hint), then the live card beside it. Alternating split on
+          desktop, stacked on mobile. Not a grid-dump: a told story you can drive. */}
+      <section className="ix-section ix-tour" id="showcase">
         <div className="ix-section-head reveal">
           <span className="ix-eyebrow">
             <span className="ix-index-num">01</span>See it work
           </span>
           <h2 className="ix-display">
-            drive it <span className="ix-serif">yourself</span>
+            the app, in your <span className="ix-serif">hands</span>
           </h2>
           <p className="ix-lede">
-            These are the real instruments from the app, running right here. Log a
-            set, load a bar, read your month, score a total. Drag, tap, scrub.
-            None of it is a mockup.
+            Not screenshots. These are the real instruments from awekn, running
+            right here in your browser. Read each one, then reach in and drive it.
           </p>
         </div>
 
-        <div className="ix-showcase-stack">
-          <div className="ix-showcase-lead reveal">
-            <LiveSet />
-          </div>
-          <div className="ix-showcase-lead reveal">
-            <PlateLoader />
-          </div>
-          <div className="ix-showcase-pair">
-            <div className="ix-showcase-cell reveal">
+        <div className="ix-beats">
+          {/* beat 1 - the core loop */}
+          <article className="ix-beat reveal">
+            <div className="ix-beat-copy">
+              <span className="ix-beat-num" aria-hidden>01</span>
+              <h3 className="ix-beat-title">
+                log a set, watch it <span className="ix-serif">count</span>
+              </h3>
+              <p className="ix-beat-story">
+                This is the real set row from the app. Drag the weight, hit the
+                check, and your estimated one-rep max moves the instant you do.
+                Every set you log teaches awekn how strong you are.
+              </p>
+              <span className="ix-beat-hint" aria-hidden>
+                drag the weight, tap the check
+              </span>
+            </div>
+            <div className="ix-beat-card">
+              <LiveSet />
+            </div>
+          </article>
+
+          {/* beat 2 - load the bar (flipped) */}
+          <article className="ix-beat ix-beat--flip reveal">
+            <div className="ix-beat-copy">
+              <span className="ix-beat-num" aria-hidden>02</span>
+              <h3 className="ix-beat-title">
+                load the bar, <span className="ix-serif">exactly</span>
+              </h3>
+              <p className="ix-beat-story">
+                Give it a target and awekn lays out the plates for each side,
+                biggest first. No mental math at the rack, no half-loaded bar, no
+                second-guessing what is already on there.
+              </p>
+              <span className="ix-beat-hint" aria-hidden>set the weight</span>
+            </div>
+            <div className="ix-beat-card">
+              <PlateLoader />
+            </div>
+          </article>
+
+          {/* beat 3 - strength plotted */}
+          <article className="ix-beat reveal">
+            <div className="ix-beat-copy">
+              <span className="ix-beat-num" aria-hidden>03</span>
+              <h3 className="ix-beat-title">
+                your strength, <span className="ix-serif">plotted</span>
+              </h3>
+              <p className="ix-beat-story">
+                Every session becomes a point on the curve. Over weeks the line
+                rises, or it stalls, and either way you will know. Scrub across it
+                and read any day you trained.
+              </p>
+              <span className="ix-beat-hint" aria-hidden>scrub the line</span>
+            </div>
+            <div className="ix-beat-card">
+              <StrengthCurve />
+            </div>
+          </article>
+
+          {/* beat 4 - the streak (flipped) */}
+          <article className="ix-beat ix-beat--flip reveal">
+            <div className="ix-beat-copy">
+              <span className="ix-beat-num" aria-hidden>04</span>
+              <h3 className="ix-beat-title">
+                keep the streak <span className="ix-serif">honest</span>
+              </h3>
+              <p className="ix-beat-story">
+                A clear calendar of the days you showed up, and a streak that
+                never inflates. Miss a day and you see it. Keep a whole week and
+                it earns its mark.
+              </p>
+              <span className="ix-beat-hint" aria-hidden>tap a day</span>
+            </div>
+            <div className="ix-beat-card">
               <ConsistencyStreak />
             </div>
-            <div
-              className="ix-showcase-cell reveal"
-              style={{ transitionDelay: '0.08s' }}
-            >
-              <DotsGauge />
-            </div>
+          </article>
+        </div>
+
+        {/* the calculators - the math, in your hands (a paired close) */}
+        <div className="ix-tour-math reveal">
+          <div className="ix-tour-math-head">
+            <span className="ix-eyebrow">
+              <span className="ix-index-num">·</span>and the math, in your hands
+            </span>
+            <p className="ix-lede">
+              The same engines the app runs. Back-solve a one-rep max from an RPE,
+              score a powerlifting total in DOTS. Drag anything, none of it is a
+              mockup.
+            </p>
           </div>
-          <div className="ix-showcase-pair">
-            <div className="ix-showcase-cell reveal">
+          <div className="ix-tour-math-pair">
+            <div className="ix-tour-math-cell">
               <RpeCalculator />
             </div>
-            <div
-              className="ix-showcase-cell reveal"
-              style={{ transitionDelay: '0.08s' }}
-            >
-              <StrengthCurve />
+            <div className="ix-tour-math-cell">
+              <DotsGauge />
             </div>
           </div>
         </div>
@@ -244,11 +317,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ════════════ 02 · TWO DISCIPLINES - REAL liquid-glass cards ════════════ */}
+      {/* ════════════ 03 · TWO DISCIPLINES - REAL liquid-glass cards ════════════ */}
       <section className="ix-section ix-disciplines" id="disciplines">
         <div className="ix-section-head reveal">
           <span className="ix-eyebrow">
-            <span className="ix-index-num">02</span>Two disciplines
+            <span className="ix-index-num">03</span>Two disciplines
           </span>
           <h2 className="ix-display">
             one log, <span className="ix-serif">two ways</span> to train
@@ -307,7 +380,7 @@ export default function Home() {
       <section className="ix-year-band" id="year" aria-label="A year of training">
         <div className="ix-year-copy reveal">
           <span className="ix-eyebrow ix-year-eyebrow">
-            <span className="ix-index-num">·</span>The year
+            <span className="ix-index-num">04</span>The year
           </span>
           <p className="ix-year-line">
             every day, <span className="ix-serif">counted</span>.

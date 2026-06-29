@@ -32,7 +32,6 @@ type Track = {
   key: string;
   title: string;
   sub: string;
-  wide?: boolean;
   glyph: React.ReactNode;
 };
 
@@ -164,8 +163,7 @@ const TRACKS: Track[] = [
   {
     key: "workouts",
     title: "workouts",
-    sub: "splits, supersets, bodybuilding and powerlifting",
-    wide: true,
+    sub: "splits, supersets, BB and PL",
     glyph: <GlyphBarbell />,
   },
   {
@@ -214,7 +212,6 @@ const TRACKS: Track[] = [
     key: "powerlifting",
     title: "powerlifting",
     sub: "dots, wilks, meets and attempts",
-    wide: true,
     glyph: <GlyphPodium />,
   },
 ];
@@ -261,9 +258,9 @@ export default function TracksGrid() {
         {TRACKS.map((t, i) => (
           <article
             key={t.key}
-            className={`${styles.cell} ${t.wide ? styles.cellWide : ""}`}
+            className={styles.cell}
             data-shown={shown ? "true" : "false"}
-            style={{ ["--enter-delay" as string]: `${i * 55}ms` }}
+            style={{ ["--enter-delay" as string]: `${i * 45}ms` }}
           >
             <span className={styles.glyphTile}>{t.glyph}</span>
             <div className={styles.copy}>
