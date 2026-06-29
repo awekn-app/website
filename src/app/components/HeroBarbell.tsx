@@ -6,16 +6,21 @@ import styles from "./HeroBarbell.module.css";
 /* ════════════════════════════════════════════════════════════════════════
    THE HERO BARBELL - a still, weighty, premium hero graphic.
 
-   NOT interactive. One wide olympic barbell, loaded with a tasteful symmetric
-   stack of machined silver plates (a strong-but-not-maxed load: three plates
-   per side, biggest inboard), centered in the cosmic pool of light. It says
-   "serious lifting" in one glance.
+   NOT interactive. ONE long olympic barbell, LOADED HEAVY: a long bare knurled
+   centre shaft (the grip), then a thick stack of SIX machined silver plates per
+   side pushed out toward the ends, locked on with spring collars. It must read
+   "barbell loaded to the max", hardcore, NOT a dumbbell. Centred in the cosmic
+   pool of light.
 
    It speaks the SAME machined-metal language as PlateLoader.tsx:
      - silver linear-gradient plate faces, a thin dark inner edge for depth,
        a faint top specular cap, a center bore shadow line.
-     - olympic sleeves (horizontal-cylinder shading) + spring collars +
-       a central knurled shaft with thin vertical hatching.
+     - olympic sleeves (horizontal-cylinder shading) + spring collars (inner +
+       outer) + a long central knurled shaft with thin vertical hatching.
+
+   Why long + 6 plates: a short bar with plates clustered near the centre reads
+   as a DUMBBELL. A LONG bare centre + a thick plate wall out on each sleeve
+   reads, unmistakably, as a fully-loaded olympic barbell.
 
    Brand law honoured (black + silver + cosmic, NOT green):
      - strictly silver / white / near-black. NO emerald: a hero barbell is
@@ -28,32 +33,36 @@ import styles from "./HeroBarbell.module.css";
      - gradient / mask ids namespaced with useId() so multiple instances and
        SSR hydration never collide.
 
-   Natural aspect ratio is 1000 x 360 (~2.78:1). preserveAspectRatio keeps it
-   crisp from ~320px to ~1100px wide.
+   Natural aspect ratio is 1160 x 392 (~2.96:1). preserveAspectRatio keeps it
+   crisp from ~320px to ~1160px wide.
    ════════════════════════════════════════════════════════════════════════ */
 
 type Props = { className?: string };
 
-// the viewBox - wide and shallow, a barbell laid flat.
-const VB_W = 1000;
-const VB_H = 360;
+// the viewBox - long and shallow, an olympic barbell laid flat.
+const VB_W = 1160;
+const VB_H = 392;
 const CX = VB_W / 2;
 const CY = VB_H / 2;
 
-// ── geometry (mirrors PlateLoader's vocabulary, scaled for a hero) ──────────
-const SHAFT_HALF = 86; // half the central knurled shaft length
-const COLLAR_W = 20; // inner spring-collar ring width
-const SLEEVE_LEN = 318; // each loadable sleeve length
-const PLATE_GAP = 4; // gap between adjacent discs
+// ── geometry (mirrors PlateLoader's vocabulary, scaled for a long hero bar) ──
+const SHAFT_HALF = 176; // half the LONG central knurled grip (so 352 of bare bar)
+const COLLAR_W = 16; // inner spring-collar ring width (shaft -> plates)
+const COLLAR_OUT_W = 14; // outer spring-collar ring width (locks the load on)
+const SLEEVE_LEN = 310; // each loadable sleeve length
+const PLATE_GAP = 4; // gap between adjacent discs (tight = stacked heavy)
 
-// a strong, balanced load: three machined plates per side, biggest inboard.
-// h = disc diameter, w = disc thickness, tone shifts the silver subtly so the
-// three denominations read as distinct discs (heaviest is brightest + tallest).
+// a HEAVY, maxed load: six machined plates per side, biggest inboard, a near-
+// flat wall of steel with a gentle outer taper. h = disc diameter, w = disc
+// thickness (thick = heavy). The stack fills most of the bar's height.
 type PlateSpec = { h: number; w: number };
 const STACK: PlateSpec[] = [
-  { h: 248, w: 30 }, // inboard - the big plate
-  { h: 210, w: 26 },
-  { h: 170, w: 22 }, // outboard - the smaller plate
+  { h: 300, w: 44 }, // inboard - the big plate
+  { h: 300, w: 42 },
+  { h: 298, w: 42 },
+  { h: 292, w: 40 },
+  { h: 262, w: 38 },
+  { h: 214, w: 34 }, // outboard - the smaller change plate
 ];
 
 export default function HeroBarbell({ className }: Props) {
@@ -68,6 +77,7 @@ export default function HeroBarbell({ className }: Props) {
     cursor = x - PLATE_GAP;
     return { ...spec, x, i };
   });
+  const outerPlateX = placed[placed.length - 1].x; // outermost (left) plate edge
 
   // sleeve x-origins (left/right), used for the sleeves + end caps.
   const sleeves = [-1, 1].map((side) => {
@@ -77,13 +87,8 @@ export default function HeroBarbell({ className }: Props) {
     return { side, x };
   });
 
-  // one machined disc, drawn from the shared metal vocabulary. `mirror` flips
-  // the specular so the right-hand discs catch light from the same direction.
-  const renderDisc = (
-    x: number,
-    spec: PlateSpec,
-    keyName: string,
-  ) => {
+  // one machined disc, drawn from the shared metal vocabulary.
+  const renderDisc = (x: number, spec: PlateSpec, keyName: string) => {
     const { h, w } = spec;
     const y = CY - h / 2;
     const r = Math.min(11, w / 2);
@@ -117,23 +122,39 @@ export default function HeroBarbell({ className }: Props) {
           x={x + 1.6}
           y={y + 2.4}
           width={w - 3.2}
-          height={Math.min(26, h * 0.16)}
+          height={Math.min(28, h * 0.16)}
           rx={Math.max(3, r - 1)}
           fill={`url(#${id("spec")})`}
           opacity={0.85}
         />
         {/* center bore shadow line (the hole, in profile) */}
-        <rect
-          x={x}
-          y={CY - 9}
-          width={w}
-          height={18}
-          fill="#000000"
-          opacity={0.16}
-        />
+        <rect x={x} y={CY - 9} width={w} height={18} fill="#000000" opacity={0.16} />
       </g>
     );
   };
+
+  // a spring collar (inner or outer), drawn at a given x with a given height.
+  const renderCollar = (x: number, w: number, halfH: number, keyName: string) => (
+    <g key={keyName}>
+      <rect
+        x={x}
+        y={CY - halfH}
+        width={w}
+        height={halfH * 2}
+        rx={5}
+        fill={`url(#${id("shaft")})`}
+      />
+      <rect
+        x={x + 1.5}
+        y={CY - halfH + 1}
+        width={4}
+        height={halfH * 2 - 2}
+        rx={2}
+        fill="#FFFFFF"
+        opacity={0.3}
+      />
+    </g>
+  );
 
   return (
     <div className={`${styles.wrap}${className ? ` ${className}` : ""}`}>
@@ -141,7 +162,7 @@ export default function HeroBarbell({ className }: Props) {
         className={styles.svg}
         viewBox={`0 0 ${VB_W} ${VB_H}`}
         role="img"
-        aria-label="A loaded olympic barbell, three machined silver plates per side, resting in a pool of light."
+        aria-label="A long olympic barbell loaded heavy, six machined silver plates per side, resting in a pool of light."
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
@@ -197,10 +218,15 @@ export default function HeroBarbell({ className }: Props) {
           </linearGradient>
 
           {/* the mask = the full metal silhouette in white, so the sheen rect
-             is revealed only where steel exists. Built from the same primitives
-             we draw, kept simple (no per-disc detail needed for a mask). */}
-          <mask id={id("metalMask")} maskUnits="userSpaceOnUse"
-            x="0" y="0" width={VB_W} height={VB_H}>
+             is revealed only where steel exists. */}
+          <mask
+            id={id("metalMask")}
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width={VB_W}
+            height={VB_H}
+          >
             <rect x="0" y="0" width={VB_W} height={VB_H} fill="#000" />
             {/* sleeves */}
             {sleeves.map(({ side, x }) => (
@@ -214,7 +240,7 @@ export default function HeroBarbell({ className }: Props) {
                 fill="#fff"
               />
             ))}
-            {/* shaft */}
+            {/* shaft (incl. inner collars) */}
             <rect
               x={CX - SHAFT_HALF - COLLAR_W}
               y={CY - 15}
@@ -229,22 +255,8 @@ export default function HeroBarbell({ className }: Props) {
               const rightX = 2 * CX - p.x - p.w;
               return (
                 <g key={`m-disc-${p.i}`}>
-                  <rect
-                    x={p.x}
-                    y={CY - p.h / 2}
-                    width={p.w}
-                    height={p.h}
-                    rx={r}
-                    fill="#fff"
-                  />
-                  <rect
-                    x={rightX}
-                    y={CY - p.h / 2}
-                    width={p.w}
-                    height={p.h}
-                    rx={r}
-                    fill="#fff"
-                  />
+                  <rect x={p.x} y={CY - p.h / 2} width={p.w} height={p.h} rx={r} fill="#fff" />
+                  <rect x={rightX} y={CY - p.h / 2} width={p.w} height={p.h} rx={r} fill="#fff" />
                 </g>
               );
             })}
@@ -252,24 +264,12 @@ export default function HeroBarbell({ className }: Props) {
         </defs>
 
         {/* ── the cosmic pool of light behind the bar ── */}
-        <ellipse
-          cx={CX}
-          cy={CY - 8}
-          rx={VB_W * 0.5}
-          ry={132}
-          fill={`url(#${id("pool")})`}
-        />
+        <ellipse cx={CX} cy={CY - 8} rx={VB_W * 0.5} ry={150} fill={`url(#${id("pool")})`} />
 
         {/* the gentle-float group carries the whole instrument */}
         <g className={styles.float}>
           {/* grounding shadow on the floor of the pool */}
-          <ellipse
-            cx={CX}
-            cy={CY + 116}
-            rx={300}
-            ry={26}
-            fill={`url(#${id("shadow")})`}
-          />
+          <ellipse cx={CX} cy={CY + 130} rx={430} ry={24} fill={`url(#${id("shadow")})`} />
 
           {/* ── the two loadable sleeves + end caps ── */}
           {sleeves.map(({ side, x }) => (
@@ -293,8 +293,8 @@ export default function HeroBarbell({ className }: Props) {
                 opacity={0.24}
               />
               {/* a few sleeve detail rings near the cap */}
-              {[0.2, 0.34, 0.48].map((t, k) => {
-                const rx = side < 0 ? x + SLEEVE_LEN * (1 - t) : x + SLEEVE_LEN * t;
+              {[0.08, 0.16, 0.24].map((t, k) => {
+                const rx = side < 0 ? x + SLEEVE_LEN * t : x + SLEEVE_LEN * (1 - t);
                 return (
                   <line
                     key={`ring-${side}-${k}`}
@@ -311,42 +311,33 @@ export default function HeroBarbell({ className }: Props) {
               {/* sleeve end cap */}
               <rect
                 x={side < 0 ? x - 11 : x + SLEEVE_LEN}
-                y={CY - 21}
+                y={CY - 22}
                 width={11}
-                height={42}
+                height={44}
                 rx={4}
                 fill={`url(#${id("shaft")})`}
               />
             </g>
           ))}
 
-          {/* ── inner spring collars ── */}
+          {/* ── inner spring collars (shaft -> plates) ── */}
+          {[-1, 1].map((side) =>
+            renderCollar(
+              side < 0 ? CX - SHAFT_HALF - COLLAR_W : CX + SHAFT_HALF,
+              COLLAR_W,
+              34,
+              `collar-in-${side}`,
+            ),
+          )}
+
+          {/* ── outer spring collars (lock the load on the sleeve) ── */}
           {[-1, 1].map((side) => {
-            const x = side < 0 ? CX - SHAFT_HALF - COLLAR_W : CX + SHAFT_HALF;
-            return (
-              <g key={`collar-${side}`}>
-                <rect
-                  x={x}
-                  y={CY - 34}
-                  width={COLLAR_W}
-                  height={68}
-                  rx={5}
-                  fill={`url(#${id("shaft")})`}
-                />
-                <rect
-                  x={x + 1.5}
-                  y={CY - 33}
-                  width={4}
-                  height={66}
-                  rx={2}
-                  fill="#FFFFFF"
-                  opacity={0.3}
-                />
-              </g>
-            );
+            const lx = outerPlateX - PLATE_GAP - COLLAR_OUT_W; // left outer collar
+            const x = side < 0 ? lx : 2 * CX - lx - COLLAR_OUT_W;
+            return renderCollar(x, COLLAR_OUT_W, 28, `collar-out-${side}`);
           })}
 
-          {/* ── the central knurled shaft ── */}
+          {/* ── the long central knurled shaft ── */}
           <g>
             <rect
               x={CX - SHAFT_HALF}
@@ -356,10 +347,9 @@ export default function HeroBarbell({ className }: Props) {
               rx={6}
               fill={`url(#${id("shaft")})`}
             />
-            {/* knurl hatching: thin vertical strokes */}
-            {Array.from({ length: 34 }).map((_, i) => {
-              const kx =
-                CX - SHAFT_HALF + 8 + i * ((SHAFT_HALF * 2 - 16) / 33);
+            {/* knurl hatching: thin vertical strokes across the long grip */}
+            {Array.from({ length: 60 }).map((_, i) => {
+              const kx = CX - SHAFT_HALF + 8 + i * ((SHAFT_HALF * 2 - 16) / 59);
               return (
                 <line
                   key={`knurl-${i}`}

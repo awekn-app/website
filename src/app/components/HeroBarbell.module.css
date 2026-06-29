@@ -57,9 +57,10 @@
   mix-blend-mode: screen;
 }
 /* The masked rect lives at x = -VB_W .. 0 (one viewBox-width, off to the left).
-   We translateX it across 2000 user-units (its own width + the full viewBox)
-   so the band travels fully off the right edge. transform stays on the
-   compositor; transform-box: view-box makes the px values SVG user-units. */
+   We translateX it across ~2x the viewBox width (its own width + the full
+   viewBox = 1160 + 1160) so the band travels fully off the right edge.
+   transform stays on the compositor; transform-box: view-box makes the px
+   values SVG user-units. */
 .sheen {
   transform-box: view-box;
   transform-origin: center;
@@ -78,11 +79,11 @@
     opacity: 0.9;
   }
   74% {
-    transform: translateX(2000px) skewX(-12deg);
+    transform: translateX(2400px) skewX(-12deg);
     opacity: 0;
   }
   100% {
-    transform: translateX(2000px) skewX(-12deg);
+    transform: translateX(2400px) skewX(-12deg);
     opacity: 0;
   }
 }
@@ -103,7 +104,7 @@
   .sheen {
     animation: none;
     /* park the sheen off-canvas so no static band sits across the bar */
-    transform: translateX(-1200px) skewX(-12deg);
+    transform: translateX(-1400px) skewX(-12deg);
     opacity: 0;
   }
 }
