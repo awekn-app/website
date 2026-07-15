@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import RecoveryRedirect from "./components/RecoveryRedirect";
 import "./globals.css";
 
 // Type system, self-hosted via next/font (zero layout shift, no render-blocking
@@ -94,6 +95,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <RecoveryRedirect />
         {children}
         <Analytics />
         <SpeedInsights />
