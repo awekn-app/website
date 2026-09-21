@@ -18,7 +18,7 @@ export default function TermsOfService() {
       <div className="legal-container">
         <a href="/" className="legal-back">&larr; Back to home</a>
         <h1 className="legal-title">Terms of Service</h1>
-        <p className="legal-updated">Last updated: May 23, 2026</p>
+        <p className="legal-updated">Last updated: September 2, 2026</p>
 
         <div className="legal-content">
           <p>
@@ -26,7 +26,7 @@ export default function TermsOfService() {
           </p>
 
           <h2>1. Who Can Use awekn</h2>
-          <p>You must be at least 13 years old to use awekn, and at least 18 (or the age of majority in your jurisdiction) to purchase a subscription. If you are between 13 and 18, you may use awekn only with the involvement of a parent or guardian. The App Store rating is 4+ because the content is suitable for a general audience. The age gate here is about legal capacity to enter a contract, not content suitability.</p>
+          <p>You must be at least 13 years old to use awekn, and at least 18 (or the age of majority in your jurisdiction) to purchase a subscription. If you are between 13 and 18, you may use awekn only with the involvement of a parent or guardian. The store age rating is set by Apple and Google based on the features awekn offers (including the optional community, where users can share content and message each other). The age gate here is about legal capacity to enter a contract, not content suitability.</p>
 
           <h2>2. Your Account</h2>
           <p>You need an account to use awekn. You are responsible for the accuracy of the information you provide, for keeping your password and sign-in credentials confidential, and for any activity under your account. Notify us at <a href="mailto:areeb@awekn.com">areeb@awekn.com</a> if you suspect unauthorized use.</p>
@@ -34,6 +34,15 @@ export default function TermsOfService() {
 
           <h2>3. Your Content, Your Data</h2>
           <p>You own the workout logs, body measurements, progress photos, notes, regimen entries, and every other piece of content you create in awekn. We do not claim any ownership of your content. By using the cloud-sync feature you grant us a limited, non-exclusive license solely to store, transmit, display, and back up your content in order to operate the Service on your behalf. This license ends when you delete your content or your account.</p>
+
+          <h2>3A. Community, Public Profiles, and Shared Content</h2>
+          <p>awekn includes an optional community where you can follow other athletes, share workouts, photos, and text posts, comment, react, copy another athlete&rsquo;s public routine, and (with awekn Pro) send direct messages. Nothing is shared automatically: a workout, photo, or note only becomes visible to others when you explicitly publish it, and you choose the audience of every post (everyone, your followers, or only you). You can make your account private (followers must be approved), hide it from discovery and suggestions, decide who may message you, and turn the community tab off entirely in Settings.</p>
+          <p><strong>Public profile.</strong> When you use the community, your username, display name, avatar, bio, follower and following counts, the number of workouts you have shared, and (if you keep the setting on) the names and structure of your current training programs are visible to other signed-in users. Your private training history, body measurements, nutrition logs, and progress photos are never visible to anyone; only the snapshot you choose to publish is.</p>
+          <p><strong>License to shared content.</strong> You keep ownership of everything you publish. So that the community can work, you grant us and the users you share with a worldwide, non-exclusive, royalty-free license to host, store, reproduce, display, and distribute your shared content within the Service, and you grant other users the right to view it and to copy any routine you have chosen to share. This license ends when you delete the content or your account, except for copies of a routine that other users have already saved into their own account.</p>
+          <p><strong>Community rules.</strong> You must be at least 16 to use the community. You agree not to post content that is unlawful, hateful, harassing, threatening, sexually explicit, violent, self-harm related, spam, or that impersonates another person, and not to share another person&rsquo;s photos or private information without their permission. There is no tolerance for objectionable content or abusive users. We use automated filtering (an automated content-moderation service scans text and images when they are published or edited) together with in-app reporting and blocking. We review reports and act on them within 24 hours by removing content and, where warranted, ejecting the user. Blocking someone hides you from each other completely, including messages. We may remove content, restrict features, or terminate accounts that break these rules, with or without notice.</p>
+          <p><strong>Direct messages.</strong> Messages are private between the two participants and are not encrypted end to end. We do not read them except to investigate a report or as required by law. Message previews may appear in push notifications on the recipient&rsquo;s device unless they turn previews off. The sender can see when you have read a message.</p>
+          <p><strong>Members under 18.</strong> You must be at least 16 to join the community. Members aged 16 and 17 automatically have a private account, are not shown in discovery or suggestions, cannot receive direct messages, and cannot change those settings until they turn 18.</p>
+          <p><strong>Rate limits and integrity.</strong> To keep the community usable we apply fair-use limits on follows, posts, comments, reactions, messages, and reports, and we may remove fake accounts, scripted activity, or implausible workout data from leaderboards.</p>
 
           <h2>4. awekn Pro Subscription</h2>
           <p>awekn Pro is a recurring subscription that unlocks the full app. On iOS, the subscription is sold through the Apple App Store and billed to your Apple ID. On Android, the subscription is sold through the Google Play Store and billed to your Google account (Google Play Billing).</p>
@@ -62,7 +71,7 @@ export default function TermsOfService() {
           </ul>
 
           <h2>5. Acceptable Use</h2>
-          <p>You agree not to: (a) attempt to reverse-engineer, decompile, or extract source from the app beyond what applicable law allows, (b) probe, scan, or test the vulnerability of any system or network, (c) access or use the Service to build a competing product, scrape content, or train machine-learning models, (d) impersonate another person, misrepresent your identity, or interfere with another user&rsquo;s enjoyment of the Service, (e) upload unlawful, infringing, or harassing content, (f) bypass usage limits, entitlement checks, or safety features, or (g) use the Service to violate any applicable law or regulation. We may suspend or terminate accounts that breach this section.</p>
+          <p>You agree not to: (a) attempt to reverse-engineer, decompile, or extract source from the app beyond what applicable law allows, (b) probe, scan, or test the vulnerability of any system or network, (c) access or use the Service to build a competing product, scrape content, or train machine-learning models, (d) impersonate another person, misrepresent your identity, or interfere with another user&rsquo;s enjoyment of the Service, (e) upload unlawful, infringing, harassing, or otherwise objectionable content (see Section 3A for the community rules), (f) bypass usage limits, entitlement checks, or safety features, or (g) use the Service to violate any applicable law or regulation. We may suspend or terminate accounts that breach this section.</p>
 
           <h2>6. Health and Fitness Disclaimer</h2>
           <p>awekn is a fitness tracking tool, not a medical device, diagnostic aid, or substitute for professional advice. Exercise involves risk of injury. Consult a qualified healthcare professional before starting any new training, nutrition, or supplementation regimen, especially if you have a medical condition or take medication. You use awekn at your own risk. We are not liable for injury, illness, or adverse outcomes that may occur during or as a result of activity you log in the app.</p>
