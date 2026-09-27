@@ -1,0 +1,91 @@
+/* Fuel room: the calorie ring, three macro bars, the food chips and the day's list (RoomFuel.tsx). */
+
+.top { display: flex; align-items: center; gap: 18px; }
+
+/* ── the ring: the one ember status in this room ── */
+.ring { position: relative; width: 132px; height: 132px; flex: 0 0 132px; }
+.ring svg { width: 132px; height: 132px; }
+.track { stroke: var(--rim); }
+.arc {
+  stroke: var(--ember);
+  /* a spring-ish settle: a touch of overshoot while filling */
+  transition: stroke-dashoffset 0.7s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.2s var(--ease-out);
+}
+/* closing the ring must not overshoot past full */
+.arcFull { transition-timing-function: var(--ease-emphatic), var(--ease-out); }
+
+.center {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  pointer-events: none;
+}
+.big {
+  display: inline-block; min-width: 5ch; text-align: center;
+  font-size: 26px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums; color: var(--text);
+}
+.unit { font-size: 12px; color: var(--text-4); }
+
+/* ── macro bars: silver on a hairline track, never coloured ── */
+.macros { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.macro { display: flex; flex-direction: column; gap: 5px; }
+.macroHead { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
+.macroName { color: var(--text-2); }
+.macroVal { color: var(--text-4); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar { height: 6px; border-radius: 3px; background: var(--rim); overflow: hidden; }
+.fill {
+  height: 100%; border-radius: 3px; background: var(--silver);
+  transform-origin: left center;
+  transition: transform 0.6s var(--ease-emphatic);
+}
+
+.status { font-size: 15px; line-height: 1.4; color: var(--text-3); font-variant-numeric: tabular-nums; min-height: 42px; }
+@media (min-width: 480px) { .status { min-height: 21px; } }
+
+/* ── food chips ── */
+.add { display: flex; flex-direction: column; gap: 10px; }
+.label { font-size: 13px; color: var(--text-4); }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { position: relative; user-select: none; -webkit-user-select: none; }
+.chip:disabled { opacity: 0.35; cursor: default; }
+.chipKcal { font-size: 13px; color: var(--text-4); font-variant-numeric: tabular-nums; }
+
+/* the "+324" that rises off a chip when it lands */
+.float {
+  position: absolute; left: 50%; top: -2px;
+  font-size: 13px; font-weight: 700; color: var(--text);
+  font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none;
+  opacity: 0;
+  animation: rise 0.8s var(--ease-out) forwards;
+}
+@keyframes rise {
+  0% { opacity: 0; transform: translate(-50%, 4px) scale(0.9); }
+  22% { opacity: 1; transform: translate(-50%, -14px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -34px) scale(1); }
+}
+
+/* ── the day: last four, latest first, each with its own undo ── */
+.day { display: flex; flex-direction: column; min-height: 44px; }
+.list { list-style: none; display: flex; flex-direction: column; }
+.row {
+  display: flex; align-items: center; gap: 12px; min-height: 52px;
+  border-top: 1px solid var(--hairline);
+  animation: enter 0.35s var(--ease-out);
+}
+.row:first-child { border-top: 0; }
+@keyframes enter {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+.rowName { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; font-size: 14px; color: var(--text-2); }
+.rowServing { font-size: 12px; color: var(--text-5); }
+.rowKcal { font-size: 14px; color: var(--text-4); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.remove {
+  width: 44px; height: 44px; flex: 0 0 44px; margin-right: -10px;
+  border-radius: 22px; display: inline-flex; align-items: center; justify-content: center;
+  color: var(--text-4);
+}
+.remove:hover { color: var(--text); background: var(--glass); }
+.more, .empty { font-size: 13px; color: var(--text-5); font-variant-numeric: tabular-nums; }
+.more { padding-top: 4px; }
+.empty { padding-top: 12px; }

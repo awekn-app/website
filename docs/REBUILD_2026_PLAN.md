@@ -116,4 +116,22 @@ Research:
 - Design (step 0) done 2026-09-27: https://claude.ai/artifact/5DRnsf4npVmkGQYTJwgJtJ (private canvas).
   It has the phone hero, three rooms that work (the set, fuel, the scale), the whole scroll as a
   storyboard, and a desktop hero.
-- Build: in progress on branch `rebuild/2026`, with Vercel preview only.
+- Build (2026-09-27, branch `rebuild/2026`, Vercel preview only, never merged without the founder):
+  - Foundation: ember tokens, Hanken Grotesk, layout metadata with the smart banner, `/support`,
+    sitemap and robots, the legal pages kept.
+  - Hero: the statue poster as the LCP image, plus `site/HeroCarve.tsx`, a WebGL chisel of ember
+    light that sweeps the statue once with dust from its edges, then a pointer rim light. three.js
+    loads after idle, only on capable devices (skips reduced motion, Save-Data, under 4 cores or
+    4 GB, no WebGL2). Premultiplied light on a transparent canvas (a blend mode fails inside the
+    figure's isolated group).
+  - Problem and Arc: sticky, scroll-scrubbed beats with GSAP ScrollTrigger (no pins); the finished
+    state renders without JS and under reduced motion.
+  - Seven rooms in `site/rooms/`, all on the shared `Room` frame (`useRoomLive(id)` pauses a room
+    off screen), each mirroring the app's real maths:
+    set (the records engine, lib/pr), plates (lib/powerlifting/plate), fuel (real rows from the
+    food DB), scale (lib/bodyweight/trend EWMA), steps (the 10,000 goal), journal (JournalGrid),
+    climb (a season of e1RM with a scrub).
+  - Old instruments, `useMotion`, R3F, shadergradient and Lenis removed. The OG image restyled.
+  - Verified at 375px and 1280px in the dev preview; `npm run build` passes, every route static.
+- Open: the official App Store badge (a founder download), a Lighthouse mobile pass on the
+  preview, a real-iPhone check of the carve, the steps hold and the scale drag.

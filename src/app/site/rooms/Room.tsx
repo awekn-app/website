@@ -9,7 +9,26 @@ import s from "./Room.module.css";
  * springs when it scrolls away (one live at a time, docs/REBUILD_2026_PLAN.md craft laws).
  */
 const LiveContext = createContext(false);
-export const useRoomLive = () => useContext(LiveContext);
+
+/**
+ * Pass the room's id when calling from the component that renders `<Room>` itself (that component
+ * sits above the provider, so it observes the section by id). Children inside the room can call it
+ * with no id and read the context.
+ */
+export function useRoomLive(id?: string) {
+  const ctx = useContext(LiveContext);
+  const [own, setOwn] = useState(false);
+  useEffect(() => {
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setOwn(e.isIntersecting), { rootMargin: LIVE_MARGIN });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [id]);
+  return id ? own : ctx;
+}
+const LIVE_MARGIN = "-10% 0px";
 
 /** True when the viewer asked for less motion; rooms still work, they just skip the flourish. */
 export function useReducedMotion() {
@@ -53,7 +72,7 @@ export function Room({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), { rootMargin: "-10% 0px" });
+    const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), { rootMargin: LIVE_MARGIN });
     io.observe(el);
     return () => io.disconnect();
   }, []);

@@ -1,0 +1,134 @@
+/* The problem (story beat 1). The resting state below is the finished one: scraps struck through,
+   the clean line showing. `.live` is added by the component only inside the motion query, where the
+   scrub starts from the messy state and ends back here. */
+
+.problem {
+  position: relative;
+  /* clip, not hidden: it keeps the falling scraps from widening the page without breaking sticky */
+  overflow-x: clip;
+}
+
+.track { position: relative; }
+
+.stage {
+  max-width: var(--max-wide);
+  margin: 0 auto;
+  padding: 96px var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── the words ── */
+.head { display: flex; flex-direction: column; gap: 12px; }
+.eyebrow { font-size: 14px; font-weight: 600; color: var(--text-5); }
+.title {
+  font-size: clamp(34px, 8vw, 64px);
+  line-height: 1.04;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+/* ── the scraps ── */
+.board { position: relative; }
+.scraps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+}
+.scrap {
+  max-width: calc(100% - var(--shift));
+  margin-left: var(--shift);
+  transform: rotate(var(--tilt));
+}
+.paper {
+  position: relative;
+  display: inline-block;
+  padding: 7px 12px 8px;
+  border-radius: 3px;
+  background: var(--surface);
+  border: 1px solid var(--rim);
+  /* a torn right edge, so each one reads as a scrap and not a card */
+  clip-path: polygon(0 0, 100% 0, 98.6% 22%, 100% 46%, 98.2% 71%, 99.4% 100%, 0 100%);
+}
+.scrap:nth-child(even) .paper {
+  clip-path: polygon(0 0, 99.2% 0, 100% 30%, 98.4% 58%, 100% 82%, 98.8% 100%, 0 100%, 0.8% 52%);
+}
+.text {
+  display: block;
+  font-size: 14.5px;
+  line-height: 1.3;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  white-space: pre-wrap;
+  opacity: 0.5;
+}
+.strike {
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  top: 52%;
+  height: 1.5px;
+  border-radius: 1px;
+  background: var(--text-2);
+  transform-origin: left center;
+}
+
+/* ── the one clean line ── */
+.clean { margin-top: 36px; display: flex; flex-direction: column; gap: 12px; }
+.line {
+  font-size: clamp(30px, 7.4vw, 56px);
+  line-height: 1.06;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+.phrase { display: inline-block; }
+.after { font-size: 17px; line-height: 1.45; color: var(--text-3); max-width: 32ch; }
+
+/* ── the scrub: a tall track and a sticky stage, only where motion is welcome ── */
+@media (prefers-reduced-motion: no-preference) and (min-height: 521px) {
+  .track { height: 170vh; height: 170svh; }
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    justify-content: center;
+    /* the bottom clears the sticky download bar */
+    padding-top: 40px;
+    padding-bottom: 96px;
+  }
+  .live .paper { will-change: transform, opacity, filter; }
+  .live .clean {
+    position: absolute;
+    inset: 0;
+    margin-top: 0;
+    justify-content: center;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .stage {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: center;
+    column-gap: 72px;
+  }
+  .text { font-size: 17px; }
+  .paper { padding: 9px 16px 10px; }
+  .scraps { gap: 12px; }
+  .strike { left: 12px; right: 12px; }
+  .after { font-size: 19px; }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-height: 521px) and (min-width: 900px) {
+  .track { height: 200vh; }
+  .stage { padding-bottom: 72px; }
+}

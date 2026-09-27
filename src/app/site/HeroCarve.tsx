@@ -6,7 +6,7 @@ import s from "./Hero.module.css";
 /**
  * The carve: a chisel of ember light that sweeps down the statue once, stone dust falling from the
  * edges it touches, then a rim light that follows a fine pointer. It is layered over the poster
- * image (screen blend on a black canvas, so it only ever adds light) and never replaces it: the
+ * image (premultiplied light on a transparent canvas, so it only ever adds) and never replaces it: the
  * statue is painted by next/image first and stays the LCP.
  *
  * three.js is imported only after the page is idle, and only on a device that can afford it: no
@@ -154,7 +154,9 @@ const FRAG_PLANE = /* glsl */ `
     vec2 dl = (vUv - uLight) * vec2(1.0, 1.6);
     light += uLightOn * edge * exp(-dot(dl, dl) * 18.0) * 0.9;
 
-    gl_FragColor = vec4(EMBER * light, 1.0);
+    // Premultiplied light on a transparent canvas: it only ever adds, with no blend mode needed.
+    vec3 c = min(EMBER * light, vec3(1.0));
+    gl_FragColor = vec4(c, max(c.r, max(c.g, c.b)));
   }
 `;
 
@@ -184,7 +186,8 @@ const FRAG_DUST = /* glsl */ `
   void main() {
     vec2 c = gl_PointCoord - 0.5;
     float r = 1.0 - smoothstep(0.2, 0.5, length(c));
-    gl_FragColor = vec4(vec3(1.0, 0.55, 0.3) * r * vLife * 0.9, 1.0);
+    vec3 col = vec3(1.0, 0.55, 0.3) * r * vLife * 0.9;
+    gl_FragColor = vec4(col, max(col.r, max(col.g, col.b)));
   }
 `;
 
@@ -193,8 +196,8 @@ async function boot(canvas: HTMLCanvasElement) {
   const host = canvas.parentElement;
   if (!host) return () => {};
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: "low-power" });
-  renderer.setClearColor(0x000000, 1);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, premultipliedAlpha: true, powerPreference: "low-power" });
+  renderer.setClearColor(0x000000, 0);
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   renderer.setPixelRatio(dpr);
 
@@ -220,7 +223,7 @@ async function boot(canvas: HTMLCanvasElement) {
 
   const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(2, 2),
-    new THREE.ShaderMaterial({ uniforms, vertexShader: VERT_PLANE, fragmentShader: FRAG_PLANE, depthTest: false }),
+    new THREE.ShaderMaterial({ uniforms, vertexShader: VERT_PLANE, fragmentShader: FRAG_PLANE, depthTest: false, blending: THREE.NoBlending }),
   );
   scene.add(plane);
 
@@ -245,7 +248,9 @@ async function boot(canvas: HTMLCanvasElement) {
       vertexShader: VERT_DUST,
       fragmentShader: FRAG_DUST,
       transparent: true,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.CustomBlending,
+      blendSrc: THREE.OneFactor,
+      blendDst: THREE.OneFactor,
       depthTest: false,
     }),
   );

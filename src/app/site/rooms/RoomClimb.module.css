@@ -1,0 +1,101 @@
+/* Room 07, the climb: grey sessions, a white staircase of records; ember only on the PR tag. */
+
+.head { display: flex; flex-direction: column; gap: 6px; }
+.headTop { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.lift { font-size: 18px; font-weight: 600; }
+.date { min-width: 9ch; text-align: right; font-size: 13px; color: var(--text-4); }
+
+.readout { display: flex; align-items: baseline; gap: 8px; }
+.e1 {
+  min-width: 5ch;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.unit { font-size: 15px; color: var(--text-4); }
+.pr {
+  align-self: center;
+  margin-left: auto;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 87, 18, 0.5);
+  background: var(--ember-glow);
+  color: var(--ember);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.16s var(--ease-out), transform 0.16s var(--ease-out);
+}
+.prOn { opacity: 1; transform: scale(1); }
+
+.line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 14px; }
+.set { color: var(--text-2); min-width: 10ch; }
+.delta { color: var(--text-4); text-align: right; }
+
+/* ── the chart ── */
+.chart {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  /* a vertical swipe still scrolls the page; a sideways drag scrubs */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: crosshair;
+}
+.grid { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1; shape-rendering: crispEdges; }
+.tick { fill: var(--text-5); font-size: 11px; font-variant-numeric: tabular-nums; }
+.dot { fill: rgba(255, 255, 255, 0.34); }
+.stairs { fill: none; stroke: var(--white); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.spot { stroke: rgba(255, 255, 255, 0.28); stroke-width: 1; shape-rendering: crispEdges; }
+.mark { fill: var(--white); stroke: var(--surface); stroke-width: 3; }
+
+/* ── the range: the keyboard (and a sure thumb on touch) over the session index ── */
+/* its margins put the thumb centre on the first and last dot (chart pads 10px left, 40px right) */
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: calc(100% - 22px);
+  height: 44px;
+  margin: -8px 26px 0 -4px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+.range::-webkit-slider-runnable-track { height: 2px; border-radius: 1px; background: rgba(255, 255, 255, 0.12); }
+.range::-moz-range-track { height: 2px; border-radius: 1px; background: rgba(255, 255, 255, 0.12); }
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  margin-top: -13px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: var(--surface-top);
+  transition: transform 0.18s var(--ease-out);
+}
+.range::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: var(--surface-top);
+  transition: transform 0.18s var(--ease-out);
+}
+.range:active::-webkit-slider-thumb { transform: scale(0.96); }
+.range:active::-moz-range-thumb { transform: scale(0.96); }
+.range:focus-visible { outline: none; }
+.range:focus-visible::-webkit-slider-thumb { outline: 2px solid var(--ember); outline-offset: 2px; }
+.range:focus-visible::-moz-range-thumb { outline: 2px solid var(--ember); outline-offset: 2px; }
+
+.status { min-height: 21px; font-size: 14px; line-height: 1.5; color: var(--text-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pr, .range::-webkit-slider-thumb, .range::-moz-range-thumb { transition: none; }
+}
