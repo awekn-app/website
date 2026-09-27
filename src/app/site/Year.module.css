@@ -1,0 +1,127 @@
+/* The year. The poster (SVG heatmap) is the resting state and the whole picture without WebGL.
+   YearField sets [data-live] on the stage after its first frame, and the two crossfade. */
+
+.year {
+  max-width: var(--max-wide);
+  margin: 0 auto;
+  padding: 96px var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.body { display: flex; flex-direction: column; gap: 28px; }
+.figure { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+/* ── the stage: full bleed on a phone, so the field in perspective gets the whole width ── */
+.stage {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  margin: 0 calc(-1 * var(--gutter));
+  touch-action: pan-y;
+}
+
+.poster {
+  position: absolute;
+  inset: 0;
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  transition: opacity 0.9s var(--ease-out);
+}
+/* the two halves share one square size: each is as wide as its columns (--u, in poster units,
+   against the first half's 322) */
+.half { width: calc(100% * var(--u) / 322); display: flex; flex-direction: column; gap: 6px; }
+.months { position: relative; height: 14px; }
+.month {
+  position: absolute;
+  top: 0;
+  font-size: 11px;
+  line-height: 14px;
+  color: var(--text-5);
+  white-space: nowrap;
+}
+.heat { width: 100%; height: auto; }
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out);
+  pointer-events: none;
+}
+.stage[data-live] .poster { opacity: 0; }
+.stage[data-live] .canvas { opacity: 1; }
+
+/* ── caption and legend ── */
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-5);
+}
+.legend { display: inline-flex; align-items: center; gap: 5px; }
+.swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* ── readouts: tabular, reserved widths, three across on a phone ── */
+.readouts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  border-top: 1px solid var(--hairline);
+  padding-top: 18px;
+}
+.readout { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 4px; min-width: 0; }
+.label { font-size: 13px; line-height: 1.3; color: var(--text-4); }
+.value {
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.unit { font-size: 14px; font-weight: 500; letter-spacing: 0; color: var(--text-4); }
+
+@media (min-width: 900px) {
+  .year { padding-top: 128px; padding-bottom: 128px; gap: 44px; }
+  .body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    align-items: center;
+    gap: 56px;
+  }
+  .stage { aspect-ratio: 12 / 5; margin: 0; }
+  /* one strip: the halves side by side, the gap between them one square gap (2 of 634 units) */
+  .poster { padding: 0; flex-direction: row; align-items: center; column-gap: 0.3155%; }
+  .half { width: auto; flex: var(--u) 1 0; min-width: 0; }
+  .readouts {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    border-top: 0;
+    border-left: 1px solid var(--hairline);
+    padding: 8px 0 8px 28px;
+  }
+  .value { font-size: 48px; }
+  .unit { font-size: 16px; }
+  .label { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster, .canvas { transition: none; }
+}

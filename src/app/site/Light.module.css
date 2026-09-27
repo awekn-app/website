@@ -1,0 +1,38 @@
+/* The travelling light. The frame is the viewport, clipped, under everything; the orb is a baked
+   radial gradient on its own layer, moved by transform and faded by opacity (set by the component). */
+
+.frame {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.light {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 130vmax;
+  height: 130vmax;
+  margin: -65vmax 0 0 -65vmax;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 87, 18, 0.085),
+    rgba(255, 87, 18, 0.045) 38%,
+    rgba(255, 87, 18, 0.014) 68%,
+    rgba(255, 87, 18, 0) 100%
+  );
+  opacity: 0;
+  transform: translate3d(50vw, 15vh, 0);
+  will-change: transform, opacity;
+}
+
+@media (min-width: 900px) {
+  .light { width: 110vmax; height: 110vmax; margin: -55vmax 0 0 -55vmax; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame { display: none; }
+}

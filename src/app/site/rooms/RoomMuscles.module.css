@@ -1,0 +1,141 @@
+/* The muscles room: sorted bars against the 10 to 20 band (monochrome; no accent in this room). */
+
+.paused *, .paused *::before, .paused *::after { animation-play-state: paused !important; }
+
+.head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.headWords { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.title { font-size: 18px; font-weight: 600; }
+.dim { font-size: 13px; line-height: 1.35; color: var(--text-4); }
+.total { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; min-width: 5.5ch; text-align: right; }
+.unit { font-size: 12px; font-weight: 500; color: var(--text-4); letter-spacing: 0; }
+
+/* ── the chart: label | track | count, rows placed by rank with a transform ── */
+.chart {
+  --lab: 86px;
+  --num: 36px;
+  --gap: 10px;
+  --row: 30px;
+  /* the track column, as a length the band can scale */
+  --trackW: calc(100% - var(--lab) - var(--num) - 2 * var(--gap));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.scale { position: relative; height: 14px; }
+.tick {
+  position: absolute;
+  top: 0;
+  font-size: 11px;
+  line-height: 14px;
+  color: var(--text-5);
+  transform: translateX(-50%);
+}
+.tickLo { left: calc(var(--lab) + var(--gap) + var(--trackW) * var(--b0)); }
+.tickHi { left: calc(var(--lab) + var(--gap) + var(--trackW) * (var(--b0) + var(--bw))); }
+
+.rows { position: relative; height: calc(var(--rows) * var(--row)); }
+.band {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: calc(var(--lab) + var(--gap) + var(--trackW) * var(--b0));
+  width: calc(var(--trackW) * var(--bw));
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.14), inset -1px 0 0 rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+.row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--row);
+  display: grid;
+  grid-template-columns: var(--lab) minmax(0, 1fr) var(--num);
+  gap: var(--gap);
+  align-items: center;
+  transition: transform 0.6s var(--ease-emphatic);
+  will-change: transform;
+}
+.name { font-size: 14px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track { position: relative; height: 10px; border-radius: 5px; background: rgba(255, 255, 255, 0.05); }
+.bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.46);
+  transition: width 0.6s var(--ease-emphatic), background 0.3s var(--ease-out);
+}
+.count { font-size: 14px; font-weight: 600; color: var(--text-3); text-align: right; }
+/* in the band: the bar and the number turn full white */
+.in .bar { background: var(--white); }
+.in .count { color: var(--white); }
+.in .name { color: var(--text); }
+/* under or over: the grey bar stays, the name dims a step */
+.under .name, .over .name { color: var(--text-3); }
+
+.legend { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-5); margin-top: -6px; }
+.swatch {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 10px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 0.14), inset -1px 0 0 rgba(255, 255, 255, 0.14);
+}
+
+/* ── the workouts ── */
+.chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.chip {
+  min-height: 60px;
+  padding: 8px 10px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 1px solid var(--rim-strong);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  color: var(--text);
+  -webkit-tap-highlight-color: transparent;
+}
+.chip:hover { background: rgba(255, 255, 255, 0.1); }
+.chipName { display: inline-flex; align-items: center; gap: 5px; font-size: 16px; font-weight: 600; }
+.chipSets { font-size: 12px; color: var(--text-4); }
+.on, .on:hover { background: var(--text); border-color: var(--text); color: var(--void); }
+.on .chipSets { color: rgba(11, 11, 13, 0.62); }
+
+.list { display: flex; flex-direction: column; gap: 10px; }
+.listHead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.listTitle { font-size: 15px; font-weight: 600; }
+/* reserved for the longest day (seven exercises) so switching never jumps the page */
+.exercises { list-style: none; display: flex; flex-direction: column; gap: 4px; min-height: calc(7 * 20px + 6 * 4px); }
+.ex { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 13px; line-height: 20px; }
+.exName { color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.exSets { color: var(--text-2); white-space: nowrap; }
+
+/* ── the payoff ── */
+.status { min-height: 44px; font-size: 15px; line-height: 1.45; color: var(--text); font-weight: 500; }
+.rise { display: inline-block; animation: rise 0.32s var(--ease-out) both; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.still .row, .still .bar { transition: none; }
+.still .rise { animation: none; }
+
+@media (min-width: 900px) {
+  .chart { --lab: 100px; --num: 40px; --row: 32px; }
+  .name, .count { font-size: 15px; }
+  .exercises { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; min-height: calc(4 * 20px + 3 * 4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row, .bar { transition: none; }
+  .rise { animation: none; }
+}

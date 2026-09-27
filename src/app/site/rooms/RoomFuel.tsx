@@ -125,7 +125,7 @@ export function RoomFuel() {
   return (
     <Room
       id="fuel"
-      index="03"
+      index="05"
       name="Fuel"
       title="Eat like you train."
       sub="13,000 foods, dal to protein oats. Tap what you ate."

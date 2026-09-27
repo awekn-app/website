@@ -1,0 +1,136 @@
+/* The rest room: the ring, the nudges, the next set (ember only on Start; green only on the tick). */
+
+.paused *, .paused *::before, .paused *::after { animation-play-state: paused !important; }
+
+/* the card takes the keys; its focus ring keeps the card's own corners */
+.group:focus-visible { border-radius: var(--radius-card); outline-offset: 2px; }
+
+.head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.headWords { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.lift { font-size: 18px; font-weight: 600; }
+.dim { font-size: 13px; line-height: 1.35; color: var(--text-4); }
+.skip { flex: 0 0 auto; }
+.skip:disabled { opacity: 0.35; cursor: default; }
+
+/* ── the ring ── */
+.ringWrap {
+  position: relative;
+  width: min(240px, 74%);
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+.ring { display: block; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.track { fill: none; stroke: rgba(255, 255, 255, 0.08); stroke-width: 10; }
+.arc {
+  fill: none;
+  stroke: var(--silver);
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition: opacity 0.2s var(--ease-out);
+}
+/* eased only when the clock is still (a nudge glides); while running it tracks every frame */
+.ease .arc { transition: stroke-dasharray 0.4s var(--ease-out), opacity 0.2s var(--ease-out); }
+
+/* the last three seconds: the arc turns white and glows, and one pulse fires per second */
+.ring { transition: filter 0.3s var(--ease-out); }
+.last .arc { stroke: var(--white); }
+.last .ring { filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.35)); }
+.pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  animation: pulse 0.9s var(--ease-out) both;
+}
+@keyframes pulse { from { transform: scale(0.92); opacity: 0.9; } to { transform: scale(1.14); opacity: 0; } }
+
+.readout {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  pointer-events: none;
+}
+.time {
+  display: inline-block;
+  min-width: 4ch;
+  text-align: center;
+  font-size: clamp(44px, 14vw, 60px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--white);
+}
+
+/* ── controls ── */
+.controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+.nudge {
+  min-height: 54px;
+  border-radius: 27px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--rim-strong);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.nudge:hover { background: rgba(255, 255, 255, 0.1); }
+.nudge:disabled { opacity: 0.35; cursor: default; }
+.go { padding: 0 12px; white-space: nowrap; }
+
+.keys { display: none; font-size: 12px; color: var(--text-5); text-align: center; margin-top: -6px; }
+@media (hover: hover) and (pointer: fine) { .keys { display: block; } }
+
+/* ── the next set: a reserved slot so the page never jumps when it fills ── */
+.slot { min-height: 76px; display: flex; flex-direction: column; }
+.idle {
+  flex: 1;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 18px;
+  border-radius: 20px;
+  border: 1px dashed var(--hairline);
+  font-size: 14px;
+  color: var(--text-4);
+}
+.upNext { color: var(--text-5); font-size: 12px; white-space: nowrap; }
+.next {
+  flex: 1;
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: var(--well);
+  border: 1px solid var(--rim);
+}
+.slide { animation: slide 0.42s var(--ease-emphatic) both; }
+.slide .tick { animation: tickPop 0.46s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both; }
+@keyframes slide { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes tickPop { from { transform: scale(0.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.tick { flex: 0 0 28px; display: block; }
+.nextWords { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.nextTitle { font-size: 16px; font-weight: 600; color: var(--white); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse, .slide, .slide .tick { animation: none; }
+  .ease .arc { transition: none; }
+}

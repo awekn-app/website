@@ -164,7 +164,7 @@ export function RoomScale() {
   return (
     <Room
       id="scale"
-      index="04"
+      index="06"
       name="The scale"
       flip
       title="The scale lies. The trend doesn't."

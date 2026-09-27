@@ -152,7 +152,8 @@ export function RoomClimb() {
   return (
     <Room
       id="climb"
-      index="07"
+      index="10"
+      flip
       name="The climb"
       title="A season, in one line."
       sub="Scrub twelve weeks of bench. The deload dips, then the new peak."

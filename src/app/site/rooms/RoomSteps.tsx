@@ -104,7 +104,7 @@ export function RoomSteps() {
   return (
     <Room
       id="steps"
-      index="05"
+      index="07"
       name="Steps"
       title="Every step counts toward the day."
       sub="Hold to walk. The ring closes on your goal."

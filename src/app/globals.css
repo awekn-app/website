@@ -53,7 +53,8 @@
 
 html { background: var(--bg); color-scheme: dark; -webkit-text-size-adjust: 100%; }
 body {
-  background: var(--bg);
+  /* transparent: html paints the void, so the travelling light (site/Light) can sit under the content */
+  background: transparent;
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 17px;

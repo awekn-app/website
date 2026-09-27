@@ -132,9 +132,8 @@ export function RoomJournal() {
   return (
     <Room
       id="journal"
-      index="06"
+      index="09"
       name="The journal"
-      flip
       title="Every day you showed up, as a field of light."
       sub="Tap a day to log it. Watch the weeks fill in."
       note="The app's journal grid, the same one on your Tracker."

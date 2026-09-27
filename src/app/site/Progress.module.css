@@ -1,0 +1,46 @@
+/* The reading hairline. --p (0 to 1) is written by the component; everything else is transform and
+   opacity, so a scroll never lays out or paints. */
+
+.progress {
+  --p: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  height: 2px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+.on { opacity: 1; }
+
+.fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(233, 234, 240, 0.35), var(--silver));
+  transform: scaleX(var(--p));
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* a full-width carrier whose right edge sits at the fill's head; the tip rides at that edge */
+.head {
+  position: absolute;
+  inset: 0;
+  transform: translate3d(calc((var(--p) - 1) * 100%), 0, 0);
+  will-change: transform;
+}
+.tip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 28px;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 87, 18, 0), var(--ember));
+  box-shadow: 0 0 10px 1px var(--ember-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress { transition: none; }
+}

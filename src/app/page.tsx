@@ -4,20 +4,28 @@ import { Arc } from "./site/Arc";
 import { Rooms } from "./site/Rooms";
 import { Everything, Disciplines, Vows, Pricing, Download, SiteFooter } from "./site/Sections";
 import { StickyBar } from "./site/StickyBar";
+import { Year } from "./site/Year";
+import { Progress } from "./site/Progress";
+import { Light } from "./site/Light";
 
 /**
  * awekn.com, rebuilt from scratch (2026-09-27, docs/REBUILD_2026_PLAN.md). One idea per screen:
  * the carver, the problem, the arc from day 1 to week 12, the rooms you can try, everything else,
  * the two disciplines, the vows, pricing, and the download.
+ * v2 (docs/WEBSITE_V2_CINEMATIC_PLAN.md): the arc as an instrument, eleven rooms in three chapters,
+ * the year in three.js, a scroll progress hairline and one travelling ember light.
  */
 export default function Home() {
   return (
     <>
+      <Light />
+      <Progress />
       <Hero />
       <main>
         <Problem />
         <Arc />
         <Rooms />
+        <Year />
         <Everything />
         <Disciplines />
         <Vows />
