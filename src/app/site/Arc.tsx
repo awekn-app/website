@@ -5,114 +5,149 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import s from "./Arc.module.css";
+import {
+  DAYS,
+  WEEKS,
+  LIFTS,
+  LIFT_NAME,
+  SEASON,
+  CUT_START,
+  DELOAD_WEEK,
+  GOAL_BAND,
+  KCAL_MAINTENANCE,
+  KCAL_TARGET,
+  PROTEIN_HIT,
+  PROTEIN_TARGET,
+  weekOf,
+  dayOfWeek,
+  scaleAt,
+  sessionAt,
+  litLiftAt,
+  totalAt,
+  setsThisWeek,
+  avg4At,
+  type Lift,
+} from "./arc/season";
+import {
+  TRACKS,
+  NOMINAL_W,
+  ANNOTATIONS,
+  GOAL,
+  fx,
+  pctY,
+  lenAtX,
+  yAtX,
+  weightGeo,
+  strengthGeo,
+  workGeo,
+  fuelGeo,
+  type Poly,
+  type TrackId,
+  type WeightGeo,
+  type StrengthGeo,
+  type WorkGeo,
+  type FuelGeo,
+} from "./arc/instrument";
 
-/* ── the twelve weeks (deterministic: day 1 is index 0, week 12 is index 12) ── */
-const WEEKS = 12;
-const BODYWEIGHT = [84.0, 83.6, 83.1, 82.8, 82.5, 82.0, 81.6, 81.2, 80.8, 80.3, 79.9, 79.4, 79.0];
-const E1RM = [100.0, 101.5, 103.5, 105.0, 106.5, 108.5, 110.0, 112.5, 113.5, 115.0, 116.5, 118.5, 120.0];
+/* ── the finished state (day 84), which the server renders and reduced motion keeps ── */
 
-/* ── the chart's own space ── */
-const VB_W = 360;
-const VB_H = 190;
-const X0 = 30;
-const X1 = 330;
-const Y_TOP = 16;
-const Y_BOT = 174;
-const Y_MID = (Y_TOP + Y_BOT) / 2;
+const L = DAYS - 1;
+const TRACK_IDS: TrackId[] = ["weight", "strength", "work", "fuel"];
 
-/** Bodyweight reads 84 kg on the top gridline and 79 kg on the bottom one. */
-const bwY = (v: number) => Y_TOP + ((84 - v) / 5) * (Y_BOT - Y_TOP);
-/** Estimated 1RM reads 100 kg on the bottom gridline and 120 kg on the top one. */
-const rmY = (v: number) => Y_BOT - ((v - 100) / 20) * (Y_BOT - Y_TOP);
+interface Geo { weight: WeightGeo; strength: StrengthGeo; work: WorkGeo; fuel: FuelGeo }
+const nominal = (id: TrackId) => ({ w: NOMINAL_W, h: TRACKS[id].nominalH });
+const SSR_GEO: Geo = {
+  weight: weightGeo(NOMINAL_W, TRACKS.weight.nominalH),
+  strength: strengthGeo(NOMINAL_W, TRACKS.strength.nominalH),
+  work: workGeo(NOMINAL_W, TRACKS.work.nominalH),
+  fuel: fuelGeo(NOMINAL_W, TRACKS.fuel.nominalH),
+};
 
-const GRID = [
-  { y: Y_TOP, bw: "84", rm: "120" },
-  { y: Y_MID, bw: "81.5", rm: "110" },
-  { y: Y_BOT, bw: "79", rm: "100" },
-];
+/* ── formatting (no locale APIs: the server and the client must print the same) ── */
 
-type Pt = { x: number; y: number };
-type Seg = { p0: Pt; c1: Pt; c2: Pt; p1: Pt; start: number; cum: number[] };
-type Line = { d: string; segs: Seg[]; total: number; end: Pt };
+const thousands = (n: number) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+const MINUS = "−";
+const signed = (v: number) => `${v < 0 ? MINUS : v > 0 ? "+" : ""}${Math.abs(v).toFixed(2)}`;
+const pct = (f: number) => `${(f * 100).toFixed(3)}%`;
+const LETTER: Record<Lift, string> = { squat: "S", bench: "B", deadlift: "D" };
 
-const SAMPLES = 24;
-
-function bezier(seg: Seg, u: number): Pt {
-  const v = 1 - u;
-  const a = v * v * v;
-  const b = 3 * v * v * u;
-  const c = 3 * v * u * u;
-  const e = u * u * u;
+/** Every live number the instrument prints, read at one day. */
+function readAt(d: number): Record<string, string> {
+  const lifts = Object.fromEntries(LIFTS.map((l) => [l, sessionAt(l, d).e1rm.toFixed(1)]));
   return {
-    x: a * seg.p0.x + b * seg.c1.x + c * seg.c2.x + e * seg.p1.x,
-    y: a * seg.p0.y + b * seg.c1.y + c * seg.c2.y + e * seg.p1.y,
+    when: `Week ${weekOf(d)}, day ${dayOfWeek(d)}`,
+    scale: scaleAt(d).toFixed(1),
+    trend: SEASON.trend[d].toFixed(1),
+    rate: signed(SEASON.kgPerWeek[d]),
+    total: totalAt(d).toFixed(1),
+    sets: setsThisWeek(d).toString(),
+    avg4: avg4At(d).toFixed(1),
+    kcal: thousands(SEASON.kcal[d]),
+    protein: SEASON.protein[d].toString(),
+    ...lifts,
   };
 }
+const END = readAt(L);
 
-/**
- * A smooth line through the weekly points (Catmull-Rom as cubic Beziers). The points are evenly
- * spaced in x, so x runs linearly in each segment's parameter: time t sits exactly at u = t - i.
- * Each segment carries a sampled arc-length table, so the draw-in (stroke-dashoffset) ends exactly
- * at the week the counter shows.
- */
-function buildLine(values: number[], toY: (v: number) => number): Line {
-  const pts = values.map((v, i) => ({ x: X0 + (i / WEEKS) * (X1 - X0), y: toY(v) }));
-  const tangent = (i: number): Pt => {
-    const prev = pts[Math.max(0, i - 1)];
-    const next = pts[Math.min(pts.length - 1, i + 1)];
-    const span = i === 0 || i === pts.length - 1 ? 1 : 2;
-    return { x: (next.x - prev.x) / span, y: (next.y - prev.y) / span };
-  };
-  const segs: Seg[] = [];
-  let total = 0;
-  let d = `M${pts[0].x.toFixed(2)} ${pts[0].y.toFixed(2)}`;
-  for (let i = 0; i < pts.length - 1; i++) {
-    const m0 = tangent(i);
-    const m1 = tangent(i + 1);
-    const p0 = pts[i];
-    const p1 = pts[i + 1];
-    const c1 = { x: p0.x + m0.x / 3, y: p0.y + m0.y / 3 };
-    const c2 = { x: p1.x - m1.x / 3, y: p1.y - m1.y / 3 };
-    const seg: Seg = { p0, c1, c2, p1, start: total, cum: [0] };
-    let prev = p0;
-    let len = 0;
-    for (let k = 1; k <= SAMPLES; k++) {
-      const q = bezier(seg, k / SAMPLES);
-      len += Math.hypot(q.x - prev.x, q.y - prev.y);
-      seg.cum.push(len);
-      prev = q;
-    }
-    total += len;
-    segs.push(seg);
-    d += ` C${c1.x.toFixed(2)} ${c1.y.toFixed(2)} ${c2.x.toFixed(2)} ${c2.y.toFixed(2)} ${p1.x.toFixed(2)} ${p1.y.toFixed(2)}`;
-  }
-  return { d, segs, total, end: pts[pts.length - 1] };
+/** The widest text each live number can print, so its width is reserved and nothing shifts. */
+const SIZER: Record<string, string> = {
+  when: "Week 12, day 7",
+  scale: "00.0",
+  trend: "00.0",
+  rate: `${MINUS}0.00`,
+  total: "000.0",
+  sets: "00",
+  avg4: "00.0",
+  kcal: "0,000",
+  protein: "000",
+  squat: "000.0",
+  bench: "000.0",
+  deadlift: "000.0",
+};
+
+function Live({ k }: { k: string }) {
+  return (
+    <span className={s.num}>
+      <span className={s.sizer} aria-hidden="true">{SIZER[k]}</span>
+      <span className={s.liveText} data-live={k}>{END[k]}</span>
+    </span>
+  );
 }
 
-const BW_LINE = buildLine(BODYWEIGHT, bwY);
-const RM_LINE = buildLine(E1RM, rmY);
+/* ── the story, in words, from the same numbers ── */
 
-function locate(t: number) {
-  const i = Math.min(Math.floor(t), WEEKS - 1);
-  return { i, u: Math.min(1, Math.max(0, t - i)) };
-}
-function pointAt(line: Line, t: number): Pt {
-  const { i, u } = locate(t);
-  return bezier(line.segs[i], u);
-}
-function lengthAt(line: Line, t: number): number {
-  const { i, u } = locate(t);
-  const seg = line.segs[i];
-  const k = u * SAMPLES;
-  const j = Math.min(Math.floor(k), SAMPLES - 1);
-  return seg.start + seg.cum[j] + (seg.cum[j + 1] - seg.cum[j]) * (k - j);
-}
-function valueAt(values: number[], t: number): number {
-  const { i, u } = locate(t);
-  return values[i] + (values[i + 1] - values[i]) * u;
-}
-const weekLabel = (t: number) => (t < 0.5 ? "Day 1" : `Week ${Math.round(t)}`);
-const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(3)}%`;
+const first = <T,>(a: T[]) => a[0];
+const trendStart = SEASON.trend[0];
+const trendEnd = SEASON.trend[L];
+const goalDay = SEASON.trend.findIndex((t) => t <= GOAL_BAND[1]);
+const avgRate = (SEASON.trend[CUT_START] - trendEnd) / ((L - CUT_START) / 7);
+const records = SEASON.records.length;
+const hardWeeks = SEASON.weeklySets.filter((_, w) => w + 1 !== DELOAD_WEEK);
+const setsMin = Math.min(...hardWeeks);
+const setsMax = Math.max(...hardWeeks);
+const deloadSets = SEASON.weeklySets[DELOAD_WEEK - 1];
+const hits = SEASON.proteinHit.filter(Boolean).length;
+const liftSpan = (l: Lift) =>
+  `${first(SEASON.sessions[l]).e1rm.toFixed(1)} to a best of ${Math.max(...SEASON.sessions[l].map((x) => x.e1rm)).toFixed(1)} kg`;
+const bestBench = SEASON.records.filter((r) => r.lift === "bench").pop();
+
+const ARIA: Record<TrackId, string> = {
+  weight: `Bodyweight over twelve weeks: daily weigh-ins and the trend, which falls from ${trendStart.toFixed(1)} to ${trendEnd.toFixed(1)} kilograms and reaches the ${GOAL_BAND[0]} to ${GOAL_BAND[1]} kilogram goal band in week ${weekOf(goalDay)}.`,
+  strength: `Estimated one rep max from each week's top set: squat ${liftSpan("squat")}, bench ${liftSpan("bench")}, deadlift ${liftSpan("deadlift")}, with ${records} records and a dip in the week ${DELOAD_WEEK} deload.`,
+  work: `Hard sets a week, ${setsMin} to ${setsMax}, with ${deloadSets} in the week ${DELOAD_WEEK} deload, and the four week average as a line.`,
+  fuel: `Daily calories against the target, ${thousands(KCAL_MAINTENANCE)} in week 1 and ${thousands(KCAL_TARGET)} from the cut, higher at weekends, with protein hit on ${hits} of ${DAYS} days.`,
+};
+
+const STORY =
+  `Twelve weeks of one simulated log, drawn with the app's own maths. ` +
+  `Bodyweight: week 1 at maintenance, then a cut from day ${CUT_START + 1}. The trend falls from ${trendStart.toFixed(1)} to ${trendEnd.toFixed(1)} kg, ` +
+  `${(trendStart - trendEnd).toFixed(1)} kg in all, about ${avgRate.toFixed(2)} kg a week, and reaches the goal band in week ${weekOf(goalDay)}. ` +
+  `Strength, as the estimated one rep max of each week's top set: squat ${liftSpan("squat")}, bench ${liftSpan("bench")}` +
+  (bestBench ? ` (${bestBench.weight} kg for ${bestBench.reps} in week ${weekOf(bestBench.day)})` : "") +
+  `, deadlift ${liftSpan("deadlift")}; ${records} records, and a deload in week ${DELOAD_WEEK}. ` +
+  `The total goes from ${totalAt(0).toFixed(1)} to ${totalAt(L).toFixed(1)} kg. ` +
+  `Work: ${setsMin} to ${setsMax} hard sets a week, ${deloadSets} in the deload. ` +
+  `Fuel: a ${thousands(KCAL_TARGET)} kcal target from the cut, weekends higher, and protein of ${PROTEIN_HIT} g or more (the target is ${PROTEIN_TARGET} g) on ${hits} of ${DAYS} days.`;
 
 /** The scrub only runs where it can breathe; this exact query also gates the tall track in the CSS. */
 const MOTION = "(prefers-reduced-motion: no-preference) and (min-height: 521px)";
@@ -124,82 +159,208 @@ function setText(el: HTMLElement, value: string) {
   else el.textContent = value;
 }
 
+const translate = (x: number, y: number) => `translate(${x.toFixed(2)} ${y.toFixed(2)})`;
+
+/* ── small pieces of markup ── */
+
+function Grid({ id }: { id: TrackId }) {
+  return (
+    <>
+      {TRACKS[id].grid.map((g) => (
+        <line key={g.v} className={s.grid} x1="0" x2="100%" y1={pctY(id, g.v)} y2={pctY(id, g.v)} />
+      ))}
+    </>
+  );
+}
+
+function Labels({ id }: { id: TrackId }) {
+  return (
+    <div className={s.labels} aria-hidden="true">
+      {TRACKS[id].grid.map((g) => (
+        <span key={g.v} className={s.label} style={{ top: pctY(id, g.v) }}>
+          {g.label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function Notes({ id }: { id: TrackId }) {
+  return (
+    <>
+      {ANNOTATIONS.filter((a) => a.track === id).map((a) => (
+        <span
+          key={a.id}
+          data-ann={a.day}
+          className={`${s.ann} ${a.anchor === "end" ? s.annEnd : ""} ${id === "strength" ? s.annRecord : ""}`}
+          style={{ left: pct(a.x), top: pct(a.top) }}
+          aria-hidden="true"
+        >
+          {a.text}
+        </span>
+      ))}
+    </>
+  );
+}
+
 /**
- * THE ARC (story beat 2): day 1 to week 12. A tall track holds a sticky stage while the scroll
- * scrubs time: the bodyweight trend (white) drifts down, the estimated 1RM (ember, the one accent
- * here) climbs, the week counter and both numbers follow, and the statue behind sharpens from a
- * blur into stone. Every frame writes to refs, text nodes and one CSS variable, never React state.
- * The server render is week 12 (finished lines, crisp statue), which is also what reduced motion
- * and no-JS see.
+ * THE ARC (story beat 2): day 1 to week 12, as the instrument the app keeps. One simulated season
+ * (arc/season.ts, the app's own trend and e1RM maths) drawn as four tracks on one time axis:
+ * bodyweight, strength, work and fuel. A tall track holds a sticky stage while the scroll moves a
+ * playhead through the 84 days: every line draws exactly to it, each track lights its value there,
+ * annotations arrive on their day and the readout reads it, while the statue behind sharpens.
+ * Every frame writes to attributes, text nodes and CSS variables, never React state. The server
+ * render is the finished season, which is also what reduced motion and no-JS see.
  */
 export function Arc() {
   const rootRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const statueRef = useRef<HTMLDivElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
-  const bwPathRef = useRef<SVGPathElement>(null);
-  const rmPathRef = useRef<SVGPathElement>(null);
-  const bwHeadRef = useRef<SVGGElement>(null);
-  const rmHeadRef = useRef<SVGGElement>(null);
-  const cursorRef = useRef<SVGLineElement>(null);
-  const weekRef = useRef<HTMLSpanElement>(null);
-  const bwValRef = useRef<HTMLSpanElement>(null);
-  const rmValRef = useRef<HTMLSpanElement>(null);
+  const tracksRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
     const track = trackRef.current;
     const statue = statueRef.current;
-    const svg = svgRef.current;
-    const bwPath = bwPathRef.current;
-    const rmPath = rmPathRef.current;
-    const bwHead = bwHeadRef.current;
-    const rmHead = rmHeadRef.current;
-    const cursor = cursorRef.current;
-    const weekEl = weekRef.current;
-    const bwEl = bwValRef.current;
-    const rmEl = rmValRef.current;
-    if (!root || !track || !statue || !svg || !bwPath || !rmPath || !bwHead || !rmHead || !cursor || !weekEl || !bwEl || !rmEl) {
-      return;
-    }
+    const tracksEl = tracksRef.current;
+    if (!root || !track || !statue || !tracksEl) return;
 
-    // chart units per CSS pixel: keeps the strokes at 2px and the end marks one size at any width
-    let k = VB_W / (svg.clientWidth || VB_W);
+    const svg = {} as Record<TrackId, SVGSVGElement>;
+    root.querySelectorAll<SVGSVGElement>("svg[data-track]").forEach((el) => {
+      svg[el.dataset.track as TrackId] = el;
+    });
+    const el = (id: TrackId, name: string) => svg[id]?.querySelector<SVGPathElement>(`[data-el="${name}"]`) ?? null;
+    const trendEl = el("weight", "trend");
+    const dotsEl = el("weight", "dots");
+    const litWeight = el("weight", "lit");
+    const liftEls = LIFTS.map((l) => el("strength", `line-${l}`));
+    const liftLits = LIFTS.map((l) => el("strength", `lit-${l}`));
+    const recordsEl = el("strength", "records");
+    const doneEl = el("work", "done");
+    const currentEl = el("work", "current");
+    const avgEl = el("work", "avg");
+    const litWork = el("work", "lit");
+    const kcalEl = el("fuel", "kcal");
+    const proteinEl = el("fuel", "protein");
+    const bandEl = el("fuel", "band");
+    const litFuel = el("fuel", "lit");
+    const parts = [trendEl, dotsEl, litWeight, ...liftEls, ...liftLits, recordsEl, doneEl, currentEl, avgEl, litWork, kcalEl, proteinEl, bandEl, litFuel];
+    if (TRACK_IDS.some((id) => !svg[id]) || parts.some((p) => !p)) return;
+    const need = <T,>(v: T | null) => v as T;
+
+    const texts = new Map<string, HTMLElement[]>();
+    root.querySelectorAll<HTMLElement>("[data-live]").forEach((node) => {
+      const k = node.dataset.live ?? "";
+      texts.set(k, [...(texts.get(k) ?? []), node]);
+    });
+    const printed = new Map<string, string>();
+    const notes = Array.from(root.querySelectorAll<HTMLElement>("[data-ann]")).map((node) => ({ node, day: Number(node.dataset.ann) }));
+    const swatches = Array.from(root.querySelectorAll<HTMLElement>("[data-lift]"));
+
+    const geo: Geo = { ...SSR_GEO };
+    const size = Object.fromEntries(TRACK_IDS.map((id) => [id, nominal(id)])) as Record<TrackId, { w: number; h: number }>;
     let live = false;
-    let current = WEEKS;
-    let lastWeek = "";
-    let lastBw = "";
-    let lastRm = "";
+    let current = L;
+    let lastDay = -1;
+
+    /** The lines that draw to the playhead, each with its track and its current geometry. */
+    const lines = (): [SVGPathElement, Poly, TrackId][] => [
+      [need(trendEl), geo.weight.trend, "weight"],
+      ...LIFTS.map((l, i): [SVGPathElement, Poly, TrackId] => [need(liftEls[i]), geo.strength.lines[l], "strength"]),
+      [need(avgEl), geo.work.avg, "work"],
+      [need(kcalEl), geo.fuel.kcal, "fuel"],
+    ];
+    // one dash the line's length, then a longer gap: an offset past the start hides even the cap
+    const dash = () => {
+      for (const [path, p] of lines()) path.style.strokeDasharray = `${p.total.toFixed(2)} ${(p.total + 10).toFixed(2)}`;
+    };
+
+    /** Redraws a track at its measured pixel size (1 viewBox unit = 1 px, so strokes stay 2 px). */
+    const measure = (id: TrackId): boolean => {
+      const node = svg[id];
+      const w = node.clientWidth;
+      const h = node.clientHeight;
+      if (!w || !h || (w === size[id].w && h === size[id].h)) return false;
+      size[id] = { w, h };
+      node.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      if (id === "weight") {
+        geo.weight = weightGeo(w, h);
+        need(trendEl).setAttribute("d", geo.weight.trend.d);
+      } else if (id === "strength") {
+        geo.strength = strengthGeo(w, h);
+        LIFTS.forEach((l, i) => need(liftEls[i]).setAttribute("d", geo.strength.lines[l].d));
+      } else if (id === "work") {
+        geo.work = workGeo(w, h);
+        need(avgEl).setAttribute("d", geo.work.avg.d);
+      } else {
+        geo.fuel = fuelGeo(w, h);
+        need(kcalEl).setAttribute("d", geo.fuel.kcal.d);
+        need(bandEl).setAttribute("d", geo.fuel.band);
+      }
+      return true;
+    };
 
     const render = (t: number) => {
       current = t;
-      const week = weekLabel(t);
-      if (week !== lastWeek) setText(weekEl, (lastWeek = week));
-      const bw = valueAt(BODYWEIGHT, t).toFixed(1);
-      if (bw !== lastBw) setText(bwEl, (lastBw = bw));
-      const rm = valueAt(E1RM, t).toFixed(1);
-      if (rm !== lastRm) setText(rmEl, (lastRm = rm));
+      const d = Math.min(L, Math.max(0, Math.floor(t + 1e-6)));
+      const f = fx(t);
 
-      const bp = pointAt(BW_LINE, t);
-      const rp = pointAt(RM_LINE, t);
-      bwHead.style.transform = `translate(${bp.x.toFixed(2)}px, ${bp.y.toFixed(2)}px) scale(${k.toFixed(4)})`;
-      rmHead.style.transform = `translate(${rp.x.toFixed(2)}px, ${rp.y.toFixed(2)}px) scale(${k.toFixed(4)})`;
+      if (live) {
+        for (const [path, p, id] of lines()) {
+          const len = lenAtX(p, f * size[id].w);
+          path.style.strokeDashoffset = (len > 0.01 ? p.total - len : p.total + 4).toFixed(2);
+        }
+        tracksEl.style.setProperty("--t", (t / L).toFixed(4));
+        statue.style.setProperty("--p", (t / L).toFixed(3));
+      }
 
-      if (!live) return;
-      bwPath.style.strokeDashoffset = (BW_LINE.total - lengthAt(BW_LINE, t)).toFixed(2);
-      rmPath.style.strokeDashoffset = (RM_LINE.total - lengthAt(RM_LINE, t)).toFixed(2);
-      cursor.style.transform = `translateX(${(bp.x - X1).toFixed(2)}px)`;
-      statue.style.setProperty("--p", (t / WEEKS).toFixed(3));
+      // each track's value at the playhead, lit on its line
+      const xw = f * size.weight.w;
+      need(litWeight).setAttribute("transform", translate(xw, yAtX(geo.weight.trend, xw)));
+      const xs = f * size.strength.w;
+      LIFTS.forEach((l, i) => need(liftLits[i]).setAttribute("transform", translate(xs, yAtX(geo.strength.lines[l], xs))));
+      const xf = f * size.fuel.w;
+      need(litFuel).setAttribute("transform", translate(xf, yAtX(geo.fuel.kcal, xf)));
+
+      if (d === lastDay) return;
+      lastDay = d;
+
+      need(dotsEl).setAttribute("d", geo.weight.dots[d]);
+      need(recordsEl).setAttribute("d", geo.strength.records[d]);
+      need(doneEl).setAttribute("d", geo.work.done[d]);
+      need(currentEl).setAttribute("d", geo.work.current[d]);
+      const top = geo.work.top[d];
+      need(litWork).setAttribute("transform", translate(top.x, top.y));
+      need(proteinEl).setAttribute("d", geo.fuel.protein[d]);
+
+      const lit = litLiftAt(d);
+      LIFTS.forEach((l, i) => {
+        need(liftEls[i]).classList.toggle(s.lit, l === lit);
+        need(liftLits[i]).classList.toggle(s.lit, l === lit);
+      });
+      for (const sw of swatches) sw.classList.toggle(s.lit, sw.dataset.lift === lit);
+      for (const n of notes) n.node.classList.toggle(s.annOff, d < n.day);
+
+      const values = readAt(d);
+      for (const [k, nodes] of texts) {
+        const v = values[k];
+        if (v === undefined || printed.get(k) === v) continue;
+        printed.set(k, v);
+        for (const node of nodes) setText(node, v);
+      }
     };
 
-    const ro = new ResizeObserver(() => {
-      const w = svg.clientWidth;
-      if (!w) return;
-      k = VB_W / w;
-      svg.style.setProperty("--k", k.toFixed(4));
+    const relayout = () => {
+      let changed = false;
+      for (const id of TRACK_IDS) if (measure(id)) changed = true;
+      if (!changed) return;
+      if (live) dash();
+      lastDay = -1;
       render(current);
-    });
-    ro.observe(svg);
+    };
+    relayout();
+    const ro = new ResizeObserver(relayout);
+    for (const id of TRACK_IDS) ro.observe(svg[id]);
 
     gsap.registerPlugin(ScrollTrigger);
     const mm = gsap.matchMedia(root);
@@ -207,30 +368,31 @@ export function Arc() {
     mm.add(MOTION, () => {
       live = true;
       root.classList.add(s.live);
-      bwPath.style.strokeDasharray = `${BW_LINE.total.toFixed(2)} ${BW_LINE.total.toFixed(2)}`;
-      rmPath.style.strokeDasharray = `${RM_LINE.total.toFixed(2)} ${RM_LINE.total.toFixed(2)}`;
+      dash();
+      lastDay = -1;
       render(0);
 
-      // a short hold at day 1 and at week 12, time scrubs in between
-      const toWeeks = (p: number) => Math.min(1, Math.max(0, (p - 0.05) / 0.85)) * WEEKS;
+      // a short hold on day 1 and on the last day; time scrubs in between
+      const toDay = (p: number) => Math.min(1, Math.max(0, (p - 0.04) / 0.9)) * L;
       const proxy = { p: 0 };
       gsap.to(proxy, {
         p: 1,
         ease: "none",
         scrollTrigger: { trigger: track, start: "top top", end: "bottom bottom", scrub: 0.5 },
-        onUpdate: () => render(toWeeks(proxy.p)),
+        onUpdate: () => render(toDay(proxy.p)),
       });
 
       return () => {
         live = false;
         root.classList.remove(s.live);
-        for (const path of [bwPath, rmPath]) {
+        for (const [path] of lines()) {
           path.style.removeProperty("stroke-dasharray");
           path.style.removeProperty("stroke-dashoffset");
         }
-        cursor.style.removeProperty("transform");
+        tracksEl.style.removeProperty("--t");
         statue.style.removeProperty("--p");
-        render(WEEKS);
+        lastDay = -1;
+        render(L);
       };
     });
 
@@ -246,8 +408,10 @@ export function Arc() {
     };
   }, []);
 
-  const bwEnd = BW_LINE.end;
-  const rmEnd = RM_LINE.end;
+  const g = SSR_GEO;
+  const endX = (id: TrackId) => nominal(id).w;
+  const litEnd = litLiftAt(L);
+  const workTop = g.work.top[L];
 
   return (
     <section className={s.arc} id="arc" ref={rootRef} aria-labelledby="arc-title">
@@ -265,83 +429,222 @@ export function Arc() {
           </div>
 
           <div className={s.copy}>
-            <p className={s.eyebrow}>The arc</p>
-            <h2 className={s.title} id="arc-title">Day 1 to week 12.</h2>
-            <p className={s.sub}>
-              Log it every day and twelve weeks become one picture: the scale drifting down, the bar going up.
-            </p>
+            <div className={s.words}>
+              <p className={s.eyebrow}>The arc</p>
+              <h2 className={s.title} id="arc-title">Day 1 to week 12.</h2>
+              <p className={s.sub}>
+                Log it every day and twelve weeks become one instrument: the scale drifting down, the bar going up, the work and the food that did it.
+              </p>
+            </div>
 
             <div className={s.readout}>
-              <p className={s.week}>
-                <span className={s.weekSizer} aria-hidden="true">Week 12</span>
-                <span className={s.weekLive} ref={weekRef}>Week 12</span>
+              <p className={s.when}>
+                <Live k="when" />
               </p>
-              <ul className={s.legend}>
-                <li className={s.key}>
-                  <span className={s.keyName}>
-                    <span className={`${s.swatch} ${s.swatchBw}`} aria-hidden="true" />
-                    Bodyweight, the trend
-                  </span>
-                  <span className={s.value}>
-                    <span className={s.num} ref={bwValRef}>{BODYWEIGHT[WEEKS].toFixed(1)}</span>
-                    <span className={s.unit}> kg</span>
-                  </span>
-                </li>
-                <li className={s.key}>
-                  <span className={s.keyName}>
-                    <span className={`${s.swatch} ${s.swatchRm}`} aria-hidden="true" />
-                    Estimated 1RM
-                  </span>
-                  <span className={s.value}>
-                    <span className={s.num} ref={rmValRef}>{E1RM[WEEKS].toFixed(1)}</span>
-                    <span className={s.unit}> kg</span>
-                  </span>
-                </li>
-              </ul>
+              <dl className={s.cells}>
+                <div className={s.cell}>
+                  <dt>Scale<span className={s.more}>, this morning</span></dt>
+                  <dd><Live k="scale" /><span className={s.unit}>kg</span></dd>
+                </div>
+                <div className={s.cell}>
+                  <dt>Trend<span className={s.more}>, the true weight</span></dt>
+                  <dd><Live k="trend" /><span className={s.unit}>kg</span></dd>
+                </div>
+                <div className={s.cell}>
+                  <dt>Total<span className={s.more}>, S + B + D e1RM</span></dt>
+                  <dd><Live k="total" /><span className={s.unit}>kg</span></dd>
+                </div>
+                <div className={s.cell}>
+                  <dt>Sets<span className={s.more}>, hard, this week</span></dt>
+                  <dd><Live k="sets" /></dd>
+                </div>
+                <div className={s.cell}>
+                  <dt>Kcal<span className={s.more}>, today</span></dt>
+                  <dd><Live k="kcal" /></dd>
+                </div>
+              </dl>
             </div>
           </div>
 
           <figure className={s.figure}>
-            <div className={s.plot}>
-              <svg
-                ref={svgRef}
-                className={s.chart}
-                viewBox={`0 0 ${VB_W} ${VB_H}`}
-                role="img"
-                aria-label="Twelve weeks of one log: the bodyweight trend falls from 84 to 79 kilograms while the estimated one rep max rises from 100 to 120 kilograms."
-              >
-                {GRID.map((g) => (
-                  <line key={g.y} className={s.grid} x1={X0} x2={X1} y1={g.y} y2={g.y} />
-                ))}
-                <line ref={cursorRef} className={s.cursor} x1={X1} x2={X1} y1={Y_TOP - 8} y2={Y_BOT + 8} />
-                <path ref={bwPathRef} className={`${s.line} ${s.bw}`} d={BW_LINE.d} />
-                <path ref={rmPathRef} className={`${s.line} ${s.rm}`} d={RM_LINE.d} />
-                <g ref={bwHeadRef} transform={`translate(${bwEnd.x} ${bwEnd.y})`}>
-                  <circle className={s.bwDot} r={3.5} />
-                </g>
-                <g ref={rmHeadRef} transform={`translate(${rmEnd.x} ${rmEnd.y})`}>
-                  <circle className={s.rmHalo} r={10} />
-                  <circle className={s.rmDot} r={4} />
-                </g>
-              </svg>
-              <div className={s.labels} aria-hidden="true">
-                {GRID.map((g) => (
-                  <span key={`bw${g.y}`} className={`${s.label} ${s.labelLeft}`} style={{ top: pct(g.y, VB_H) }}>
-                    {g.bw}
-                  </span>
-                ))}
-                {GRID.map((g) => (
-                  <span key={`rm${g.y}`} className={`${s.label} ${s.labelRight}`} style={{ top: pct(g.y, VB_H) }}>
-                    {g.rm}
-                  </span>
-                ))}
+            <div className={s.tracks} ref={tracksRef}>
+              {/* bodyweight */}
+              <div className={`${s.row} ${s.rowWeight}`}>
+                <div className={s.head}>
+                  <p className={s.name}>Bodyweight <span className={s.unitName}>kg</span></p>
+                  <p className={s.vals}>
+                    <span className={s.valName}>trend</span> <Live k="trend" />
+                    <span className={s.sep} aria-hidden="true" />
+                    <Live k="rate" /> <span className={s.valName}>kg/wk</span>
+                  </p>
+                </div>
+                <div className={s.body}>
+                  <div className={s.plot}>
+                    <span className={s.playhead} aria-hidden="true" />
+                    <svg
+                      className={s.svg}
+                      data-track="weight"
+                      viewBox={`0 0 ${NOMINAL_W} ${TRACKS.weight.nominalH}`}
+                      preserveAspectRatio="none"
+                      role="img"
+                      aria-label={ARIA.weight}
+                    >
+                      <rect className={s.band} x="0" width="100%" y={pct(GOAL.top)} height={pct(GOAL.bottom - GOAL.top)} />
+                      <Grid id="weight" />
+                      <path data-el="dots" className={s.weighIns} d={g.weight.dots[L]} />
+                      <path data-el="trend" className={`${s.line} ${s.trend}`} d={g.weight.trend.d} />
+                      <path
+                        data-el="lit"
+                        className={`${s.mark} ${s.markWeight}`}
+                        d="M0 0h0.01"
+                        transform={translate(endX("weight"), g.weight.trend.ys[L])}
+                      />
+                    </svg>
+                    <Notes id="weight" />
+                  </div>
+                  <Labels id="weight" />
+                </div>
+              </div>
+
+              {/* strength */}
+              <div className={`${s.row} ${s.rowStrength}`}>
+                <div className={s.head}>
+                  <p className={s.name}>Strength <span className={s.unitName}>e1RM kg</span></p>
+                  <p className={s.vals}>
+                    {LIFTS.map((l) => (
+                      <span key={l} className={`${s.liftVal} ${s[`sw_${l}`]} ${l === litEnd ? s.lit : ""}`} data-lift={l}>
+                        <span className={s.swatch} aria-hidden="true" />
+                        <span className={s.valName} title={LIFT_NAME[l]}>{LETTER[l]}</span> <Live k={l} />
+                      </span>
+                    ))}
+                  </p>
+                </div>
+                <div className={s.body}>
+                  <div className={s.plot}>
+                    <span className={s.playhead} aria-hidden="true" />
+                    <svg
+                      className={s.svg}
+                      data-track="strength"
+                      viewBox={`0 0 ${NOMINAL_W} ${TRACKS.strength.nominalH}`}
+                      preserveAspectRatio="none"
+                      role="img"
+                      aria-label={ARIA.strength}
+                    >
+                      <Grid id="strength" />
+                      {LIFTS.map((l) => (
+                        <path
+                          key={l}
+                          data-el={`line-${l}`}
+                          className={`${s.line} ${s.liftLine} ${s[`lift_${l}`]} ${l === litEnd ? s.lit : ""}`}
+                          d={g.strength.lines[l].d}
+                        />
+                      ))}
+                      <path data-el="records" className={s.records} d={g.strength.records[L]} />
+                      {LIFTS.map((l) => (
+                        <path
+                          key={l}
+                          data-el={`lit-${l}`}
+                          className={`${s.mark} ${s.markLift} ${s[`lift_${l}`]} ${l === litEnd ? s.lit : ""}`}
+                          d="M0 0h0.01"
+                          transform={translate(endX("strength"), g.strength.lines[l].ys[L])}
+                        />
+                      ))}
+                    </svg>
+                    <Notes id="strength" />
+                  </div>
+                  <Labels id="strength" />
+                </div>
+              </div>
+
+              {/* work */}
+              <div className={`${s.row} ${s.rowWork}`}>
+                <div className={s.head}>
+                  <p className={s.name}>Work <span className={s.unitName}>hard sets a week</span></p>
+                  <p className={s.vals}>
+                    <Live k="sets" /> <span className={s.valName}>this week</span>
+                    <span className={s.sep} aria-hidden="true" />
+                    <span className={s.valName}>4-wk avg</span> <Live k="avg4" />
+                  </p>
+                </div>
+                <div className={s.body}>
+                  <div className={s.plot}>
+                    <span className={s.playhead} aria-hidden="true" />
+                    <svg
+                      className={s.svg}
+                      data-track="work"
+                      viewBox={`0 0 ${NOMINAL_W} ${TRACKS.work.nominalH}`}
+                      preserveAspectRatio="none"
+                      role="img"
+                      aria-label={ARIA.work}
+                    >
+                      <Grid id="work" />
+                      <path data-el="done" className={s.columns} d={g.work.done[L]} />
+                      <path data-el="current" className={s.columnNow} d={g.work.current[L]} />
+                      <path data-el="avg" className={`${s.line} ${s.avg}`} d={g.work.avg.d} />
+                      <path
+                        data-el="lit"
+                        className={`${s.mark} ${s.markWork}`}
+                        d="M0 0h0.01"
+                        transform={translate(workTop.x, workTop.y)}
+                      />
+                    </svg>
+                    <Notes id="work" />
+                  </div>
+                  <Labels id="work" />
+                </div>
+              </div>
+
+              {/* fuel */}
+              <div className={`${s.row} ${s.rowFuel}`}>
+                <div className={s.head}>
+                  <p className={s.name}>Fuel <span className={s.unitName}>kcal</span></p>
+                  <p className={s.vals}>
+                    <Live k="kcal" /> <span className={s.valName}>today</span>
+                    <span className={s.sep} aria-hidden="true" />
+                    <span className={s.valName}>protein</span> <Live k="protein" /> <span className={s.valName}>g</span>
+                  </p>
+                </div>
+                <div className={s.body}>
+                  <div className={s.plot}>
+                    <span className={s.playhead} aria-hidden="true" />
+                    <svg
+                      className={s.svg}
+                      data-track="fuel"
+                      viewBox={`0 0 ${NOMINAL_W} ${TRACKS.fuel.nominalH}`}
+                      preserveAspectRatio="none"
+                      role="img"
+                      aria-label={ARIA.fuel}
+                    >
+                      <path data-el="band" className={s.band} d={g.fuel.band} />
+                      <Grid id="fuel" />
+                      <path data-el="kcal" className={`${s.line} ${s.kcal}`} d={g.fuel.kcal.d} />
+                      <path data-el="protein" className={s.protein} d={g.fuel.protein[L]} />
+                      <path
+                        data-el="lit"
+                        className={`${s.mark} ${s.markFuel}`}
+                        d="M0 0h0.01"
+                        transform={translate(endX("fuel"), g.fuel.kcal.ys[L])}
+                      />
+                    </svg>
+                  </div>
+                  <Labels id="fuel" />
+                </div>
+              </div>
+
+              <div className={s.axis} aria-hidden="true">
+                <div className={s.axisWeeks}>
+                  {Array.from({ length: WEEKS }, (_, w) => (
+                    <span key={w} className={s.tick} style={{ left: pct(fx(w * 7 + 3)) }}>
+                      {w + 1}
+                    </span>
+                  ))}
+                </div>
+                <span className={s.axisUnit}>week</span>
               </div>
             </div>
-            <div className={s.axis} aria-hidden="true" style={{ paddingInline: pct(X0, VB_W) }}>
-              <span>Day 1</span>
-              <span>Week 12</span>
-            </div>
           </figure>
+
+          <p className="sr-only">{STORY}</p>
         </div>
       </div>
     </section>
