@@ -11,6 +11,7 @@
 }
 @media (min-width: 900px) {
   .room { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: center; padding: 110px var(--gutter); }
+  .flip { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
   .flip .head { order: 2; }
 }
 
