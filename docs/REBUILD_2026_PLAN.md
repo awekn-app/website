@@ -113,4 +113,7 @@ Research:
    founder's verdict on the preview (his standing rule for the big redesign).
 
 ## 6. Status
-- Planned. It starts after the app work (H4 and F1) is done, per the master list.
+- Design (step 0) done 2026-09-27: https://claude.ai/artifact/5DRnsf4npVmkGQYTJwgJtJ (private canvas).
+  It has the phone hero, three rooms that work (the set, fuel, the scale), the whole scroll as a
+  storyboard, and a desktop hero.
+- Build: in progress on branch `rebuild/2026`, with Vercel preview only.
