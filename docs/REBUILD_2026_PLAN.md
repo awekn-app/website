@@ -57,6 +57,17 @@ Research:
    testimonials.
 8. **Pricing**: free tier, $5.99/mo, $34.99/yr, 7 days free. Then download.
 
+## 2b. Palette decision
+- The site went emerald on 2026-06-28, when emerald was the app's signature.
+- The app was re-skinned to EMBER on 2026-09-10: orange light (#FF5712) on an obsidian void, graphite
+  cards, Liquid Glass.
+- This brief says "match our app vibe", so the rebuilt site follows ember:
+  - Obsidian #0B0B0D, graphite surfaces.
+  - White numbers, grey secondary.
+  - Ember #FF5712 as the one accent.
+  - The app's in-workout completion green only on a completed set.
+- Never gold, never blood-red, never the purple nebula.
+
 ## 3. Craft laws
 - Monochrome restraint: white numbers, grey secondary. Ember (#FF5712) only on the primary CTA,
   the PR moment and one status.
@@ -89,6 +100,8 @@ Research:
   the monolithic `globals.css` (the legal styles move to their own file).
 
 ## 5. Build order
+0. Design first (founder rule): the hero and three rooms as mobile artboards in /design, then
+   implement to match.
 1. Tokens, fonts, layout shell, legal pages moved over, `/support`, sitemap, robots, smart banner.
 2. The hero: poster, carve shader, badge, sticky bar.
 3. The rooms, one at a time: set, fuel, scale, steps, journal, plates, climb. Each is tested at
@@ -96,7 +109,8 @@ Research:
 4. The arc, everything else, disciplines, vows, pricing, footer.
 5. The performance pass (Lighthouse mobile), the reduced-motion pass, the a11y pass, and the OG
    image.
-6. A preview deploy (a branch), a founder verdict, then main (production).
+6. Built on branch `rebuild/2026` (a Vercel preview). Merging to main is production, only after the
+   founder's verdict on the preview (his standing rule for the big redesign).
 
 ## 6. Status
 - Planned. It starts after the app work (H4 and F1) is done, per the master list.
