@@ -1,63 +1,46 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Hanken_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import RecoveryRedirect from "./components/RecoveryRedirect";
+import { SITE, APP_STORE, APP_STORE_ID } from "./lib/links";
 import "./globals.css";
 
-// Type system, self-hosted via next/font (zero layout shift, no render-blocking
-// @import). Inter is THE app typeface (constants/colors.ts + the app's whole UI),
-// at light weights, with the loved Instrument Serif italic for signature words.
-// Every numeral is Inter with tabular-nums (the app never uses a mono).
-const display = Inter({
+// The app's typeface (the whole iOS app is set in Hanken Grotesk), self-hosted via next/font:
+// no render-blocking request, no layout shift.
+const hanken = Hanken_Grotesk({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-display",
-  display: "swap",
-});
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-serif",
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-hanken",
   display: "swap",
 });
 
-const SITE = "https://awekn.com";
-const APP_STORE = "https://apps.apple.com/in/app/awekn-lifting-gym-log-diet/id6762414034";
+const TITLE = "Awekn: Lifting, Gym Log & Diet";
+const DESCRIPTION =
+  "Carved, not given. Awekn is the training log for people who lift: every set and record, every meal and macro, the bodyweight trend, cardio and steps, supplements and your journal, in one place. Bodybuilding and powerlifting.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
-  title: "awekn . Lifting, Gym Log & Diet",
-  description:
-    "Lift, eat, recover, track all of it. awekn is the all-in-one log for serious lifters: workouts, cardio, macros, supplements, peptides, PRs, and the consistency under all of it. Bodybuilding and powerlifting, on your device first.",
+  title: TITLE,
+  description: DESCRIPTION,
   keywords: [
-    "workout tracker", "gym log", "bodybuilding app", "powerlifting app",
-    "lifting tracker", "workout log", "diet tracker", "macro tracker",
-    "strength tracker", "e1RM", "DOTS", "consistency score",
+    "workout tracker", "gym log", "bodybuilding app", "powerlifting app", "lifting tracker",
+    "workout log", "macro tracker", "calorie counter", "strength tracker", "e1RM", "DOTS",
+    "bodyweight trend",
   ],
-  applicationName: "awekn",
-  authors: [{ name: "awekn" }],
+  applicationName: "Awekn",
+  authors: [{ name: "Awekn" }],
   alternates: { canonical: SITE },
-  openGraph: {
-    title: "awekn . Lifting, Gym Log & Diet",
-    description:
-      "Lift, eat, recover. Track all of it. The all-in-one log for serious lifters: workouts, cardio, macros, supplements, peptides, and every PR.",
-    type: "website",
-    url: SITE,
-    siteName: "awekn",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "awekn . Lifting, Gym Log & Diet",
-    description: "Lift, eat, recover. Track all of it. The all-in-one log for serious lifters.",
-  },
-  appleWebApp: { capable: true, title: "awekn", statusBarStyle: "black-translucent" },
+  openGraph: { title: TITLE, description: DESCRIPTION, type: "website", url: SITE, siteName: "Awekn" },
+  twitter: { card: "summary_large_image", title: TITLE, description: "Carved, not given. The training log for people who lift." },
+  // Safari's own "Open in the App Store" banner on iPhone (the one Apple allows; no JS)
+  itunes: { appId: APP_STORE_ID },
+  appleWebApp: { capable: true, title: "Awekn", statusBarStyle: "black-translucent" },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0C0C0C",
+  themeColor: "#0B0B0D",
   colorScheme: "dark",
 };
 
@@ -65,36 +48,29 @@ export const viewport: Viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "awekn",
+  name: "Awekn",
   applicationCategory: "HealthApplication",
   operatingSystem: "iOS",
-  description:
-    "Bodybuilding and powerlifting tracker with an honest consistency score, offline-first and private.",
+  description: DESCRIPTION,
   url: SITE,
   downloadUrl: APP_STORE,
   offers: {
     "@type": "Offer",
     price: "5.99",
     priceCurrency: "USD",
-    description: "awekn Pro, 7-day free trial. Prices vary by region.",
+    description: "Awekn Pro, 7-day free trial. Prices vary by region.",
   },
-  publisher: { "@type": "Organization", name: "awekn", url: SITE },
+  publisher: { "@type": "Organization", name: "Awekn", url: SITE },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${serif.variable}`}>
+    <html lang="en" className={hanken.variable}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
+        {/* forwards a password-recovery link that lands on any path to /reset-password: keep global */}
         <RecoveryRedirect />
         {children}
         <Analytics />

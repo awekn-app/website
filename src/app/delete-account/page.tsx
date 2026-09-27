@@ -29,9 +29,9 @@ export default function DeleteAccount() {
           <h2>Option 1: Delete from the App (recommended)</h2>
           <ol>
             <li>Open the awekn app on your phone</li>
-            <li>Tap the <strong>Settings</strong> tab in the bottom navigation</li>
-            <li>Tap <strong>Account</strong></li>
-            <li>Scroll to the bottom and tap <strong>Delete Account</strong></li>
+            <li>On <strong>Home</strong>, tap the <strong>Settings</strong> gear at the top right</li>
+            <li>Tap your name at the top to open <strong>Account</strong></li>
+            <li>Scroll to the bottom and tap <strong>Delete account</strong></li>
             <li>Confirm the deletion when prompted</li>
           </ol>
           <p>
