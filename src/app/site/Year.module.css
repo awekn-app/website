@@ -18,7 +18,6 @@
   position: relative;
   aspect-ratio: 3 / 2;
   margin: 0 calc(-1 * var(--gutter));
-  touch-action: pan-y;
 }
 
 .poster {

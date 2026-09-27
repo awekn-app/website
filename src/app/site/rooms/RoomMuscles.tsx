@@ -285,7 +285,7 @@ export function RoomMuscles({ index = "", flip }: { index?: string; flip?: boole
         </div>
 
         <p className={s.status} role="status" aria-live="polite">
-          <span key={last?.key ?? 0} className={reduced ? "" : s.rise}>
+          <span key={last?.key ?? 0} className={last != null && !reduced ? s.rise : undefined}>
             {status}
           </span>
         </p>

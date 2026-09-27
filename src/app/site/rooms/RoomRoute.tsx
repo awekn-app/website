@@ -275,7 +275,7 @@ export function RoomRoute({ index = "", flip }: { index?: string; flip?: boolean
             value={Math.min(TOTAL_WHOLE, Math.round(t))}
             aria-label="Scrub the run"
             aria-valuetext={`${(d / 1000).toFixed(2)} km, ${mmss(t)}`}
-            style={{ "--p": `${((t / TOTAL_S) * 100).toFixed(2)}%` } as CSSProperties}
+            style={{ "--p": Math.min(1, t / TOTAL_S).toFixed(4) } as CSSProperties}
             onChange={(e) => {
               setPlaying(false);
               const v = Number(e.target.value);

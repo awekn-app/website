@@ -92,6 +92,16 @@
 .nudge:hover { background: rgba(255, 255, 255, 0.1); }
 .nudge:disabled { opacity: 0.35; cursor: default; }
 .go { padding: 0 12px; white-space: nowrap; }
+/* The longest label, "Rest again", is about 81 px of 17 px bold, 105 px with its padding. The
+   controls row is the viewport less 82 px (gutters, card rim and padding), less the gaps: at 1.4fr
+   the primary gets 90 px at 320 px and 106 px at 360 px, too tight. Narrower than 375 px the
+   primary takes 1.9fr of an 8 px gapped row (108 px at 320 px) and sets 16 px on 10 px padding
+   (about 96 px), and the nudges (57 px) tighten to 15 px on 4 px padding (about 47 px). */
+@media (max-width: 374.98px) {
+  .controls { grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr) minmax(0, 1fr); gap: 8px; }
+  .nudge { padding: 0 4px; font-size: 15px; }
+  .controls .go { padding: 0 10px; font-size: 16px; }
+}
 
 .keys { display: none; font-size: 12px; color: var(--text-5); text-align: center; margin-top: -6px; }
 @media (hover: hover) and (pointer: fine) { .keys { display: block; } }

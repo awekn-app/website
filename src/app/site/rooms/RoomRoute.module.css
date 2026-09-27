@@ -50,7 +50,7 @@
 .scrubRow { display: flex; align-items: center; gap: 14px; }
 .play { flex: 0 0 auto; min-width: 116px; justify-content: center; }
 .slider {
-  --p: 0%;
+  --p: 0;
   flex: 1;
   min-width: 0;
   height: 44px;
@@ -61,31 +61,40 @@
   cursor: pointer;
   touch-action: pan-y;
 }
+/* The thumb is a 44 px hit area drawn as a 22 px white dot: two radial layers, the dot over a soft
+   shadow (a box-shadow would ring the whole 44 px circle). The webkit fill ends at the thumb's
+   centre, which travels from 22 px to the width less 22 px (--p is the played fraction, 0 to 1). */
 .slider::-webkit-slider-runnable-track {
   height: 4px;
   border-radius: 2px;
-  background: linear-gradient(90deg, var(--white) var(--p), rgba(255, 255, 255, 0.14) var(--p));
+  background: linear-gradient(
+    90deg,
+    var(--white) calc(22px + (100% - 44px) * var(--p)),
+    rgba(255, 255, 255, 0.14) calc(22px + (100% - 44px) * var(--p))
+  );
 }
 .slider::-moz-range-track { height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.14); }
 .slider::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--white); }
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 22px;
-  height: 22px;
-  margin-top: -9px;
+  width: 44px;
+  height: 44px;
+  margin-top: -20px;
   border-radius: 50%;
-  background: var(--white);
   border: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  background:
+    radial-gradient(circle at 50% 50%, var(--white) 0 10.5px, transparent 11.25px),
+    radial-gradient(circle at 50% calc(50% + 2px), rgba(0, 0, 0, 0.5) 0 9px, transparent 17px);
 }
 .slider::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: var(--white);
   border: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  background:
+    radial-gradient(circle at 50% 50%, var(--white) 0 10.5px, transparent 11.25px),
+    radial-gradient(circle at 50% calc(50% + 2px), rgba(0, 0, 0, 0.5) 0 9px, transparent 17px);
 }
 
 /* ── the splits ── */

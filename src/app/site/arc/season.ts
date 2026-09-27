@@ -19,7 +19,14 @@
  *    muscle groups, so 65 to 77 a week), about half in the deload week.
  *  - Fuel: calories around the target (maintenance in week 1, 2,300 from the cut), weekends
  *    higher; protein against a 170 g target, a hit from 160 g.
+ *
+ * The page does not run buildSeason(): it reads the same season from season.generated.ts, written by
+ * scripts/arc-precompute.mjs (npm run arc:precompute; npm run arc:check verifies it). Math.exp, log,
+ * cos and pow are not bit-exact across JavaScript engines, so building on the server (V8) and again
+ * in Safari (JavaScriptCore) could round a reading differently and break hydration; a constant cannot.
  */
+
+import { SEASON_DATA } from "./season.generated";
 
 export const DAYS = 84;
 export const WEEKS = 12;
@@ -126,7 +133,7 @@ const SESSION_SETS: [number, number][] = [[0, 17], [1, 18], [3, 16], [4, 18]];
 /** The weekly build: sets added to each session, week 1 to 12 (week 8 is replaced by the deload). */
 const WEEK_ADD = [-2, -1, 0, 0, 1, 1, 2, 0, -1, 0, 1, 1];
 
-function build() {
+export function buildSeason() {
   const rand = mulberry32(0x5eed12);
 
   /* bodyweight */
@@ -217,7 +224,10 @@ function build() {
   return { weighIns, trend, kgPerWeek, sessions, records, liftDaily, setsByDay, weeklySets, avg4, kcal, kcalTarget, protein, proteinHit };
 }
 
-export const SEASON = build();
+export type Season = ReturnType<typeof buildSeason>;
+
+/** The precomputed season (the live build only where the generated data is stubbed: the script). */
+export const SEASON: Season = SEASON_DATA ?? buildSeason();
 
 /* ── reading the season at a day ── */
 
@@ -255,8 +265,17 @@ export function litLiftAt(d: number): Lift {
   return lit;
 }
 
-/** Squat + bench + deadlift, each lift's latest e1RM. */
-export const totalAt = (d: number) => LIFTS.reduce((sum, lift) => sum + sessionAt(lift, d).e1rm, 0);
+/** The lifts with a session on or before the day, in LIFTS order. */
+export const liftsDoneAt = (d: number): Lift[] => LIFTS.filter((lift) => SEASON.sessions[lift][0].day <= d);
+
+/**
+ * Squat + bench + deadlift as of the day: each lift's latest session on or before it. A lift not yet
+ * trained adds nothing (the readout names the lifts it has summed until all three are in).
+ */
+export const totalAt = (d: number) => liftsDoneAt(d).reduce((sum, lift) => sum + sessionAt(lift, d).e1rm, 0);
+
+/** Week 1's total: each lift's first session. */
+export const firstTotal = LIFTS.reduce((sum, lift) => sum + SEASON.sessions[lift][0].e1rm, 0);
 
 /** Hard sets from the start of the day's week through the day. */
 export function setsThisWeek(d: number): number {
@@ -265,11 +284,15 @@ export function setsThisWeek(d: number): number {
   return n;
 }
 
-/** The 4-week average as of the last completed week (week 1's own total until then). */
+/**
+ * The 4-week average as of the last completed week. Before week 1 completes there is no finished
+ * week to average, so it reads the sets logged so far (only days that have happened, never the
+ * rest of week 1).
+ */
 export function avg4At(d: number): number {
   const w = weekOf(d);
   const done = d % 7 === 6 ? w : w - 1;
-  return SEASON.avg4[Math.max(0, done - 1)];
+  return done > 0 ? SEASON.avg4[done - 1] : setsThisWeek(d);
 }
 
 /* ── derived events, for the annotations ── */

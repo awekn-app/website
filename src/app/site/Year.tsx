@@ -54,7 +54,7 @@ export function Year() {
       <Chapter
         eyebrow="The year"
         title={["A year of", "showing up."]}
-        sub="One square a day. A light week holds the streak, only an empty one breaks it."
+        sub="One square a day. One light week in six holds the streak. An empty one breaks it."
         id="year-title"
       />
 

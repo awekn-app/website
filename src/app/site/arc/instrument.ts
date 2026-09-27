@@ -1,23 +1,14 @@
 /**
  * THE INSTRUMENT'S GEOMETRY (the arc, 2026-09-27). Pure: the four tracks' scales, the paths drawn
- * at any pixel size, the length tables that let a line's stroke-dashoffset end exactly at the
- * playhead, and the annotation layout (done once, at the smallest size a track is ever drawn, so
- * no label ever overlaps a line or another label at any larger size).
+ * at any pixel size, and the length tables that let a line's stroke-dashoffset end exactly at the
+ * playhead. The annotation layout (solved once, at the smallest size a track is ever drawn, so no
+ * label ever overlaps a line or another label at any larger size) is arc/annotate.ts, run offline by
+ * scripts/arc-precompute.mjs into annotations.generated.ts: the page only reads the result.
  */
 
-import {
-  DAYS,
-  WEEKS,
-  LIFTS,
-  SEASON,
-  EVENTS,
-  GOAL_BAND,
-  KCAL_BAND,
-  LIFT_NAME,
-  setsThisWeek,
-  weekOf,
-  type Lift,
-} from "./season";
+import { DAYS, LIFTS, SEASON, GOAL_BAND, KCAL_BAND, setsThisWeek, weekOf, type Lift } from "./season";
+
+export { ANNOTATIONS } from "./annotations.generated";
 
 export type TrackId = "weight" | "strength" | "work" | "fuel";
 
@@ -33,8 +24,8 @@ export interface TrackSpec {
   minH: number;
 }
 
-/** The narrowest plot (a 360 px phone less the gutters and the label column). */
-export const MIN_W = 284;
+/** The narrowest plot (a 320 px phone less the 20 px gutters and the 34 px label column). */
+export const MIN_W = 246;
 export const NOMINAL_W = 600;
 
 export const TRACKS: Record<TrackId, TrackSpec> = {
@@ -84,8 +75,8 @@ export const pctY = (track: TrackId, v: number) => `${(fy(track, v) * 100).toFix
 const PROTEIN_ROW = TRACKS.fuel.min + 0.08 * (TRACKS.fuel.max - TRACKS.fuel.min);
 /** A week's column spans this share of its seven days. */
 const COLUMN_SHARE = 0.62;
-const colCenter = (w: number) => w * 7 + 3;
-const colHalf = (7 * COLUMN_SHARE) / 2;
+export const colCenter = (w: number) => w * 7 + 3;
+export const colHalf = (7 * COLUMN_SHARE) / 2;
 
 /* ── polylines with an arc-length table ── */
 
@@ -239,128 +230,3 @@ export interface Annotation {
   top: number;
   anchor: "start" | "end";
 }
-
-const LABEL_H = 13;
-const CHAR_W = 6.3;
-const MARGIN = 2.5;
-const labelW = (text: string) => text.length * CHAR_W + 8;
-const fmtKg = (v: number) => (Number.isInteger(v) ? v.toString() : v.toFixed(1));
-
-type Box = [number, number, number, number];
-interface Obstacles { lines: Poly[]; dots: [number, number, number][]; boxes: Box[] }
-
-function obstaclesFor(track: TrackId, w: number, h: number): Obstacles {
-  if (track === "weight") {
-    const g = weightGeo(w, h);
-    const X = (d: number) => fx(d) * w;
-    const dots: [number, number, number][] = [];
-    SEASON.weighIns.forEach((v, d) => {
-      if (v != null) dots.push([X(d), fy("weight", v) * h, 1.5]);
-    });
-    return { lines: [g.trend], dots, boxes: [] };
-  }
-  if (track === "strength") {
-    const g = strengthGeo(w, h);
-    return { lines: LIFTS.map((l) => g.lines[l]), dots: [], boxes: [] };
-  }
-  if (track === "work") {
-    const g = workGeo(w, h);
-    const boxes: Box[] = SEASON.weeklySets.map((v, wk) => [
-      fx(colCenter(wk) - colHalf) * w,
-      fy("work", v) * h,
-      fx(colCenter(wk) + colHalf) * w,
-      h,
-    ]);
-    return { lines: [g.avg], dots: [], boxes };
-  }
-  const g = fuelGeo(w, h);
-  return { lines: [g.kcal], dots: [], boxes: [] };
-}
-
-function clear(box: Box, ob: Obstacles, placed: Box[]): boolean {
-  const [x0, y0, x1, y1] = box;
-  const a = y0 - MARGIN;
-  const b = y1 + MARGIN;
-  for (const p of ob.lines) {
-    for (let x = x0 - MARGIN; x <= x1 + MARGIN; x += 1) {
-      if (x < p.xs[0] || x > p.xs[p.xs.length - 1]) continue;
-      const y = yAtX(p, x);
-      if (y >= a && y <= b) return false;
-    }
-  }
-  for (const [cx, cy, r] of ob.dots) {
-    if (cx + r >= x0 - MARGIN && cx - r <= x1 + MARGIN && cy + r >= a && cy - r <= b) return false;
-  }
-  for (const [bx0, by0, bx1, by1] of [...ob.boxes, ...placed]) {
-    if (bx1 >= x0 - MARGIN && bx0 <= x1 + MARGIN && by1 >= a && by0 <= b) return false;
-  }
-  return true;
-}
-
-/**
- * Lays one track's labels out at the track's smallest size: each label tries the side of its day
- * with more room first, then every height from nearest its point outwards, and takes the first spot
- * clear of every line, dot, column and earlier label (with a margin). A spot clear at the smallest
- * size stays clear at any larger one, since the label's share of the plot only shrinks.
- */
-function layout(track: TrackId, specs: { id: string; day: number; text: string; near: number }[]): Annotation[] {
-  const w = MIN_W;
-  const h = TRACKS[track].minH;
-  const ob = obstaclesFor(track, w, h);
-  const placed: Box[] = [];
-  const out: Annotation[] = [];
-  for (const spec of specs) {
-    const x = fx(spec.day) * w;
-    const lw = labelW(spec.text);
-    const nearY = fy(track, spec.near) * h;
-    const anchors: ("start" | "end")[] = x / w < 0.55 ? ["start", "end"] : ["end", "start"];
-    const heights: number[] = [];
-    for (let y = LABEL_H / 2; y <= h - LABEL_H / 2; y += 0.5) heights.push(y);
-    heights.sort((p, q) => Math.abs(p - nearY) - Math.abs(q - nearY));
-    let chosen: { box: Box; anchor: "start" | "end"; y: number } | null = null;
-    for (const anchor of anchors) {
-      const bx0 = anchor === "start" ? x : x - lw;
-      const bx1 = anchor === "start" ? x + lw : x;
-      if (bx0 < 0 || bx1 > w) continue;
-      for (const y of heights) {
-        const box: Box = [bx0, y - LABEL_H / 2, bx1, y + LABEL_H / 2];
-        if (clear(box, ob, placed)) {
-          chosen = { box, anchor, y };
-          break;
-        }
-      }
-      if (chosen) break;
-    }
-    if (!chosen) {
-      // never expected (the check script asserts it): the top edge on the roomier side
-      const anchor = anchors[0];
-      const y = LABEL_H / 2;
-      chosen = { box: [anchor === "start" ? x : x - lw, 0, anchor === "start" ? x + lw : x, LABEL_H], anchor, y };
-      LAYOUT_MISSES.push(spec.id);
-    }
-    placed.push(chosen.box);
-    out.push({ id: spec.id, track, day: spec.day, text: spec.text, x: fx(spec.day), top: chosen.y / h, anchor: chosen.anchor });
-  }
-  return out;
-}
-
-/** Labels the layout could not clear (empty for this season; kept for the check script). */
-export const LAYOUT_MISSES: string[] = [];
-
-const sq = EVENTS.squatRecord;
-const bn = EVENTS.benchRecord;
-const down = SEASON.trend[0] - SEASON.trend[DAYS - 1];
-
-export const ANNOTATIONS: Annotation[] = [
-  ...layout("weight", [
-    { id: "cut", day: EVENTS.cutStart, text: "Cut starts", near: SEASON.trend[EVENTS.cutStart] },
-    { id: "end", day: EVENTS.end, text: `Week ${WEEKS}, ${down.toFixed(1)} kg down`, near: SEASON.trend[EVENTS.end] },
-  ]),
-  ...layout("strength", [
-    { id: "squat", day: sq.day, text: `New ${LIFT_NAME[sq.lift].toLowerCase()} record`, near: sq.e1rm },
-    { id: "bench", day: bn.day, text: `${LIFT_NAME[bn.lift]} ${fmtKg(bn.weight)} kg x ${bn.reps}, a record`, near: bn.e1rm },
-  ]),
-  ...layout("work", [
-    { id: "deload", day: EVENTS.deloadStart, text: "Deload", near: SEASON.weeklySets[EVENTS.deloadStart / 7] },
-  ]),
-];

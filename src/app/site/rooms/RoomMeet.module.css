@@ -65,6 +65,7 @@
 .half {
   min-width: 44px;
   min-height: 44px;
+  padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -87,6 +88,14 @@
 
 .still .lights i, .still .kgNum { transition: none; }
 
+/* Two 44 px halves need an 88 px pill inside its 1 px rims, so a 90 px column: an attempt column is
+   (viewport - 2 x 20 gutter - 2 x 21 card rim and padding - 2 x 8 gaps) / 3, which reaches 90 px at
+   368 px. Narrower (320 px: (320 - 98) / 3 = 74 px, a 72 px pill), the halves drop their min width
+   and split the pill evenly (36 px each around a 16 px glyph), keeping their 44 px height. */
+@media (max-width: 367.98px) {
+  .step { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .half { min-width: 0; }
+}
 @media (max-width: 359px) {
   .kgNum { font-size: 16px; }
   .statValue { font-size: 18px; }

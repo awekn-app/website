@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import s from "./Year.module.css";
+import { canAffordWebGL } from "./webgl";
 
 /**
  * The year in three dimensions: the poster's 53 x 7 grid as a field of 365 small rounded blocks in
@@ -23,7 +24,7 @@ export function YearField() {
   useEffect(() => {
     const canvas = ref.current;
     const stage = canvas?.parentElement;
-    if (!canvas || !stage || !canAfford()) return;
+    if (!canvas || !stage || !canAffordWebGL()) return;
     let stop = () => {};
     let cancelled = false;
     let cancelIdle = () => {};
@@ -52,19 +53,6 @@ export function YearField() {
   }, []);
 
   return <canvas ref={ref} className={s.canvas} aria-hidden="true" />;
-}
-
-function canAfford() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  const nav = navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number };
-  if (nav.connection?.saveData) return false;
-  if (nav.hardwareConcurrency && nav.hardwareConcurrency < 4) return false;
-  if (nav.deviceMemory && nav.deviceMemory < 4) return false;
-  try {
-    return !!document.createElement("canvas").getContext("webgl2");
-  } catch {
-    return false;
-  }
 }
 
 function whenIdle(fn: () => void) {

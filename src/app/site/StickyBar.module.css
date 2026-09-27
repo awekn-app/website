@@ -27,3 +27,6 @@
   transition: transform 0.2s var(--ease-out);
 }
 .cta:active { transform: scale(0.97); }
+
+/* the narrowest phones: the key and the wordmark only */
+@media (max-width: 350px) { .line { display: none; } }

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import s from "./Hero.module.css";
+import { canAffordWebGL } from "./webgl";
 
 /**
  * The carve: a chisel of ember light that sweeps down the statue once, stone dust falling from the
@@ -22,7 +23,7 @@ export function HeroCarve() {
 
   useEffect(() => {
     const canvas = ref.current;
-    if (!canvas || !canAfford()) return;
+    if (!canvas || !canAffordWebGL()) return;
     let stop = () => {};
     let cancelled = false;
     const idle = whenIdle(() => {
@@ -39,19 +40,6 @@ export function HeroCarve() {
   }, []);
 
   return <canvas ref={ref} className={s.carve} aria-hidden="true" />;
-}
-
-function canAfford() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-  const nav = navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number };
-  if (nav.connection?.saveData) return false;
-  if (nav.hardwareConcurrency && nav.hardwareConcurrency < 4) return false;
-  if (nav.deviceMemory && nav.deviceMemory < 4) return false;
-  try {
-    return !!document.createElement("canvas").getContext("webgl2");
-  } catch {
-    return false;
-  }
 }
 
 function whenIdle(fn: () => void) {

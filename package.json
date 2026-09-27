@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "arc:precompute": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/arc-precompute.mjs",
+    "arc:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/arc-precompute.mjs --check"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

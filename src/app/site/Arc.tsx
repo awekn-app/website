@@ -24,6 +24,8 @@ import {
   sessionAt,
   litLiftAt,
   totalAt,
+  liftsDoneAt,
+  firstTotal,
   setsThisWeek,
   avg4At,
   type Lift,
@@ -71,10 +73,21 @@ const signed = (v: number) => `${v < 0 ? MINUS : v > 0 ? "+" : ""}${Math.abs(v).
 const pct = (f: number) => `${(f * 100).toFixed(3)}%`;
 const LETTER: Record<Lift, string> = { squat: "S", bench: "B", deadlift: "D" };
 
-/** Every live number the instrument prints, read at one day. */
+/**
+ * What the total cell calls itself: "Total, S + B + D e1RM" once all three lifts are in, and until
+ * then the lifts it has summed ("Squat, e1RM so far" on day 1), so it never names a lift not yet done.
+ */
+function totalLabel(d: number): { totalName: string; totalOf: string } {
+  const done = liftsDoneAt(d);
+  if (done.length === LIFTS.length) return { totalName: "Total", totalOf: "S + B + D e1RM" };
+  return { totalName: done.length === 1 ? LIFT_NAME[done[0]] : done.map((l) => LETTER[l]).join(" + "), totalOf: "e1RM so far" };
+}
+
+/** Every live number the instrument prints, read at one day (only what has happened by then). */
 function readAt(d: number): Record<string, string> {
   const lifts = Object.fromEntries(LIFTS.map((l) => [l, sessionAt(l, d).e1rm.toFixed(1)]));
   return {
+    ...totalLabel(d),
     when: `Week ${weekOf(d)}, day ${dayOfWeek(d)}`,
     scale: scaleAt(d).toFixed(1),
     trend: SEASON.trend[d].toFixed(1),
@@ -145,7 +158,7 @@ const STORY =
   `Strength, as the estimated one rep max of each week's top set: squat ${liftSpan("squat")}, bench ${liftSpan("bench")}` +
   (bestBench ? ` (${bestBench.weight} kg for ${bestBench.reps} in week ${weekOf(bestBench.day)})` : "") +
   `, deadlift ${liftSpan("deadlift")}; ${records} records, and a deload in week ${DELOAD_WEEK}. ` +
-  `The total goes from ${totalAt(0).toFixed(1)} to ${totalAt(L).toFixed(1)} kg. ` +
+  `The total goes from ${firstTotal.toFixed(1)} kg in week 1 to ${totalAt(L).toFixed(1)} kg. ` +
   `Work: ${setsMin} to ${setsMax} hard sets a week, ${deloadSets} in the deload. ` +
   `Fuel: a ${thousands(KCAL_TARGET)} kcal target from the cut, weekends higher, and protein of ${PROTEIN_HIT} g or more (the target is ${PROTEIN_TARGET} g) on ${hits} of ${DAYS} days.`;
 
@@ -451,7 +464,10 @@ export function Arc() {
                   <dd><Live k="trend" /><span className={s.unit}>kg</span></dd>
                 </div>
                 <div className={s.cell}>
-                  <dt>Total<span className={s.more}>, S + B + D e1RM</span></dt>
+                  <dt>
+                    <span data-live="totalName">{END.totalName}</span>
+                    <span className={s.more}>, <span data-live="totalOf">{END.totalOf}</span></span>
+                  </dt>
                   <dd><Live k="total" /><span className={s.unit}>kg</span></dd>
                 </div>
                 <div className={s.cell}>
