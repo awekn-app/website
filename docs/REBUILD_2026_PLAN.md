@@ -137,6 +137,8 @@ Research:
   /delete-account, /reset-password, /support, sitemap, robots, OG all 200); the legal pages are
   byte-identical to main, and every old branch (backups, instrument, app-match) is fully contained.
   /reset-password restyled to ember and sentence case (logic untouched). Flipped rooms give the
-  instrument the wide column on desktop. Merging to main (production) is the founder's step.
+  instrument the wide column on desktop.
+- LIVE on awekn.com 2026-09-27: the founder approved the preview; main fast-forwarded to
+  rebuild/2026 (d6f2498), Vercel production deploy succeeded, all nine routes 200 on the live domain.
 - Open: the official App Store badge (a founder download), a Lighthouse mobile pass on the
   preview, a real-iPhone check of the carve, the steps hold and the scale drag.
