@@ -1,0 +1,11 @@
+.intro {
+  max-width: var(--max-wide);
+  margin: 0 auto;
+  padding: 96px var(--gutter) 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.eyebrow { font-size: 14px; font-weight: 600; color: var(--text-5); }
+.title { font-size: clamp(40px, 11vw, 96px); line-height: 1; font-weight: 700; letter-spacing: -0.04em; }
+.sub { font-size: 18px; color: var(--text-3); max-width: 36ch; }

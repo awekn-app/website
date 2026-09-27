@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { StoreButton } from "./StoreButton";
+import { HeroCarve } from "./HeroCarve";
 import s from "./Hero.module.css";
 
 /**
@@ -14,7 +15,7 @@ export function Hero() {
       <nav className={s.nav} aria-label="Main">
         <a href="#top" className={s.wordmark} aria-label="Awekn, back to the top">awekn</a>
         <div className={s.links}>
-          <a href="#rooms" className={s.link}>Try it</a>
+          <a href="#try" className={s.link}>Try it</a>
           <a href="#everything" className={s.link}>Everything</a>
           <a href="#pricing" className={s.link}>Pricing</a>
           <a href="#download" className={s.cta}>Get the app</a>
@@ -33,6 +34,7 @@ export function Hero() {
             sizes="(min-width: 900px) 520px, 82vw"
             className={s.statue}
           />
+          <HeroCarve />
         </div>
         <div className={s.fade} aria-hidden="true" />
       </div>

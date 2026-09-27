@@ -1,0 +1,81 @@
+/* The shared frame every room is built in (docs/REBUILD_2026_PLAN.md, craft laws). */
+
+.room {
+  max-width: var(--max-wide);
+  margin: 0 auto;
+  padding: 72px var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+  scroll-margin-top: 24px;
+}
+@media (min-width: 900px) {
+  .room { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 64px; align-items: center; padding: 110px var(--gutter); }
+  .flip .head { order: 2; }
+}
+
+.head { display: flex; flex-direction: column; gap: 10px; max-width: 520px; }
+.eyebrow { font-size: 14px; font-weight: 600; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.title { font-size: clamp(32px, 8.4vw, 56px); line-height: 1.06; font-weight: 700; letter-spacing: -0.03em; }
+.sub { font-size: 17px; line-height: 1.45; color: var(--text-3); max-width: 40ch; }
+
+.body { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+/* the graphite card the live instrument sits in */
+.card {
+  position: relative;
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, var(--surface-top), var(--surface));
+  border: 1px solid var(--rim);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  touch-action: pan-y;
+  overflow: hidden;
+}
+.well { border-radius: 16px; background: var(--well); padding: 14px; }
+
+.foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
+.note { font-size: 13px; color: var(--text-5); }
+
+/* ── controls ── */
+.press { transition: transform 0.18s var(--ease-out), background 0.2s var(--ease-out), border-color 0.2s var(--ease-out), opacity 0.2s; }
+.press:active { transform: scale(0.96); }
+
+.disc {
+  width: 44px; height: 44px; border-radius: 22px; flex: 0 0 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--rim-strong); background: var(--glass); color: var(--text);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  font-size: 20px; line-height: 1;
+}
+.disc:hover { background: rgba(255, 255, 255, 0.1); }
+.disc:disabled { opacity: 0.35; cursor: default; }
+
+.chip {
+  min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill);
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--rim-strong); background: var(--glass); color: var(--text);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  font-size: 15px; font-weight: 500;
+}
+.chip:hover { background: rgba(255, 255, 255, 0.1); }
+
+.primary {
+  min-height: 54px; border-radius: 27px; padding: 0 24px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--ember); color: #fff; font-size: 17px; font-weight: 700;
+}
+.primary:hover { background: #ff6a2d; }
+
+.reset {
+  min-height: 44px; padding: 0 16px; border-radius: 22px;
+  border: 1px solid var(--rim-strong); background: transparent; color: var(--text-3); font-size: 14px;
+}
+.reset:hover { color: var(--text); }
+
+.num { font-variant-numeric: tabular-nums; }
+
+/* a status line under the card (the payoff), announced to screen readers */
+.status { min-height: 0; }
