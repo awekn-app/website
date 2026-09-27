@@ -87,12 +87,12 @@ export default function ResetPassword() {
         <div style={S.wordmark}>awekn</div>
 
         {phase === 'checking' && (
-          <p style={S.dim}>checking your link...</p>
+          <p style={S.dim}>Checking your link...</p>
         )}
 
         {phase === 'invalid' && (
           <>
-            <h1 style={S.h1}>link expired</h1>
+            <h1 style={S.h1}>Link expired</h1>
             <p style={S.body}>
               This password reset link is no longer valid. Open the awekn app and
               request a fresh one from <b style={S.b}>Settings &rarr; Account &rarr; Change password</b>.
@@ -104,7 +104,7 @@ export default function ResetPassword() {
         {phase === 'done' && (
           <>
             <div style={S.check}>&#10003;</div>
-            <h1 style={S.h1}>you&apos;re set</h1>
+            <h1 style={S.h1}>You&apos;re set</h1>
             <p style={S.body}>
               Your password is updated. Open awekn and sign in with your email and
               new password. Your Google or Apple sign-in still works too.
@@ -115,10 +115,10 @@ export default function ResetPassword() {
 
         {(phase === 'ready' || phase === 'submitting') && (
           <form onSubmit={submit}>
-            <h1 style={S.h1}>set a new password</h1>
+            <h1 style={S.h1}>Set a new password</h1>
             <p style={S.body}>Choose a password for your awekn account.</p>
 
-            <label style={S.label}>new password</label>
+            <label style={S.label}>New password</label>
             <div style={S.inputRow}>
               <input
                 type={show ? 'text' : 'password'}
@@ -127,11 +127,11 @@ export default function ResetPassword() {
                 autoComplete="new-password"
                 autoFocus
                 style={S.input}
-                placeholder="at least 8 characters"
+                placeholder="At least 8 characters"
               />
             </div>
 
-            <label style={S.label}>confirm password</label>
+            <label style={S.label}>Confirm password</label>
             <div style={S.inputRow}>
               <input
                 type={show ? 'text' : 'password'}
@@ -139,18 +139,18 @@ export default function ResetPassword() {
                 onChange={(e) => setConfirm(e.target.value)}
                 autoComplete="new-password"
                 style={S.input}
-                placeholder="re-enter it"
+                placeholder="Re-enter it"
               />
             </div>
 
             <button type="button" onClick={() => setShow((v) => !v)} style={S.showBtn}>
-              {show ? 'hide' : 'show'} password
+              {show ? 'Hide' : 'Show'} password
             </button>
 
             {error && <p style={S.error}>{error}</p>}
 
             <button type="submit" disabled={phase === 'submitting'} style={{ ...S.cta, opacity: phase === 'submitting' ? 0.6 : 1 }}>
-              {phase === 'submitting' ? 'saving...' : 'set password'}
+              {phase === 'submitting' ? 'Saving...' : 'Set password'}
             </button>
           </form>
         )}
@@ -161,30 +161,30 @@ export default function ResetPassword() {
 
 const S: Record<string, React.CSSProperties> = {
   wrap: {
-    minHeight: '100dvh', background: 'var(--bg, #0C0C0C)', color: 'var(--text, #D6D6D6)',
+    minHeight: '100dvh', background: 'var(--bg, #0B0B0D)', color: 'var(--text, #F5F5F7)',
     display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20,
-    fontFamily: 'var(--font-display), Inter, system-ui, sans-serif',
+    fontFamily: 'var(--font-sans)',
   },
   card: { width: '100%', maxWidth: 400, textAlign: 'center' },
-  wordmark: { fontSize: 22, letterSpacing: 8, color: 'var(--champagne, #E9EAF0)', marginBottom: 34, fontWeight: 400 },
-  h1: { fontSize: 26, fontWeight: 300, color: 'var(--champagne, #E9EAF0)', margin: '0 0 10px', letterSpacing: -0.4, textTransform: 'lowercase' },
-  body: { fontSize: 14.5, lineHeight: 1.55, color: 'var(--text-dim, #8E8E93)', margin: '0 0 22px' },
-  b: { color: 'var(--text, #D6D6D6)', fontWeight: 500 },
+  wordmark: { fontSize: 22, letterSpacing: 3, color: 'var(--silver, #E9EAF0)', marginBottom: 34, fontWeight: 300 },
+  h1: { fontSize: 28, fontWeight: 700, color: 'var(--text, #F5F5F7)', margin: '0 0 10px', letterSpacing: -0.6 },
+  body: { fontSize: 15, lineHeight: 1.55, color: 'var(--text-3, #A1A1A6)', margin: '0 0 22px' },
+  b: { color: 'var(--text, #F5F5F7)', fontWeight: 600 },
   dim: { color: 'var(--text-faint, #545458)', fontSize: 14 },
-  label: { display: 'block', textAlign: 'left', fontSize: 11, letterSpacing: 0.6, textTransform: 'uppercase', color: 'var(--text-faint, #545458)', margin: '0 0 7px' },
+  label: { display: 'block', textAlign: 'left', fontSize: 13, fontWeight: 600, color: 'var(--text-4, #8E8E93)', margin: '0 0 7px' },
   inputRow: { marginBottom: 16 },
   input: {
     width: '100%', boxSizing: 'border-box', padding: '14px 15px', borderRadius: 12,
     background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border, rgba(255,255,255,0.10))',
-    color: 'var(--champagne, #E9EAF0)', fontSize: 16, outline: 'none',
+    color: 'var(--text, #F5F5F7)', fontSize: 16, outline: 'none',
   },
   showBtn: { background: 'none', border: 'none', color: 'var(--text-dim, #8E8E93)', fontSize: 12.5, cursor: 'pointer', padding: '2px 0', marginBottom: 18, textAlign: 'left', display: 'block' },
   cta: {
-    display: 'block', width: '100%', boxSizing: 'border-box', padding: '15px 18px', borderRadius: 12, marginTop: 6,
-    background: 'linear-gradient(180deg, var(--emerald-bright, #3EE0A6), var(--emerald-deep, #27B384))',
-    color: '#06231A', fontSize: 15.5, fontWeight: 600, border: 'none', cursor: 'pointer', textDecoration: 'none', textAlign: 'center',
+    display: 'block', width: '100%', boxSizing: 'border-box', padding: '16px 18px', borderRadius: 999, marginTop: 6,
+    background: 'var(--ember, #FF5712)',
+    color: '#FFFFFF', fontSize: 16, fontWeight: 700, border: 'none', cursor: 'pointer', textDecoration: 'none', textAlign: 'center',
   },
   ghost: { display: 'inline-block', marginTop: 8, color: 'var(--champagne, #E9EAF0)', fontSize: 14, textDecoration: 'none', borderBottom: '1px solid var(--border, rgba(255,255,255,0.2))', paddingBottom: 2 },
-  check: { fontSize: 40, color: 'var(--emerald, #34D399)', marginBottom: 8, lineHeight: 1 },
+  check: { fontSize: 40, color: 'var(--done, #30D158)', marginBottom: 8, lineHeight: 1 },
   error: { color: '#E0855A', fontSize: 13.5, lineHeight: 1.5, textAlign: 'left', margin: '0 0 14px' },
 };
