@@ -77,7 +77,7 @@ routes, update the docs and memory.
   the Home phone rising out of it (LCP, transform-only entrance), three live chips from the same data,
   a stage tilt with depth on fine pointers (site/HeroStage.tsx).
 - site/ShowcaseArt.tsx: the band (Every set / Every rep in heat / ..., knurled steel strips) and the
-  wall (every screen on a tilted wall behind "Start carving."); loops run only while on screen.
+  wall (every screen on a tilted wall behind "Start carving." (now "Start your record.")); loops run only while on screen.
 - site/AppTour.tsx: Inside the app, 8 steps (log, session, lift, muscles, weight, food, cardio,
   consistency): a sticky crossfading phone on wide screens, a native swipe row on phones.
 - Heat: --heat #FF5712 (--ember aliases it). Rooms use the app's orange (primary buttons, the record
@@ -102,3 +102,18 @@ routes, update the docs and memory.
 - The phone-in-front-of-the-A hero with floating chips is gone (on a phone the chips covered the
   screen they described).
 - Rooms matched to the app: the rest ring, the scale's lit weigh-in and the climb's newest best in heat.
+
+## Round 3 (2026-09-28)
+- Headline "Carved, not given." -> "Every rep, on the record." (logged, and chasing records); the
+  closing line -> "Start your record."; metadata and the share card follow.
+- The eyebrow's blinking orange dot -> an engraved, letter-spaced label between two chrome hairlines
+  that draw in (no blink).
+- The store key rebuilt as clean polished chrome (no noise grain, no blurred ink: sky, falloff, one
+  horizon band, floor bounce, a crisp specular, a thin dark rim, a narrow glint).
+- No India-specific copy (a global app): the fuel room's foods are salmon and rice, Greek yogurt and
+  berries (values from assets/food/awekn-foods.db); the tour's food facts.
+- No prices anywhere on the site (founder): the pricing section, nav link and JSON-LD price removed.
+- Mobile smoothness: no vh transform on scroll (it jumped with the iOS toolbar), the wall flat (2D)
+  on touch, wall phones in a cheap `lite` variant, no per-phone GPU layer (clip-path instead of
+  translateZ), no live backdrop blur on the sticky bar on touch, no per-frame scale in the arc.
+- Not done, on purpose: "Made in USA" with a flag (see the chat: it has to be true to be used).

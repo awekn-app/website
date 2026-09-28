@@ -79,7 +79,7 @@ export function WallBackdrop({ columns = COLUMNS, className, sizes = "(min-width
           {[0, 1].map((copy) => (
             <div key={copy} className={s.colRun}>
               {col.map((sc, i) => (
-                <Phone key={`${copy}-${sc}-${i}`} screen={sc} sizes={sizes} className={s.wallPhone} decorative />
+                <Phone key={`${copy}-${sc}-${i}`} screen={sc} sizes={sizes} className={s.wallPhone} decorative lite />
               ))}
             </div>
           ))}

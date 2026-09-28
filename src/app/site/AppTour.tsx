@@ -57,8 +57,8 @@ const STEPS: readonly Step[] = [
     screen: "calories",
     kicker: "Food",
     title: "Calories and protein, without the busywork.",
-    body: "Your targets for the day, the foods you eat most one tap away, and a kitchen of 13,000 foods that knows dal and paneer.",
-    facts: ["Protein first", "Your usual foods", "Indian staples built in"],
+    body: "Your targets for the day, the foods you eat most one tap away, and 13,000 foods to find the rest in seconds.",
+    facts: ["Protein first", "Your usual foods", "13,000 foods"],
   },
   {
     screen: "cardio",

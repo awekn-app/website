@@ -37,9 +37,10 @@ function food(id: string, name: string, serving: string, parts: Part[]): Food {
 }
 
 // rows in assets/food/awekn-foods.db (id: name, per 100 g)
-const TOOR_DAL: Per100 = [85, 5.0, 11.0, 2.5]; //          100011632 Dal (toor), cooked
 const RICE: Per100 = [131, 2.8, 31.1, 0.4]; //              100008770 Rice, white, cooked
-const PANEER_TIKKA: Per100 = [93.8, 5.1, 8.0, 4.5]; //      100000354 Paneer shaslik/tikka (INDB)
+const SALMON: Per100 = [210, 25.9, 0.0, 11.8]; //           100008845 Salmon, wild, grilled
+const GREEK_YOGURT: Per100 = [67, 10.2, 3.6, 1.4]; //        100001053 Greek yogurt, plain
+const BLUEBERRIES: Per100 = [64, 0.7, 14.6, 0.3]; //          100004905 Blueberries
 const OATS: Per100 = [379, 13.2, 67.7, 6.5]; //             100004119 Oats, rolled (dry)
 const WHEY: Per100 = [387.1, 77.4, 9.7, 3.2]; //            100011613 Gold Standard 100% Whey
 const CHICKEN: Per100 = [148, 32.0, 0.0, 2.2]; //           100007112 Chicken breast, grilled (skinless)
@@ -48,8 +49,8 @@ const EGG_BOILED: Per100 = [143, 12.4, 1.0, 10.0]; //       100002784 Egg, boile
 
 const FOODS: Food[] = [
   food("oats", "Oats with whey", "40 g oats, 1 scoop", [{ per100: OATS, grams: 40 }, { per100: WHEY, grams: 31 }]),
-  food("dal", "Dal and rice", "1 katori each", [{ per100: TOOR_DAL, grams: 150 }, { per100: RICE, grams: 150 }]),
-  food("paneer", "Paneer tikka", "1 plate", [{ per100: PANEER_TIKKA, grams: 439 }]),
+  food("salmon", "Salmon and rice", "150 g each", [{ per100: SALMON, grams: 150 }, { per100: RICE, grams: 150 }]),
+  food("yogurt", "Greek yogurt and berries", "200 g, 1 handful", [{ per100: GREEK_YOGURT, grams: 200 }, { per100: BLUEBERRIES, grams: 75 }]),
   food("chicken", "Chicken breast", "200 g, grilled", [{ per100: CHICKEN, grams: 200 }]),
   food("eggs", "Eggs", "2 boiled", [{ per100: EGG_BOILED, grams: 100 }]),
   food("banana", "Banana", "1 medium", [{ per100: BANANA, grams: 118 }]),
@@ -128,7 +129,7 @@ export function RoomFuel() {
       index="05"
       name="Fuel"
       title="Eat like you train."
-      sub="13,000 foods, dal to protein oats. Tap what you ate."
+      sub="13,000 foods, from salmon and rice to protein oats. Tap what you ate."
       note="Real foods from the app's database."
       onReset={reset}
     >

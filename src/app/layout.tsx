@@ -25,7 +25,7 @@ const lexend = Lexend({
 
 const TITLE = "Awekn: Lifting, Gym Log & Diet";
 const DESCRIPTION =
-  "Carved, not given. Awekn is the training log for people who lift: every set and record, every meal and macro, the bodyweight trend, cardio and steps, supplements and your journal, in one place. Bodybuilding and powerlifting.";
+  "Every rep, on the record. Awekn is the training log for people who lift: every set and record, every meal and macro, the bodyweight trend, cardio and steps, supplements and your journal, in one place. Bodybuilding and powerlifting.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Awekn" }],
   alternates: { canonical: SITE },
   openGraph: { title: TITLE, description: DESCRIPTION, type: "website", url: SITE, siteName: "Awekn" },
-  twitter: { card: "summary_large_image", title: TITLE, description: "Carved, not given. The training log for people who lift." },
+  twitter: { card: "summary_large_image", title: TITLE, description: "Every rep, on the record. The training log for people who lift." },
   // Safari's own "Open in the App Store" banner on iPhone (the one Apple allows; no JS)
   itunes: { appId: APP_STORE_ID },
   appleWebApp: { capable: true, title: "Awekn", statusBarStyle: "black-translucent" },
@@ -64,9 +64,9 @@ const jsonLd = {
   downloadUrl: APP_STORE,
   offers: {
     "@type": "Offer",
-    price: "5.99",
+    price: "0",
     priceCurrency: "USD",
-    description: "Awekn Pro, 7-day free trial. Prices vary by region.",
+    description: "Free to download.",
   },
   publisher: { "@type": "Organization", name: "Awekn", url: SITE },
 };

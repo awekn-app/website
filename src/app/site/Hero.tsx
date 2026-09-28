@@ -18,8 +18,8 @@ const HERO_COLUMNS: readonly (readonly Screen[])[] = [
 /**
  * THE WALL, OPENING (the founder: "that video on the very top, and at the bottom as well, with the
  * words changed"). The real app, screen after screen, drifting on one tilted wall; the forged A
- * locking together over it, the line, the key. On a wide screen the wall leans toward the pointer; as
- * the page scrolls away it sinks back into the dark (scroll-driven transform where the browser has
+ * locking together over it, the line ("Every rep, on the record": logged, and chasing records),
+ * the key. On a wide screen the wall leans toward the pointer; as the page scrolls away it sinks back into the dark (scroll-driven transform where the browser has
  * it). The words are the LCP (text, painted at once); the screens load behind them.
  */
 export function Hero() {
@@ -39,7 +39,7 @@ export function Hero() {
         <div className={s.links}>
           <a href="#inside" className={s.link}>The app</a>
           <a href="#try" className={s.link}>Try it</a>
-          <a href="#pricing" className={s.link}>Pricing</a>
+          <a href="#everything" className={s.link}>Everything</a>
           <a href="#download" className={s.cta}>Get the app</a>
         </div>
       </nav>
@@ -49,15 +49,16 @@ export function Hero() {
           <Forge />
         </div>
         <p className={s.eyebrow}>
-          <span className={s.live} aria-hidden="true" />
+          <span className={s.rule} aria-hidden="true" />
           For people who lift
+          <span className={`${s.rule} ${s.ruleEnd}`} aria-hidden="true" />
         </p>
         <h1 className={`${s.title} display`}>
-          <span className={s.line}><span className="chrome-type">Carved,</span></span>
-          <span className={s.line}><span className="chrome-type">not given.</span></span>
+          <span className={s.line}><span className="chrome-type">Every rep,</span></span>
+          <span className={s.line}><span className="chrome-type">on the record.</span></span>
         </h1>
         <p className={s.sub}>
-          The training log that reads your work back to you. Every set, every meal, every weigh-in, in one place.
+          The training log that reads your work back to you: your sets, meals, weigh-ins and records, in one place.
         </p>
         <div className={s.actions}>
           <StoreButton size="lg" />

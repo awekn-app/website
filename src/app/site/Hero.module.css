@@ -39,14 +39,23 @@
 @media (prefers-reduced-motion: no-preference) {
   /* the wall comes up out of the dark */
   .depth > * { animation: wallIn 1.8s var(--ease-out) both; }
-  /* as the page scrolls away, the wall sinks back into the dark (compositor-only) */
+}
+/* a mouse screen only: as the page scrolls away, the wall dims back into the dark (opacity only: a
+   transform in vh jumped with the phone's collapsing toolbar, which read as shaking) */
+@media (prefers-reduced-motion: no-preference) and (pointer: fine) {
   @supports (animation-timeline: scroll()) {
     .room {
       animation: sink linear both;
       animation-timeline: scroll(root);
-      animation-range: 0 100svh;
+      animation-range: 0 90svh;
     }
   }
+}
+/* touch screens: one flat plane (a 2D transform), no perspective and no 3D context to recomposite */
+@media (pointer: coarse) {
+  .room { perspective: none; }
+  .depth { transform: none; transform-style: flat; }
+  .wall { transform: translate(-50%, -50%) rotate(-15deg) scale(1.05); }
 }
 
 /* the dark that lets the words read: deepest behind them, the screens alive at the edges; the heat
@@ -100,34 +109,27 @@
   padding: 12px var(--gutter) 92px;
 }
 .forge { width: 92px; margin-bottom: 10px; }
+/* the label: quiet and engraved, set between two chrome hairlines that fade out, the way a watch
+   dial or a car badge carries its line (no dot, no blink) */
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  font-size: 14px;
+  gap: 14px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--text-2);
+  letter-spacing: 0.14em;
+  color: var(--silver);
   animation: enter 0.9s var(--ease-out) 0.2s both;
 }
-/* the live dot: the heat, breathing (transform + opacity) */
-.live {
-  position: relative;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--heat);
-  box-shadow: 0 0 10px rgba(255, 87, 18, 0.7);
+.rule {
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(233, 234, 240, 0), rgba(233, 234, 240, 0.7));
+  transform-origin: right center;
 }
-.live::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 87, 18, 0.6);
-  opacity: 0;
-}
+.ruleEnd { background: linear-gradient(90deg, rgba(233, 234, 240, 0.7), rgba(233, 234, 240, 0)); transform-origin: left center; }
 @media (prefers-reduced-motion: no-preference) {
-  .live::after { animation: ping 2.4s var(--ease-out) 1.2s infinite; }
+  .rule { animation: draw 1.1s var(--ease-emphatic) 0.45s both; }
 }
 
 .title {
@@ -223,10 +225,12 @@
   .sub { font-size: 20px; max-width: 34ch; }
   .actions { flex-direction: row; gap: 22px; }
   .proof { font-size: 14px; }
+  .eyebrow { font-size: 14px; gap: 18px; }
+  .rule { width: 56px; }
 }
 
 @keyframes wallIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes sink { from { transform: none; opacity: 1; } to { transform: translate3d(0, 12vh, 0) scale(0.94); opacity: 0.35; } }
+@keyframes sink { from { opacity: 1; } to { opacity: 0.3; } }
 @keyframes enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-@keyframes ping { 0% { opacity: 0.9; transform: scale(0.6); } 100% { opacity: 0; transform: scale(1.8); } }
+@keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes drip { 0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; } 50% { opacity: 1; transform: scaleY(1); } }

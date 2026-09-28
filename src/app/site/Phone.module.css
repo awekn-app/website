@@ -59,8 +59,9 @@
   border-radius: 12.8cqw;
   background: #000;
   aspect-ratio: 1206 / 2622;
-  /* a clean clip on every engine (Safari keeps rounded overflow on composited children with this) */
-  transform: translateZ(0);
+  /* the rounded clip holds even when a child is composited (the crossfade), without promoting every
+     phone on the page to its own GPU layer (translateZ(0) did, 50+ layers on a phone) */
+  clip-path: inset(0 round 12.8cqw);
 }
 .img { display: block; width: 100%; height: 100%; object-fit: cover; }
 /* a stack of screens: all laid on top of each other, the active one faded in (opacity only) */
@@ -100,3 +101,9 @@
     linear-gradient(118deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 22%, rgba(255, 255, 255, 0) 38%),
     linear-gradient(0deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 30%);
 }
+
+/* the wall's phones: the same device without the costly parts (long soft shadows, side buttons,
+   the screen glow): dozens of them drift at once, so each must be cheap to paint */
+.lite .rim { box-shadow: inset 0 0 0 0.25cqw rgba(255, 255, 255, 0.14); }
+.lite .rim::before, .lite .rim::after, .lite::before { display: none; }
+.lite .glare { display: none; }

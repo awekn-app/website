@@ -344,3 +344,9 @@
   .cell { padding: 7px 0; }
   .cell dd { font-size: 20px; line-height: 24px; }
 }
+
+/* touch screens: the mark only crossfades (no per-frame scale on the sticky stage) */
+@media (pointer: coarse) {
+  .metal { transform: none; }
+  .metalDull { filter: none; }
+}

@@ -79,27 +79,12 @@ export function Vows() {
   );
 }
 
-export function Pricing() {
-  return (
-    <section className={s.section} id="pricing" aria-labelledby="pricing-title">
-      <p className={s.eyebrow}>Pricing</p>
-      <h2 className={`${s.title} chrome-type`} id="pricing-title">Free to start.</h2>
-      <div className={s.priceCard}>
-        <Mark tone="white" className={s.hallmark} />
-        <p className={s.priceLead}>Log everything for free. Pro unlocks the deeper analysis.</p>
-        <p className={s.price}><span className="num">$34.99</span><span className={s.per}> a year</span></p>
-        <p className={s.priceNote}>or <span className="num">$5.99</span> a month. 7 days free. Prices vary by region.</p>
-      </div>
-    </section>
-  );
-}
-
 export function Download() {
   return (
     <section className={s.downloadRoom} id="download" aria-labelledby="download-title">
       <Wall>
         <Mark className={s.downloadMark} />
-        <h2 className={`${s.big} chrome-type`} id="download-title">Start carving.</h2>
+        <h2 className={`${s.big} chrome-type`} id="download-title">Start your record.</h2>
         <p className={s.downloadLine}>Everything above, in your pocket, today.</p>
         <StoreButton size="lg" showAndroid />
       </Wall>

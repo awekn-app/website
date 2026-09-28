@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { chromeMarkSvg, chromeWordSvg, dataUri } from "./site/brand/svgString";
 
-export const alt = "Awekn: Lifting, Gym Log & Diet. Carved, not given.";
+export const alt = "Awekn: Lifting, Gym Log & Diet. Every rep, on the record.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -49,8 +49,8 @@ export default function OpengraphImage() {
           <img src={word} alt="" width={236} height={55} />
           <div style={{ display: "flex", flexDirection: "column", marginTop: "auto" }}>
             <div style={{ fontSize: 26, fontWeight: 600, color: "#A1A2A8", marginBottom: 18 }}>For people who lift</div>
-            <div style={{ fontSize: 100, fontWeight: 700, lineHeight: 1.02, letterSpacing: -4 }}>Carved,</div>
-            <div style={{ fontSize: 100, fontWeight: 700, lineHeight: 1.02, letterSpacing: -4 }}>not given.</div>
+            <div style={{ fontSize: 96, fontWeight: 700, lineHeight: 1.04, letterSpacing: -4 }}>Every rep,</div>
+            <div style={{ fontSize: 96, fontWeight: 700, lineHeight: 1.04, letterSpacing: -4 }}>on the record.</div>
             <div style={{ display: "flex", marginTop: 30, fontSize: 24, color: "#C7C8CD" }}>
               Lifting, gym log and diet, on the App Store.
             </div>

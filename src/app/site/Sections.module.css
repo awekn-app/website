@@ -54,25 +54,6 @@
 .vows li { padding-left: 30px; position: relative; }
 .vowMark { position: absolute; left: 0; top: 0.42em; width: 16px; height: auto; color: var(--silver); }
 
-/* pricing */
-.priceCard {
-  position: relative;
-  overflow: hidden;
-  margin-top: 10px;
-  max-width: 520px;
-  border-radius: var(--radius-card);
-  background: linear-gradient(180deg, var(--surface-top), var(--surface)) padding-box, var(--chrome-rim) border-box;
-  border: 1px solid transparent;
-  padding: 26px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.priceLead { position: relative; font-size: 17px; color: var(--text-2); }
-.price { position: relative; font-size: 44px; font-weight: 700; letter-spacing: -1px; }
-.priceNote { position: relative; }
-.per { font-size: 18px; font-weight: 500; color: var(--text-4); letter-spacing: 0; }
-.priceNote { font-size: 15px; color: var(--text-4); }
 
 /* download */
 /* the close: the wall of screens behind the line */

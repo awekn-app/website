@@ -47,12 +47,14 @@ type Props = {
   style?: CSSProperties;
   /** decorative copies (the wall) are hidden from assistive tech */
   decorative?: boolean;
+  /** the cheap variant for walls of many phones */
+  lite?: boolean;
 };
 
-export function Phone({ screen, screens, active = 0, sizes, priority, glow = "none", className, style, decorative }: Props) {
+export function Phone({ screen, screens, active = 0, sizes, priority, glow = "none", className, style, decorative, lite }: Props) {
   return (
     <figure
-      className={`${s.phone} ${glow !== "none" ? s[glow] : ""} ${className ?? ""}`}
+      className={`${s.phone} ${glow !== "none" ? s[glow] : ""} ${lite ? s.lite : ""} ${className ?? ""}`}
       style={style}
       aria-hidden={decorative || undefined}
     >

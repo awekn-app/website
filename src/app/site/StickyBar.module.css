@@ -32,3 +32,8 @@
 
 /* the narrowest phones: the mark and the key only */
 @media (max-width: 350px) { .line { display: none; } }
+
+/* touch screens: a solid bar, no live blur of the page scrolling underneath it every frame */
+@media (pointer: coarse) {
+  .bar { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(20, 20, 23, 0.96); }
+}
