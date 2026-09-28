@@ -27,7 +27,7 @@
 .handle { cursor: grab; outline: none; touch-action: none; }
 .handle:focus { outline: none; }
 .hit { fill: transparent; touch-action: none; }
-.lit { fill: var(--white); }
+.lit { fill: var(--heat); }
 .halo {
   fill: rgba(255, 255, 255, 0.14);
   transform-box: fill-box; transform-origin: center;

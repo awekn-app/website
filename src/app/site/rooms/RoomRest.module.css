@@ -23,7 +23,7 @@
 .track { fill: none; stroke: rgba(255, 255, 255, 0.08); stroke-width: 10; }
 .arc {
   fill: none;
-  stroke: var(--silver);
+  stroke: var(--heat);
   stroke-width: 10;
   stroke-linecap: round;
   transition: opacity 0.2s var(--ease-out);
@@ -33,7 +33,7 @@
 
 /* the last three seconds: the arc turns white and glows, and one pulse fires per second */
 .ring { transition: filter 0.3s var(--ease-out); }
-.last .arc { stroke: var(--white); }
+.last .arc { stroke: var(--heat-hot); }
 .last .ring { filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.35)); }
 .pulse {
   position: absolute;

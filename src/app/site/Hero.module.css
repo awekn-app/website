@@ -1,3 +1,7 @@
+/* THE WALL, OPENING. Layers, back to front: the wall of real screens (drifting, tilting, sinking as
+   the page scrolls), the veil that makes the words read, the nav, the forged A, the words. Only
+   transform and opacity ever animate. */
+
 .hero {
   position: relative;
   min-height: 100svh;
@@ -6,10 +10,56 @@
   overflow: hidden;
   overflow: clip;
   isolation: isolate;
-  /* the room the mark stands in: a lit wall from above falling to the void, like the brand's own shots */
+  background: var(--void);
+}
+
+/* ── the wall ── */
+.room {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  perspective: 1400px;
+  pointer-events: none;
+}
+.depth {
+  position: absolute;
+  inset: 0;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+}
+.wall {
+  width: 170%;
+  transform: translate(-50%, -50%) rotateX(24deg) rotateZ(-15deg) scale(1.05);
+}
+/* a phone gets three columns; a wide screen all five */
+.wall > :nth-child(n + 4) { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* the wall comes up out of the dark */
+  .depth > * { animation: wallIn 1.8s var(--ease-out) both; }
+  /* as the page scrolls away, the wall sinks back into the dark (compositor-only) */
+  @supports (animation-timeline: scroll()) {
+    .room {
+      animation: sink linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100svh;
+    }
+  }
+}
+
+/* the dark that lets the words read: deepest behind them, the screens alive at the edges; the heat
+   of the forge breaking through under the mark */
+.veil {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
   background:
-    radial-gradient(120% 70% at 50% -10%, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 60%),
-    linear-gradient(180deg, #0B0B0D 0%, var(--void) 70%);
+    radial-gradient(36% 24% at 50% 28%, rgba(255, 87, 18, 0.16), rgba(255, 87, 18, 0) 100%),
+    radial-gradient(80% 54% at 50% 52%, rgba(5, 5, 6, 0.93) 0%, rgba(5, 5, 6, 0.8) 48%, rgba(5, 5, 6, 0.3) 100%),
+    linear-gradient(180deg, rgba(5, 5, 6, 0.9) 0%, rgba(5, 5, 6, 0) 16%, rgba(5, 5, 6, 0) 72%, var(--void) 100%);
 }
 
 /* ── nav ── */
@@ -29,37 +79,34 @@
 .link:hover { color: var(--text); }
 .cta {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
-  border-radius: var(--radius-pill); border: 1px solid var(--rim-strong); background: rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-pill); border: 1px solid var(--rim-strong); background: rgba(12, 12, 14, 0.7);
   font-size: 15px; font-weight: 600; text-decoration: none; color: var(--text);
   transition: transform 0.2s var(--ease-out), background 0.2s var(--ease-out);
 }
-.cta:hover { background: rgba(255, 255, 255, 0.1); }
+.cta:hover { background: rgba(40, 40, 44, 0.8); }
 .cta:active { transform: scale(0.97); }
 
 /* ── the words ── */
-.body {
+.front {
   position: relative;
   z-index: 2;
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-.copy {
-  position: relative;
-  z-index: 2;
-  padding: 18px var(--gutter) 0;
-  display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 14px;
-  max-width: 640px;
+  padding: 12px var(--gutter) 92px;
 }
+.forge { width: 92px; margin-bottom: 10px; }
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 9px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-3);
+  color: var(--text-2);
   animation: enter 0.9s var(--ease-out) 0.2s both;
 }
 /* the live dot: the heat, breathing (transform + opacity) */
@@ -84,154 +131,102 @@
 }
 
 .title {
-  font-size: clamp(46px, 13vw, 112px);
+  font-size: clamp(50px, 14.5vw, 128px);
   line-height: 1.02;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 /* each line rises on its own; the gradient lives on the inner inline span, never on the moving box */
 .line { display: block; animation: enter 1s var(--ease-emphatic) both; }
 .line:first-child { animation-delay: 0.3s; }
 .line:last-child { animation-delay: 0.42s; }
-.sub { font-size: 18px; line-height: 1.45; color: var(--text-2); max-width: 30ch; animation: enter 0.9s var(--ease-out) 0.6s both; }
-.actions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 6px; animation: enter 0.9s var(--ease-out) 0.75s both; }
-.note { font-size: 14px; color: var(--text-4); }
-
-/* ── the stage: the forged A, the phone rising out of it, the live chips ── */
-.stage {
-  --rx: 0deg;
-  --ry: 0deg;
-  position: relative;
-  z-index: 1;
-  height: clamp(470px, 142vw, 660px);
-  margin-top: 26px;
-  perspective: 1600px;
-  /* the phone sinks into the next section instead of ending on a hard edge */
-  -webkit-mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
-  mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
-}
-.tilt {
-  position: absolute;
-  inset: 0;
-  transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transform-style: preserve-3d;
-}
-.forgeWrap {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: min(94vw, 440px);
-  transform: translate3d(-50%, 0, -60px);
-}
-.phoneWrap {
-  position: absolute;
-  left: 50%;
-  top: 21%;
-  width: min(66vw, 296px);
-  transform: translate3d(-50%, 0, 40px);
-  animation: phoneIn 1.4s var(--ease-emphatic) 0.55s both;
-}
-
-.chip {
-  position: absolute;
-  z-index: 3;
+.sub { font-size: 17px; line-height: 1.5; color: var(--text-2); max-width: 32ch; animation: enter 0.9s var(--ease-out) 0.6s both; }
+.actions {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 10px 13px 11px;
-  border-radius: 14px;
-  background: rgba(22, 22, 25, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  white-space: nowrap;
-  transform: translate3d(0, 0, 90px);
-  animation: chipIn 0.9s var(--ease-emphatic) both;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  animation: enter 0.9s var(--ease-out) 0.75s both;
 }
-.chipHeat { border-color: rgba(255, 87, 18, 0.45); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55), 0 0 30px rgba(255, 87, 18, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.06); }
-.chipLabel { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--text-4); }
-.chipHeat .chipLabel { color: var(--heat-hot); }
-.chipDot { width: 6px; height: 6px; border-radius: 50%; background: var(--heat); box-shadow: 0 0 8px rgba(255, 87, 18, 0.8); }
-.chipValue { font-size: 21px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; color: var(--text); font-variant-numeric: tabular-nums; }
-.chipUnit { font-size: 12px; font-weight: 600; letter-spacing: 0; color: var(--text-3); }
-.chipSub { font-size: 11px; color: var(--text-4); }
-
-.chipA { left: max(8px, calc(50% - 200px)); top: 31%; animation-delay: 1.5s; }
-.chipB { right: max(8px, calc(50% - 200px)); top: 66%; animation-delay: 1.7s; }
-.chipC { display: none; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .chipA, .chipB, .chipC { animation-name: chipIn, bob; animation-duration: 0.9s, 6s; animation-timing-function: var(--ease-emphatic), ease-in-out; animation-iteration-count: 1, infinite; animation-fill-mode: both, none; }
-  .chipA { animation-delay: 1.5s, 2.4s; }
-  .chipB { animation-delay: 1.7s, 3.4s; }
-  .chipC { animation-delay: 1.9s, 4.2s; }
+.peek {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+.peek:hover { color: var(--heat-hot); }
+.peekArrow {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--heat);
+  border-bottom: 2px solid var(--heat);
+  transform: translateY(-2px) rotate(45deg);
+}
+.proof {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 22px;
+  font-size: 13px;
+  color: var(--text-4);
+  animation: enter 0.9s var(--ease-out) 0.9s both;
+}
+.proof li { position: relative; }
+.proof li + li::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 50%;
+  background: var(--text-5);
 }
 
 .cue {
   position: absolute;
   z-index: 3;
-  right: var(--gutter);
-  bottom: 28px;
-  display: none;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  color: var(--text-5);
-  text-decoration: none;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  padding: 6px 20px;
 }
-.cueLine { width: 1px; height: 36px; background: linear-gradient(180deg, var(--text-5), rgba(110, 110, 115, 0)); animation: drip 2.4s ease-in-out infinite; }
+.cueLine { width: 1px; height: 34px; background: linear-gradient(180deg, var(--text-4), rgba(142, 143, 150, 0)); animation: drip 2.4s ease-in-out infinite; }
 
-/* short phones: the words stay compact so the phone still peeks above the fold */
-@media (max-width: 899px) and (max-height: 700px) {
-  .title { font-size: clamp(42px, 12vw, 58px); }
-  .sub { font-size: 16px; }
-}
-@media (max-width: 359px) {
-  .chip { padding: 8px 10px 9px; }
-  .chipValue { font-size: 18px; }
-  .chipSub { display: none; }
+/* short phones: tighter, so the key stays above the fold */
+@media (max-width: 899px) and (max-height: 720px) {
+  .forge { width: 72px; margin-bottom: 4px; }
+  .title { font-size: clamp(44px, 12.5vw, 60px); }
+  .sub { font-size: 15.5px; }
+  .front { gap: 11px; padding-bottom: 70px; }
 }
 
 @media (min-width: 900px) {
   .link { display: inline-block; }
   .wordmark { height: 25px; }
   .nav { height: 80px; padding-top: max(18px, env(safe-area-inset-top)); }
-  .body {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 3vw;
-    padding: 0 var(--gutter);
-    max-width: 1440px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  .copy { padding: 0 0 8vh; max-width: 640px; gap: 20px; flex: 1 1 0; }
-  .sub { font-size: 21px; max-width: 26ch; }
-  .actions { flex-direction: row; align-items: center; gap: 20px; }
-  .stage {
-    flex: 0 0 min(47vw, 660px);
-    align-self: stretch;
-    height: auto;
-    min-height: 640px;
-    margin-top: 0;
-    -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
-  }
-  .forgeWrap { top: 4%; width: 100%; }
-  .phoneWrap { top: 22%; width: min(44%, 300px); }
-  .chip { padding: 12px 16px 13px; border-radius: 16px; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); background: rgba(22, 22, 25, 0.72); }
-  .chipValue { font-size: 26px; }
-  .chipLabel { font-size: 12px; }
-  .chipSub { font-size: 12px; }
-  .chipA { left: 2%; top: 44%; }
-  .chipB { right: 4%; top: 57%; }
-  .chipC { display: flex; left: 8%; top: 74%; }
-  .cue { display: flex; }
+  .wall { width: 130%; }
+  .wall > :nth-child(n + 4) { display: block; }
+  .forge { width: 128px; margin-bottom: 14px; }
+  .front { gap: 18px; padding-bottom: 110px; }
+  .sub { font-size: 20px; max-width: 34ch; }
+  .actions { flex-direction: row; gap: 22px; }
+  .proof { font-size: 14px; }
 }
 
+@keyframes wallIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sink { from { transform: none; opacity: 1; } to { transform: translate3d(0, 12vh, 0) scale(0.94); opacity: 0.35; } }
 @keyframes enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-@keyframes phoneIn { from { transform: translate3d(-50%, 90px, 40px); } to { transform: translate3d(-50%, 0, 40px); } }
-@keyframes chipIn { from { opacity: 0; transform: translate3d(0, 14px, 90px) scale(0.96); } to { opacity: 1; transform: translate3d(0, 0, 90px); } }
-@keyframes bob { 0%, 100% { transform: translate3d(0, 0, 90px); } 50% { transform: translate3d(0, -7px, 90px); } }
 @keyframes ping { 0% { opacity: 0.9; transform: scale(0.6); } 100% { opacity: 0; transform: scale(1.8); } }
 @keyframes drip { 0%, 100% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; } 50% { opacity: 1; transform: scaleY(1); } }

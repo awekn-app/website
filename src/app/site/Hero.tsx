@@ -1,20 +1,37 @@
 import { StoreButton } from "./StoreButton";
 import { Forge } from "./Forge";
-import { Phone } from "./Phone";
-import { HeroStage, Chip } from "./HeroStage";
+import { HeroTilt } from "./HeroStage";
+import { WallBackdrop } from "./ShowcaseArt";
+import type { Screen } from "./Phone";
 import { Wordmark } from "./brand/Brand";
 import s from "./Hero.module.css";
 
+/** The opening wall: five columns on a wide screen, the first three on a phone. */
+const HERO_COLUMNS: readonly (readonly Screen[])[] = [
+  ["records", "calories", "weight", "supplements"],
+  ["session", "home", "muscles", "journal"],
+  ["active", "deadlift", "cardio", "food"],
+  ["weight-chart", "workout", "consistency", "squat"],
+  ["journal", "session", "calories", "home"],
+];
+
 /**
- * THE FORGE, with the app in it (docs/SHOWCASE_POLISH_PLAN_2026-09-28.md). The chrome A locks
- * together and seats white-hot; the phone (the real Home screen) rises out of it; two live numbers
- * from that same screen float beside it. On a phone the words come first and the stage follows,
- * peeking from below them; on a wide screen, side by side. The phone's screen is the LCP image
- * (priority, painted at once: only its transform animates).
+ * THE WALL, OPENING (the founder: "that video on the very top, and at the bottom as well, with the
+ * words changed"). The real app, screen after screen, drifting on one tilted wall; the forged A
+ * locking together over it, the line, the key. On a wide screen the wall leans toward the pointer; as
+ * the page scrolls away it sinks back into the dark (scroll-driven transform where the browser has
+ * it). The words are the LCP (text, painted at once); the screens load behind them.
  */
 export function Hero() {
   return (
     <header className={s.hero} id="top">
+      <HeroTilt className={s.room}>
+        <div className={s.depth}>
+          <WallBackdrop columns={HERO_COLUMNS} className={s.wall} sizes="(min-width: 900px) 210px, 30vw" />
+        </div>
+      </HeroTilt>
+      <div className={s.veil} aria-hidden="true" />
+
       <nav className={s.nav} aria-label="Main">
         <a href="#top" className={s.brand} aria-label="Awekn, back to the top">
           <Wordmark className={s.wordmark} />
@@ -27,40 +44,36 @@ export function Hero() {
         </div>
       </nav>
 
-      <div className={s.body}>
-        <div className={s.copy}>
-          <p className={s.eyebrow}>
-            <span className={s.live} aria-hidden="true" />
-            For people who lift
-          </p>
-          <h1 className={`${s.title} display`}>
-            <span className={s.line}><span className="chrome-type">Carved,</span></span>
-            <span className={s.line}><span className="chrome-type">not given.</span></span>
-          </h1>
-          <p className={s.sub}>
-            Every set, every meal, every weigh-in, in one place that shows you the shape you are making.
-          </p>
-          <div className={s.actions}>
-            <StoreButton size="lg" />
-            <p className={s.note}>Free to start. Pro is 7 days free.</p>
-          </div>
+      <div className={s.front}>
+        <div className={s.forge}>
+          <Forge />
         </div>
-
-        <HeroStage>
-          <div className={s.forgeWrap}>
-            <Forge />
-          </div>
-          <div className={s.phoneWrap}>
-            <Phone screen="home" priority glow="heat" sizes="(min-width: 900px) 300px, 66vw" />
-          </div>
-          <Chip className={s.chipA} heat label="New record" value="180" unit="kg x 5" sub="Deadlift, this morning" />
-          <Chip className={s.chipB} label="Trend weight" value="79.6" unit="kg" sub="Down 3.5 kg in 3 months" />
-          <Chip className={s.chipC} label="Hard sets, September" value="424" unit="sets" sub="Back led the month" />
-        </HeroStage>
+        <p className={s.eyebrow}>
+          <span className={s.live} aria-hidden="true" />
+          For people who lift
+        </p>
+        <h1 className={`${s.title} display`}>
+          <span className={s.line}><span className="chrome-type">Carved,</span></span>
+          <span className={s.line}><span className="chrome-type">not given.</span></span>
+        </h1>
+        <p className={s.sub}>
+          The training log that reads your work back to you. Every set, every meal, every weigh-in, in one place.
+        </p>
+        <div className={s.actions}>
+          <StoreButton size="lg" />
+          <a href="#inside" className={s.peek}>
+            See inside the app
+            <span className={s.peekArrow} aria-hidden="true" />
+          </a>
+        </div>
+        <ul className={s.proof} aria-label="What you get">
+          <li>13 trackers</li>
+          <li>Works offline</li>
+          <li>No ads, ever</li>
+        </ul>
       </div>
 
       <a href="#problem" className={s.cue} aria-label="Scroll to the story">
-        <span>Scroll</span>
         <span className={s.cueLine} aria-hidden="true" />
       </a>
     </header>

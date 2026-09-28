@@ -1,4 +1,4 @@
-/* Room 07, the climb: grey sessions, a white staircase of records; heat only on the PR tag. */
+/* Room 07, the climb: grey sessions, a white staircase of records; heat on the PR tag and the newest best (as in the app). */
 
 .head { display: flex; flex-direction: column; gap: 6px; }
 .headTop { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
@@ -52,7 +52,7 @@
 .dot { fill: rgba(255, 255, 255, 0.34); }
 .stairs { fill: none; stroke: var(--white); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .spot { stroke: rgba(255, 255, 255, 0.28); stroke-width: 1; shape-rendering: crispEdges; }
-.mark { fill: var(--white); stroke: var(--surface); stroke-width: 3; }
+.mark { fill: var(--heat); stroke: var(--surface); stroke-width: 3; }
 
 /* ── the range: the keyboard (and a sure thumb on touch) over the session index ── */
 /* its margins put the thumb centre on the first and last dot (chart pads 10px left, 40px right) */

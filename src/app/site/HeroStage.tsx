@@ -2,15 +2,13 @@
 
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
-import s from "./Hero.module.css";
 
 /**
- * The hero's stage: the forged A behind, the phone rising in front of it, the live chips floating
- * nearest. On a fine pointer the whole stage tilts toward the pointer and the layers part a little
- * (they sit at different depths), like objects on a plinth. One passive pointer listener, one
- * requestAnimationFrame that stops when it settles, transform only. Phones and reduced motion: still.
+ * The hero's lean: on a fine pointer the wall tilts a few degrees toward the pointer (writes --rx and
+ * --ry on this element; the CSS applies them). One passive listener, one requestAnimationFrame that
+ * stops when it settles, transform only. Phones and reduced motion: still.
  */
-export function HeroStage({ children }: { children: ReactNode }) {
+export function HeroTilt({ children, className }: { children: ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,10 +21,10 @@ export function HeroStage({ children }: { children: ReactNode }) {
     let x = 0;
     let y = 0;
     const tick = () => {
-      x += (tx - x) * 0.07;
-      y += (ty - y) * 0.07;
-      el.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`);
-      el.style.setProperty("--ry", `${(x * 8).toFixed(2)}deg`);
+      x += (tx - x) * 0.06;
+      y += (ty - y) * 0.06;
+      el.style.setProperty("--rx", `${(-y * 4).toFixed(2)}deg`);
+      el.style.setProperty("--ry", `${(x * 6).toFixed(2)}deg`);
       raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.001 ? requestAnimationFrame(tick) : 0;
     };
     const move = (e: PointerEvent) => {
@@ -42,25 +40,8 @@ export function HeroStage({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className={s.stage} ref={ref}>
-      <div className={s.tilt}>{children}</div>
-    </div>
-  );
-}
-
-/** A live number floating by the phone, read from the same screen the phone shows. */
-export function Chip({ label, value, unit, sub, heat, className }: { label: string; value: string; unit?: string; sub?: string; heat?: boolean; className?: string }) {
-  return (
-    <div className={`${s.chip} ${heat ? s.chipHeat : ""} ${className ?? ""}`} aria-hidden="true">
-      <span className={s.chipLabel}>
-        {heat ? <span className={s.chipDot} /> : null}
-        {label}
-      </span>
-      <span className={s.chipValue}>
-        {value}
-        {unit ? <span className={s.chipUnit}> {unit}</span> : null}
-      </span>
-      {sub ? <span className={s.chipSub}>{sub}</span> : null}
+    <div className={className} ref={ref} aria-hidden="true">
+      {children}
     </div>
   );
 }

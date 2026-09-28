@@ -90,3 +90,15 @@ routes, update the docs and memory.
   in rAF, overflow-x clip on html/body); `upgrade-insecure-requests` production-only (Safari upgraded
   http://localhost CSS in the simulator).
 - Verified in iPhone Safari (the iOS Simulator) and Chrome at 1440, no console errors, build clean.
+
+## Round 2 (2026-09-28, founder: "the wall of screens on the very top too, the words changed; very premium and modern, best on mobile")
+- The hero is now the wall (site/Hero.tsx): WallBackdrop (shared with the closing wall, ShowcaseArt.tsx)
+  with 5 columns on wide screens and 3 on phones, drifting; on a fine pointer it leans toward the
+  pointer (HeroTilt); where scroll-driven animations exist it sinks back as the page scrolls (transform
+  and opacity on the wrapper only). In front, centred: the forged A (seats white-hot, cools), the live
+  dot, "Carved, not given.", a new line ("The training log that reads your work back to you..."), the
+  store key plus "See inside the app", and three honest facts (13 trackers, works offline, no ads).
+- The closing wall stays with its own words ("Start carving.", "Everything above, in your pocket").
+- The phone-in-front-of-the-A hero with floating chips is gone (on a phone the chips covered the
+  screen they described).
+- Rooms matched to the app: the rest ring, the scale's lit weigh-in and the climb's newest best in heat.

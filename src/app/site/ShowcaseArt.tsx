@@ -66,27 +66,34 @@ const COLUMNS: readonly (readonly Screen[])[] = [
 ];
 
 /**
- * THE WALL: every screen of the app on one tilted wall, three columns drifting in opposite directions
- * behind the closing line. Decorative (the real screens are in the tour with their words). Transform
- * only, looping only while on screen; still for reduced motion.
+ * The wall itself: app screens on one tilted plane, columns drifting in opposite directions, looping
+ * only while on screen (transform only; still for reduced motion). Decorative: the real screens are
+ * in the tour with their words. `className` sizes and places it for its room.
  */
-export function Wall({ children }: { children: ReactNode }) {
+export function WallBackdrop({ columns = COLUMNS, className, sizes = "(min-width: 900px) 220px, 32vw" }: { columns?: readonly (readonly Screen[])[]; className?: string; sizes?: string }) {
   const ref = useRunWhileVisible<HTMLDivElement>();
   return (
-    <div className={s.wallRoom} ref={ref}>
-      <div className={s.wall} aria-hidden="true">
-        {COLUMNS.map((col, c) => (
-          <div key={c} className={`${s.col} ${c === 1 ? s.down : s.up}`}>
-            {[0, 1].map((copy) => (
-              <div key={copy} className={s.colRun}>
-                {col.map((sc) => (
-                  <Phone key={`${copy}-${sc}`} screen={sc} sizes="(min-width: 900px) 220px, 32vw" className={s.wallPhone} decorative />
-                ))}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
+    <div className={`${s.wall} ${className ?? ""}`} ref={ref} aria-hidden="true">
+      {columns.map((col, c) => (
+        <div key={c} className={`${s.col} ${c % 2 === 1 ? s.down : s.up}`}>
+          {[0, 1].map((copy) => (
+            <div key={copy} className={s.colRun}>
+              {col.map((sc, i) => (
+                <Phone key={`${copy}-${sc}-${i}`} screen={sc} sizes={sizes} className={s.wallPhone} decorative />
+              ))}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** THE WALL, closing the page: every screen behind the closing line. */
+export function Wall({ children }: { children: ReactNode }) {
+  return (
+    <div className={s.wallRoom}>
+      <WallBackdrop />
       <div className={s.veil} aria-hidden="true" />
       <div className={s.front}>{children}</div>
     </div>

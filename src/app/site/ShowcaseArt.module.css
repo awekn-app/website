@@ -68,13 +68,14 @@
 .col { flex: 0 0 clamp(120px, 30vw, 230px); }
 .colRun { display: flex; flex-direction: column; gap: clamp(14px, 3vw, 32px); padding-bottom: clamp(14px, 3vw, 32px); }
 .wallPhone { width: 100%; }
-.col:nth-child(2) { margin-top: -180px; }
+.col:nth-child(even) { margin-top: -180px; }
+.colRun { will-change: transform; }
 
 @media (prefers-reduced-motion: no-preference) {
   .up .colRun, .down .colRun { animation-duration: 60s; animation-timing-function: linear; animation-iteration-count: infinite; animation-play-state: paused; }
   .up .colRun { animation-name: up; }
   .down .colRun { animation-name: down; }
-  [data-run] .colRun { animation-play-state: running; }
+  [data-run] .colRun, .wall[data-run] .colRun { animation-play-state: running; }
 }
 @keyframes up { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(0, -100%, 0); } }
 @keyframes down { from { transform: translate3d(0, -100%, 0); } to { transform: translate3d(0, 0, 0); } }
