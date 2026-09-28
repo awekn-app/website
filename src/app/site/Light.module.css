@@ -33,6 +33,6 @@
   .light { width: 110vmax; height: 110vmax; margin: -55vmax 0 0 -55vmax; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
   .frame { display: none; }
 }

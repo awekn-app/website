@@ -73,7 +73,7 @@ const SPARKS = Array.from({ length: 16 }, (_, i) => ({
 
 /**
  * Room 01, the set. Load the bar, add a rep, log it: the app's record engine decides, and a new
- * best fires the medal and the burst of white light (the one place the light flares). Every logged set
+ * best fires the medal and the burst of heat (the one place the accent flares, as in the app). Every logged set
  * floods completion green like the app's set row.
  */
 export function RoomSet() {

@@ -1,0 +1,136 @@
+/* INSIDE THE APP. Phones: a native horizontal swipe row (scroll-snap), each card its own phone.
+   Wide: the words scroll in a column, one sticky phone crossfades between screens (opacity only). */
+
+.tour {
+  position: relative;
+  padding: 104px 0 72px;
+  overflow: hidden;
+  overflow: clip;
+}
+/* the heat the screens throw on the room */
+.tour::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 120px;
+  width: 140vw;
+  height: 900px;
+  transform: translateX(-50%);
+  background: radial-gradient(40% 40% at 50% 40%, rgba(255, 87, 18, 0.09), rgba(255, 87, 18, 0) 70%);
+  pointer-events: none;
+}
+
+.head {
+  max-width: var(--max-wide);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.eyebrow { font-size: 14px; font-weight: 600; color: var(--heat-hot); }
+.title {
+  font-size: clamp(36px, 9.4vw, 76px);
+  line-height: 1.06;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+.titleHeat { color: var(--heat); }
+.lede { font-size: 17px; line-height: 1.5; color: var(--text-3); max-width: 44ch; }
+
+.grid { position: relative; }
+.stickyCol { display: none; }
+
+/* ── phones: the swipe row ── */
+.steps {
+  list-style: none;
+  display: flex;
+  gap: 16px;
+  margin-top: 36px;
+  padding: 8px var(--gutter) 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.steps::-webkit-scrollbar { display: none; }
+.step {
+  flex: 0 0 min(78vw, 330px);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.inlinePhone { width: 86%; margin: 0 auto; }
+.words { display: flex; flex-direction: column; gap: 10px; }
+.kicker { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--text-3); }
+.num { font-size: 12px; font-weight: 700; color: var(--heat); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.stepTitle { font-family: var(--font-display); font-size: 24px; line-height: 1.16; font-weight: 600; letter-spacing: -0.025em; color: var(--text); }
+.body { font-size: 16px; line-height: 1.5; color: var(--text-3); }
+.facts { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.facts li {
+  font-size: 12.5px;
+  line-height: 1;
+  padding: 8px 11px;
+  border-radius: 999px;
+  color: var(--text-2);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.swipe { padding: 0 var(--gutter); font-size: 13px; color: var(--text-5); }
+
+/* ── wide: the sticky phone ── */
+@media (min-width: 900px) {
+  .tour { padding: 150px 0 80px; }
+  .grid {
+    max-width: var(--max-wide);
+    margin: 56px auto 0;
+    padding: 0 var(--gutter);
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    column-gap: 6vw;
+  }
+  .stickyCol { display: block; }
+  .sticky {
+    position: sticky;
+    top: max(90px, calc(50vh - 380px));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    padding-bottom: 40px;
+  }
+  .bigPhone { width: min(100%, 330px); }
+  .counter { font-size: 13px; color: var(--text-5); font-variant-numeric: tabular-nums; }
+  .counterNow { color: var(--heat); font-weight: 700; }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+  .step {
+    flex: none;
+    min-height: 78vh;
+    justify-content: center;
+    opacity: 0.28;
+    transition: opacity 0.5s var(--ease-out);
+  }
+  .stepOn { opacity: 1; }
+  .inlinePhone { display: none; }
+  .stepTitle { font-size: clamp(32px, 3.4vw, 46px); line-height: 1.1; max-width: 16ch; }
+  .body { font-size: 19px; max-width: 34ch; }
+  .facts li { font-size: 13.5px; padding: 9px 13px; }
+  .swipe { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step { transition: none; }
+}

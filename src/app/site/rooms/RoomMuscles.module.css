@@ -101,8 +101,6 @@
   gap: 2px;
   border: 1px solid var(--rim-strong);
   background: var(--glass);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
   color: var(--text);
   -webkit-tap-highlight-color: transparent;
 }

@@ -7,7 +7,7 @@ import { canAffordWebGL } from "./webgl";
 /**
  * The year in three dimensions: the poster's 53 x 7 grid as a field of 365 small rounded blocks in
  * perspective (one InstancedMesh, one draw call). As the section scrolls in, each week's blocks rise
- * to their day's tonnage, the early weeks first, and one white light travels along the weeks with the
+ * to their day's tonnage, the early weeks first, and one light of heat travels along the weeks with the
  * scroll, pooling on the ground beneath it. A fine pointer drifts the camera a little.
  *
  * Loaded and gated exactly like the hero carve: three.js (and the year's data) are imported only
@@ -111,7 +111,7 @@ const FRAG_BLOCK = /* glsl */ `
   varying vec3 vNormal;
   varying float vLevel;
   varying float vUp;
-  const vec3 LIGHT = vec3(0.9, 0.93, 1.0);
+  const vec3 LIGHT = vec3(1.0, 0.341, 0.071);
   const vec3 WELL = vec3(0.075, 0.075, 0.085);
   void main() {
     vec3 n = normalize(vNormal);
@@ -120,12 +120,12 @@ const FRAG_BLOCK = /* glsl */ `
     float top = smoothstep(0.55, 0.95, n.y);
     float side = mix(0.16, 0.46, clamp(vUp, 0.0, 1.0));
     vec3 col = mix(WELL, vec3(1.0), a * mix(side, 1.0, top));
-    // The one light (cool white, like the chrome it lights).
+    // The one light: the heat (the app's journal is orange).
     vec3 L = uLight - vWorld;
     float d2 = dot(L, L);
     L *= inversesqrt(d2);
     float lam = max(dot(n, L), 0.0);
-    col += LIGHT * (lam * 0.85 + 0.12) * uLightOn * 1.1 / (1.0 + 0.11 * d2);
+    col += LIGHT * (lam * 0.85 + 0.12) * uLightOn * 1.8 / (1.0 + 0.11 * d2);
     // The far weeks fade into the void. Premultiplied: the canvas composites it over the page.
     float fog = 1.0 - smoothstep(uFog.x, uFog.y, distance(vWorld, uCam));
     col = min(col, vec3(1.0)) * fog;
@@ -146,7 +146,7 @@ const FRAG_GROUND = /* glsl */ `
   uniform vec3 uLight;
   uniform float uLightOn;
   varying vec3 vWorld;
-  const vec3 LIGHT = vec3(0.9, 0.93, 1.0);
+  const vec3 LIGHT = vec3(1.0, 0.341, 0.071);
   void main() {
     vec2 d = vWorld.xz - uLight.xz;
     float g = exp(-dot(d, d) * 0.07) * 0.3 * uLightOn;
@@ -330,6 +330,10 @@ async function boot(canvas: HTMLCanvasElement, stage: HTMLElement) {
   const frame = (now: number) => {
     raf = 0;
     if (dead) return;
+    if (needRead) {
+      needRead = false;
+      readScroll();
+    }
     const dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
     last = now;
     const kScroll = 1 - Math.exp(-dt / 0.14);
@@ -360,9 +364,11 @@ async function boot(canvas: HTMLCanvasElement, stage: HTMLElement) {
   };
   size();
 
+  // the scroll only flags; the frame reads layout once, inside requestAnimationFrame
+  let needRead = false;
   const onScroll = () => {
     if (!visible) return;
-    readScroll();
+    needRead = true;
     kick();
   };
   const fine = window.matchMedia("(pointer: fine)").matches;

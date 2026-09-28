@@ -2,7 +2,8 @@
    awekn.com, re-cast in the final brand 2026-09-28 (docs/BRAND_REVAMP_PLAN_2026-09-28.md).
    The A mark and the Awekn wordmark are brushed chrome on black, so the site is too: a deep void,
    graphite surfaces, chrome for the brand and the primary action, and WHITE LIGHT as the one lit
-   mark in any chart or room (it replaced the ember orange). Completion green stays (a finished set).
+   mark outside the app, and the app's own orange (--heat) wherever the app is shown. Completion green
+   stays (a finished set).
    Lexend for display (the open face closest to the wordmark's letters), Hanken Grotesk for reading
    (the app's face). Sentence case, tabular numerals, no em-dashes, no emojis.
    ══════════════════════════════════════════════════════════════════ */
@@ -31,7 +32,9 @@
   /* chrome: the brand's metal. A polished face (bright top left, a cool dark band, a bright return)
      for the mark, the wordmark and the primary action; a softer one for type; a rim for edges. */
   --chrome: linear-gradient(158deg, #FFFFFF 0%, #E4E6EA 18%, #F7F8FA 34%, #B4B7BF 54%, #DADCE1 70%, #9DA0A8 86%, #D5D7DC 100%);
-  --chrome-type: linear-gradient(180deg, #FFFFFF 0%, #F1F2F5 38%, #C3C5CC 78%, #9FA2AA 100%);
+  /* periodic per line (it tiles every 1lh): starts where it ends, so a descender that spills into the
+     next band is never a bright cut */
+  --chrome-type: linear-gradient(180deg, #B4B7BF 0%, #FFFFFF 14%, #F3F4F6 42%, #D2D4DA 76%, #B4B7BF 100%);
   --chrome-rim: linear-gradient(160deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.06) 42%, rgba(255, 255, 255, 0.16) 100%);
   --chrome-ink: #050506;
 
@@ -39,9 +42,14 @@
   --lit: #FFFFFF;
   --lit-glow: rgba(255, 255, 255, 0.2);
   --done: #30D158;
-  /* the old accent's name, kept as an alias so nothing can fall back to orange */
-  --ember: var(--lit);
-  --ember-glow: var(--lit-glow);
+  /* THE HEAT (docs/SHOWCASE_POLISH_PLAN_2026-09-28.md): the app's own orange. Chrome is the brand's
+     frame; inside the app (the phones, the live rooms) the heat is orange exactly as in the app, and
+     outside it only where effort happens (the forge's glow, a record, a live dot, one lit word). */
+  --heat: #FF5712;
+  --heat-hot: #FF7A3D;
+  --heat-glow: rgba(255, 87, 18, 0.24);
+  --ember: var(--heat);
+  --ember-glow: var(--heat-glow);
 
   /* legacy names the legal pages read */
   --text-dim: var(--text-4);
@@ -75,7 +83,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  overflow-x: clip;
 }
+html { overflow-x: hidden; overflow-x: clip; }
 a { color: inherit; }
 img, svg, video, canvas { display: block; max-width: 100%; }
 button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
@@ -89,6 +99,10 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   /* one band of light per line (not one across the block), so a three-line title is lit evenly */
   background-size: 100% 1lh;
   background-repeat: repeat-y;
+  /* background-clip:text only paints inside the box: give Lexend's deep descenders (0.23em) room,
+     and take the room back so the layout does not move */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

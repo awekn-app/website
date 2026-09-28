@@ -1,0 +1,102 @@
+/* An iPhone 17 Pro in CSS. Everything is in cqw (the phone's own width), so the proportions hold at
+   any size: screen 1206 x 2622, screen corners 13.7% of the screen width, the island 31% wide. */
+
+.phone {
+  container-type: inline-size;
+  position: relative;
+  margin: 0;
+  width: 100%;
+  isolation: isolate;
+}
+
+/* the light the screen throws on the wall behind it (static, painted once) */
+.phone::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 8% -18% 4%;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+.heat::before { opacity: 1; background: radial-gradient(closest-side, rgba(255, 87, 18, 0.28), rgba(255, 87, 18, 0.08) 55%, rgba(255, 87, 18, 0) 100%); }
+.white::before { opacity: 1; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03) 55%, rgba(255, 255, 255, 0) 100%); }
+
+/* brushed titanium: a thin band of lit metal all the way round */
+.rim {
+  position: relative;
+  padding: 0.95cqw;
+  border-radius: 16.6cqw;
+  background:
+    linear-gradient(145deg, #9A9CA2 0%, #3A3B3F 16%, #6F7176 34%, #2A2B2E 52%, #85878C 72%, #34353A 88%, #7C7E83 100%);
+  box-shadow:
+    inset 0 0 0 0.25cqw rgba(255, 255, 255, 0.14),
+    0 3cqw 7cqw rgba(0, 0, 0, 0.55),
+    0 10cqw 22cqw rgba(0, 0, 0, 0.6);
+}
+/* the buttons: action + volume on the left, power and camera control on the right */
+.rim::before,
+.rim::after {
+  content: "";
+  position: absolute;
+  width: 0.9cqw;
+  border-radius: 0.5cqw;
+  background: linear-gradient(90deg, #505257, #8D8F94 50%, #45474B);
+}
+.rim::before { left: -0.75cqw; top: 22%; height: 17%; box-shadow: 0 -8.5cqw 0 0 #55575C; }
+.rim::after { right: -0.75cqw; top: 26%; height: 11%; box-shadow: 0 31cqw 0 0 #55575C; }
+
+.bezel {
+  padding: 2.6cqw;
+  border-radius: 15.7cqw;
+  background: #030304;
+  box-shadow: inset 0 0 0 0.3cqw rgba(255, 255, 255, 0.05);
+}
+
+.screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12.8cqw;
+  background: #000;
+  aspect-ratio: 1206 / 2622;
+  /* a clean clip on every engine (Safari keeps rounded overflow on composited children with this) */
+  transform: translateZ(0);
+}
+.img { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* a stack of screens: all laid on top of each other, the active one faded in (opacity only) */
+.layer { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s var(--ease-out); }
+.layer.on { opacity: 1; }
+
+.island {
+  position: absolute;
+  left: 50%;
+  top: 1.35%;
+  width: 29%;
+  height: 3.95%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #000;
+  box-shadow: inset 0 0 0 0.25cqw rgba(255, 255, 255, 0.03);
+}
+/* the camera lens inside the island */
+.island::after {
+  content: "";
+  position: absolute;
+  right: 11%;
+  top: 50%;
+  width: 3.2cqw;
+  height: 3.2cqw;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #1d2a44 0%, #0a0d14 60%, #000 100%);
+}
+
+/* the glass: a soft diagonal reflection, strongest at the top-left corner */
+.glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 22%, rgba(255, 255, 255, 0) 38%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0) 30%);
+}

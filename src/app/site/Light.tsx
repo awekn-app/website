@@ -21,7 +21,9 @@ export function Light() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // off on touch screens: a viewport-sized fixed layer under a transparent body costs a phone memory
+    // and jumps with the address bar; the CSS hides the frame there too
+    if (window.matchMedia("(prefers-reduced-motion: reduce), (pointer: coarse)").matches) return;
 
     const body = document.body;
     const prevBg = body.style.background;

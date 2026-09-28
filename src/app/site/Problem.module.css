@@ -106,7 +106,7 @@
     padding-top: 40px;
     padding-bottom: 96px;
   }
-  .live .paper { will-change: transform, opacity, filter; }
+  .live .paper { will-change: transform, opacity; }
   .live .clean {
     position: absolute;
     inset: 0;

@@ -60,7 +60,7 @@ export function Chapter({ eyebrow, title, sub, id, as: Tag = "h2", className }: 
       <Tag id={id} className={s.title}>
         {lines.map((line, i) => (
           <span key={i} className={s.line} style={{ "--i": i } as CSSProperties}>
-            <span className={`${s.inner} chrome-type`}>{line}</span>
+            <span className={s.inner}><span className="chrome-type">{line}</span></span>
             {i < lines.length - 1 ? " " : null}
           </span>
         ))}

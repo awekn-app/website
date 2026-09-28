@@ -5,7 +5,7 @@ import { Room, roomStyles as r, useReducedMotion, useRoomLive } from "./Room";
 import s from "./RoomFuel.module.css";
 
 /**
- * Fuel: tap real foods and the day fills in. The ring (the one lit status in this room) closes
+ * Fuel: tap real foods and the day fills in. The ring (the one lit status in this room, in the heat) closes
  * on 2,400 kcal, three silver bars fill toward 160 P / 260 C / 70 F, and the last four foods sit
  * in a list with their own remove, so a mis-tap is one tap to undo. Breakfast is pre-logged so
  * the ring is never empty at first sight.

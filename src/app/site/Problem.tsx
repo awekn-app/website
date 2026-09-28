@@ -22,7 +22,7 @@ const MOTION = "(prefers-reduced-motion: no-preference) and (min-height: 521px)"
 /**
  * THE PROBLEM (story beat 1). A lifter's week lives in scraps: a notes app, a spreadsheet row, a
  * guess. The section holds on screen in a sticky stage while the scroll crosses each scrap out and
- * lets it fall away, blurred, until one clean line is left. The server render is the finished
+ * lets it fall away (transform and opacity only: no per-frame blur, which phones re-rasterise), until one clean line is left. The server render is the finished
  * state (scraps struck through, the clean line showing), which is also what reduced motion and
  * no-JS see; GSAP only takes over inside the motion query and reverts to that state on cleanup.
  */
@@ -59,13 +59,13 @@ export function Problem() {
         if (text) tl.fromTo(text, { opacity: 1 }, { opacity: 0.5, duration: 0.06 }, at);
         tl.fromTo(
           paper,
-          { x: 0, y: 0, rotation: 0, opacity: 1, filter: "blur(0px)" },
+          { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 },
           {
             x: side * (10 + i * 2),
             y: 72 + i * 6,
             rotation: side * (6 + (i % 3) * 3),
+            scale: 0.94,
             opacity: 0,
-            filter: "blur(8px)",
             duration: 0.13,
             ease: "power2.in",
           },
@@ -76,8 +76,8 @@ export function Problem() {
       phrases.forEach((phrase, i) => {
         tl.fromTo(
           phrase,
-          { opacity: 0, y: 26, filter: "blur(10px)" },
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.12, ease: "power2.out" },
+          { opacity: 0, y: 26 },
+          { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" },
           0.62 + i * 0.06,
         );
       });

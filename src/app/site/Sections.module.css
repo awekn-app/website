@@ -75,7 +75,9 @@
 .priceNote { font-size: 15px; color: var(--text-4); }
 
 /* download */
-.download { align-items: flex-start; padding-top: 120px; padding-bottom: 120px; gap: 26px; }
+/* the close: the wall of screens behind the line */
+.downloadRoom { position: relative; }
+.downloadLine { font-size: 18px; color: var(--text-2); max-width: 30ch; }
 .downloadMark { width: 92px; height: auto; filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.1)); }
 @media (min-width: 900px) { .downloadMark { width: 120px; } }
 .big { font-family: var(--font-display); font-size: clamp(48px, 13vw, 120px); line-height: 1.02; font-weight: 600; letter-spacing: -0.045em; }
@@ -91,7 +93,7 @@
   gap: 18px;
 }
 .footLinks { display: flex; flex-wrap: wrap; gap: 8px 22px; }
-.footLinks a { color: var(--text-3); font-size: 15px; text-decoration: none; min-height: 32px; display: inline-flex; align-items: center; }
+.footLinks a { color: var(--text-3); font-size: 15px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
 .footLinks a:hover { color: var(--text); }
 .legal { font-size: 12px; color: var(--text-5); line-height: 1.5; max-width: 70ch; }
 
@@ -108,20 +110,29 @@
 .giantSheen {
   position: absolute;
   inset: 0 0 max(8px, env(safe-area-inset-bottom)) 0;
-  background: linear-gradient(105deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0) 62%) no-repeat;
-  background-size: 60% 100%;
-  background-position: -120% 0;
+  overflow: hidden;
   -webkit-mask: url(/brand/awekn-wordmark.svg) center / 100% 100% no-repeat;
   mask: url(/brand/awekn-wordmark.svg) center / 100% 100% no-repeat;
   pointer-events: none;
 }
+/* the light itself: a band moved by transform (composited), never a repainted background-position */
+.giantSheen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  background: linear-gradient(105deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0) 80%);
+  transform: translate3d(-110%, 0, 0);
+}
 @media (prefers-reduced-motion: no-preference) {
-  .giantSheen { animation: pass 7s var(--ease-out) 1s infinite; }
+  .giantSheen::before { animation: pass 7s var(--ease-out) 1s infinite; }
   @supports (animation-timeline: view()) {
-    .giantSheen { animation: pass linear both; animation-timeline: view(); animation-range: entry 10% cover 60%; }
+    .giantSheen::before { animation: pass linear both; animation-timeline: view(); animation-range: entry 10% cover 60%; }
   }
 }
 @keyframes pass {
-  0% { background-position: -120% 0; }
-  40%, 100% { background-position: 220% 0; }
+  0% { transform: translate3d(-110%, 0, 0); }
+  40%, 100% { transform: translate3d(260%, 0, 0); }
 }

@@ -7,6 +7,8 @@ import { StickyBar } from "./site/StickyBar";
 import { Year } from "./site/Year";
 import { Progress } from "./site/Progress";
 import { Light } from "./site/Light";
+import { AppTour } from "./site/AppTour";
+import { Band } from "./site/ShowcaseArt";
 
 /**
  * awekn.com, rebuilt from scratch (2026-09-27, docs/REBUILD_2026_PLAN.md). One idea per screen:
@@ -15,6 +17,8 @@ import { Light } from "./site/Light";
  * v2 (docs/WEBSITE_V2_CINEMATIC_PLAN.md): the arc as an instrument, eleven rooms in three chapters,
  * the year in three.js, a scroll progress hairline and one travelling light.
  * Brand revamp (docs/BRAND_REVAMP_PLAN_2026-09-28.md): chrome on black, the A mark forged in the hero.
+ * Showcase (docs/SHOWCASE_POLISH_PLAN_2026-09-28.md): real app screens in CSS iPhones (the hero, the
+ * tour, the closing wall), the band, and the app's orange as the heat.
  */
 export default function Home() {
   return (
@@ -23,7 +27,9 @@ export default function Home() {
       <Progress />
       <Hero />
       <main>
+        <Band />
         <Problem />
+        <AppTour />
         <Arc />
         <Rooms />
         <Year />

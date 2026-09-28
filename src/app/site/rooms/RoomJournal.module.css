@@ -50,10 +50,11 @@ button.cell:active { transform: scale(0.96); }
 
 /* the four steps of light (the app's level() buckets 1 to 4), white instead of the app's accent */
 .l0 { background: var(--well); }
-.l1 { background: rgba(255, 255, 255, 0.2); }
-.l2 { background: rgba(255, 255, 255, 0.38); }
-.l3 { background: rgba(255, 255, 255, 0.62); }
-.l4 { background: rgba(255, 255, 255, 0.92); }
+/* the app's journal field: four steps of heat */
+.l1 { background: rgba(255, 87, 18, 0.24); }
+.l2 { background: rgba(255, 87, 18, 0.45); }
+.l3 { background: rgba(255, 87, 18, 0.7); }
+.l4 { background: var(--heat); }
 
 /* today wears a ring, as in the app */
 .today { outline: 1.5px solid var(--text); outline-offset: 1.5px; }

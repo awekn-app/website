@@ -58,8 +58,6 @@
   border-radius: 22px;
   border: 1px solid var(--rim-strong);
   background: var(--glass);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
   overflow: hidden;
 }
 .half {

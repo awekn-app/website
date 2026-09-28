@@ -431,6 +431,9 @@ export function Arc() {
       <div className={s.track} ref={trackRef}>
         <div className={s.stage}>
           <div className={s.metal} ref={metalRef} aria-hidden="true">
+            {/* dull metal under polished chrome: the scroll only crossfades them (opacity), never a
+                per-frame filter, which a phone would have to re-rasterise every frame */}
+            <Mark tone="current" className={s.metalDull} />
             <Mark className={s.metalMark} />
           </div>
 

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import s from "./Progress.module.css";
 
 /**
- * The reading hairline: 2 px at the very top, silver, with a white tip at its head. It appears once
+ * The reading hairline: 2 px at the very top, silver, with a tip of heat at its head. It appears once
  * the hero has scrolled away and fills from there to the end of the page. One passive scroll
  * listener and one requestAnimationFrame write a single custom property; no React state per frame,
  * and the bar and its tip move by transform only (scaleX for the fill, translateX for the tip, so

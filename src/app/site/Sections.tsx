@@ -1,6 +1,7 @@
 import { StoreButton } from "./StoreButton";
 import { SUPPORT_EMAIL, INSTAGRAM } from "../lib/links";
 import { Mark, Wordmark } from "./brand/Brand";
+import { Wall } from "./ShowcaseArt";
 import s from "./Sections.module.css";
 
 /** The rest of the trackers, told as a sequence (a card grid reads as a spec sheet). */
@@ -95,10 +96,13 @@ export function Pricing() {
 
 export function Download() {
   return (
-    <section className={`${s.section} ${s.download}`} id="download" aria-labelledby="download-title">
-      <Mark className={s.downloadMark} />
-      <h2 className={`${s.big} chrome-type`} id="download-title">Start carving.</h2>
-      <StoreButton size="lg" showAndroid />
+    <section className={s.downloadRoom} id="download" aria-labelledby="download-title">
+      <Wall>
+        <Mark className={s.downloadMark} />
+        <h2 className={`${s.big} chrome-type`} id="download-title">Start carving.</h2>
+        <p className={s.downloadLine}>Everything above, in your pocket, today.</p>
+        <StoreButton size="lg" showAndroid />
+      </Wall>
     </section>
   );
 }

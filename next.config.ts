@@ -20,7 +20,9 @@ const csp = [
   "base-uri 'self'",
   "form-action 'self'",
   "object-src 'none'",
-  "upgrade-insecure-requests",
+  // production only: Safari applies it to http://localhost too (Chrome exempts localhost), which
+  // upgraded the dev server's CSS to https and left the page unstyled in the iOS Simulator
+  ...(isDev ? [] : ["upgrade-insecure-requests"]),
 ].join("; ");
 
 const securityHeaders = [
@@ -34,6 +36,12 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  // the app screens (public/app, real captures at 3x): AVIF first, WebP after, at 90 so the UI's
+  // hairlines and small type stay crisp on a retina phone
+  images: {
+    formats: ["image/avif", "image/webp"],
+    qualities: [75, 90],
+  },
   // Pin the workspace root to THIS folder. A stray package-lock.json in the
   // home dir made Turbopack infer /Users/areeb as the root, which crashed HMR
   // in a reload loop ("Resource path needs to be on project filesystem").
