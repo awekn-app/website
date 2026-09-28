@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import s from "./Light.module.css";
 
 /**
- * One travelling source. A very soft ember glow, fixed behind the content, that drifts down the
+ * One travelling source. A very soft white glow (the light that falls on the chrome), fixed behind the content, that drifts down the
  * viewport (and sways a little) as the story is read, so each section feels lit by the same light
  * passing through. It stays dark over the hero (the hero has its own carve light) and fades in
  * after it. Transform and opacity only, one passive scroll listener, one requestAnimationFrame.

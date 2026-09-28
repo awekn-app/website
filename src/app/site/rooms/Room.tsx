@@ -83,7 +83,7 @@ export function Room({
         <p className={s.eyebrow}>
           {index} · {name}
         </p>
-        <h2 className={s.title} id={`${id}-title`}>
+        <h2 className={`${s.title} chrome-type`} id={`${id}-title`}>
           {title}
         </h2>
         <p className={s.sub}>{sub}</p>

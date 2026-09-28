@@ -1,4 +1,4 @@
-/* The rest room: the ring, the nudges, the next set (ember only on Start; green only on the tick). */
+/* The rest room: the ring, the nudges, the next set (chrome only on Start; green only on the tick). */
 
 .paused *, .paused *::before, .paused *::after { animation-play-state: paused !important; }
 

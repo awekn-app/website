@@ -23,10 +23,11 @@
 .head { display: flex; flex-direction: column; gap: 12px; }
 .eyebrow { font-size: 14px; font-weight: 600; color: var(--text-5); }
 .title {
+  font-family: var(--font-display);
   font-size: clamp(34px, 8vw, 64px);
-  line-height: 1.04;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  line-height: 1.06;
+  font-weight: 600;
+  letter-spacing: -0.035em;
   max-width: 16ch;
   text-wrap: balance;
 }
@@ -82,10 +83,11 @@
 /* ── the one clean line ── */
 .clean { margin-top: 36px; display: flex; flex-direction: column; gap: 12px; }
 .line {
+  font-family: var(--font-display);
   font-size: clamp(30px, 7.4vw, 56px);
-  line-height: 1.06;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.035em;
   color: var(--text);
 }
 .phrase { display: inline-block; }

@@ -1,10 +1,10 @@
 /* The arc (story beat 2): the instrument. The resting state is the finished season: every line
-   drawn, every annotation shown, the statue crisp. `.live` is added by the component only inside
+   drawn, every annotation shown, the mark polished. `.live` is added by the component only inside
    the motion query, where the scroll moves the playhead through the 84 days. */
 
 .arc {
   position: relative;
-  /* clip, not hidden: keeps the statue from widening the page without breaking sticky */
+  /* clip, not hidden: keeps the mark from widening the page without breaking sticky */
   overflow-x: clip;
 }
 
@@ -21,33 +21,37 @@
   gap: 26px;
 }
 
-/* ── the statue: one element, opacity + filter + transform read from --p (0 blurred, 1 stone) ── */
-.statue {
+/* ── the mark: one element, opacity + filter + transform read from --p (0 dull and soft, 1 chrome):
+   twelve weeks of work polish the metal ── */
+.metal {
   --p: 1;
   position: absolute;
   z-index: -1;
-  top: 6%;
-  right: -18%;
-  width: min(80vw, 420px);
-  aspect-ratio: 580 / 950;
+  top: 4%;
+  right: -22%;
+  width: min(92vw, 560px);
+  aspect-ratio: 964.9 / 754.5;
   pointer-events: none;
-  opacity: calc(0.05 + var(--p) * 0.12);
-  filter: grayscale(1) brightness(0.75) blur(calc((1 - var(--p)) * 14px));
+  opacity: calc(0.05 + var(--p) * 0.11);
+  filter: brightness(calc(0.45 + var(--p) * 0.55)) blur(calc((1 - var(--p)) * 14px));
   transform: translateZ(0) scale(calc(1.06 - var(--p) * 0.06));
-  -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent 92%);
-  mask-image: linear-gradient(180deg, #000 45%, transparent 92%);
+  -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent 96%);
+  mask-image: linear-gradient(180deg, #000 45%, transparent 96%);
 }
-.statueImg { width: 100%; height: auto; }
+.metalMark { width: 100%; height: auto; }
 
 /* ── the words ── */
 .copy { position: relative; display: flex; flex-direction: column; gap: 20px; }
 .words { display: flex; flex-direction: column; gap: 10px; }
 .eyebrow { font-size: 14px; font-weight: 600; color: var(--text-5); }
 .title {
+  font-family: var(--font-display);
   font-size: clamp(34px, 8vw, 64px);
-  line-height: 1.04;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  line-height: 1.06;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  width: fit-content;
+  text-wrap: balance;
 }
 .sub { font-size: 17px; line-height: 1.45; color: var(--text-3); max-width: 36ch; }
 
@@ -255,7 +259,7 @@
   .tracks { flex: 1 1 0; min-height: 0; gap: 10px; }
   .row { flex: var(--g) 1 0px; }
   .body { flex: 1 1 0; height: auto; min-height: var(--minh); }
-  .live .statue { will-change: filter, opacity, transform; }
+  .live .metal { will-change: filter, opacity, transform; }
   .live .playhead { opacity: 1; }
 }
 
@@ -279,12 +283,11 @@
     align-items: center;
     column-gap: 64px;
   }
-  .statue {
-    top: 4%;
-    right: 2%;
-    width: auto;
-    height: 90%;
-    opacity: calc(0.06 + var(--p) * 0.16);
+  .metal {
+    top: 10%;
+    right: -8%;
+    width: min(56vw, 820px);
+    opacity: calc(0.05 + var(--p) * 0.13);
   }
   .copy { gap: 30px; }
   .sub { font-size: 19px; }

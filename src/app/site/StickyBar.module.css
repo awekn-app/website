@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 8px 8px 20px;
+  padding: 8px 8px 8px 16px;
   border-radius: var(--radius-pill);
   background: rgba(28, 28, 31, 0.72);
   border: 1px solid var(--rim-strong);
@@ -18,15 +18,17 @@
   transition: transform 0.55s var(--ease-emphatic);
 }
 .on { transform: translate(-50%, 0); }
-.mark { font-size: 17px; font-weight: 300; letter-spacing: 2.4px; color: var(--silver); }
+/* the A mark, in chrome, where the wordmark used to be */
+.mark { width: 34px; height: auto; flex: 0 0 34px; }
 .line { flex: 1; font-size: 14px; color: var(--text-4); }
 .cta {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px;
-  border-radius: var(--radius-pill); background: var(--ember); color: #fff;
+  border-radius: var(--radius-pill); background: var(--chrome); color: var(--chrome-ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
   font-size: 15px; font-weight: 700; text-decoration: none;
   transition: transform 0.2s var(--ease-out);
 }
 .cta:active { transform: scale(0.97); }
 
-/* the narrowest phones: the key and the wordmark only */
+/* the narrowest phones: the mark and the key only */
 @media (max-width: 350px) { .line { display: none; } }

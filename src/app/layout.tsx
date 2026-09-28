@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Hanken_Grotesk } from "next/font/google";
+import { Hanken_Grotesk, Lexend } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import RecoveryRedirect from "./components/RecoveryRedirect";
@@ -12,6 +12,14 @@ const hanken = Hanken_Grotesk({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-hanken",
+  display: "swap",
+});
+
+// The display face (docs/BRAND_REVAMP_PLAN_2026-09-28.md): the open face closest to the wordmark's own
+// letters (wide, flat-cut w, a level e). Headlines only; the reading text stays Hanken like the app.
+const lexend = Lexend({
+  subsets: ["latin"],
+  variable: "--font-lexend",
   display: "swap",
 });
 
@@ -40,7 +48,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0B0D",
+  themeColor: "#050506",
   colorScheme: "dark",
 };
 
@@ -65,7 +73,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={hanken.variable}>
+    <html lang="en" className={`${hanken.variable} ${lexend.variable}`}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>

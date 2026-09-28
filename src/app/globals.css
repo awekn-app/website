@@ -1,35 +1,47 @@
 /* ══════════════════════════════════════════════════════════════════
-   awekn.com, rebuilt 2026-09-27 (docs/REBUILD_2026_PLAN.md)
-   Matches the app's EMBER system: an obsidian void, graphite surfaces, white numbers, grey
-   secondary, and ONE accent, ember #FF5712 (the primary action, the record moment, one status).
-   Hanken Grotesk everywhere, sentence case, tabular numerals, no em-dashes, no emojis.
+   awekn.com, re-cast in the final brand 2026-09-28 (docs/BRAND_REVAMP_PLAN_2026-09-28.md).
+   The A mark and the Awekn wordmark are brushed chrome on black, so the site is too: a deep void,
+   graphite surfaces, chrome for the brand and the primary action, and WHITE LIGHT as the one lit
+   mark in any chart or room (it replaced the ember orange). Completion green stays (a finished set).
+   Lexend for display (the open face closest to the wordmark's letters), Hanken Grotesk for reading
+   (the app's face). Sentence case, tabular numerals, no em-dashes, no emojis.
    ══════════════════════════════════════════════════════════════════ */
 
 :root {
   /* ground */
-  --void: #0B0B0D;
-  --bg: #0B0B0D;
-  --surface: #141416;
-  --surface-top: #1C1C1F;
-  --well: #0E0E10;
+  --void: #050506;
+  --bg: #050506;
+  --surface: #101012;
+  --surface-top: #18181B;
+  --well: #0A0A0B;
   --rim: rgba(255, 255, 255, 0.08);
-  --rim-strong: rgba(255, 255, 255, 0.14);
+  --rim-strong: rgba(255, 255, 255, 0.15);
   --glass: rgba(255, 255, 255, 0.06);
   --hairline: rgba(255, 255, 255, 0.07);
 
   /* ink */
   --text: #F5F5F7;
-  --text-2: #C7C7CC;
-  --text-3: #A1A1A6;
-  --text-4: #8E8E93;
-  --text-5: #6E6E73;
+  --text-2: #C7C8CD;
+  --text-3: #A1A2A8;
+  --text-4: #8E8F96;
+  --text-5: #6E6F76;
   --silver: #E9EAF0;
   --white: #FFFFFF;
 
-  /* the one accent, and the completion green (a completed set only) */
-  --ember: #FF5712;
-  --ember-glow: rgba(255, 87, 18, 0.22);
+  /* chrome: the brand's metal. A polished face (bright top left, a cool dark band, a bright return)
+     for the mark, the wordmark and the primary action; a softer one for type; a rim for edges. */
+  --chrome: linear-gradient(158deg, #FFFFFF 0%, #E4E6EA 18%, #F7F8FA 34%, #B4B7BF 54%, #DADCE1 70%, #9DA0A8 86%, #D5D7DC 100%);
+  --chrome-type: linear-gradient(180deg, #FFFFFF 0%, #F1F2F5 38%, #C3C5CC 78%, #9FA2AA 100%);
+  --chrome-rim: linear-gradient(160deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.06) 42%, rgba(255, 255, 255, 0.16) 100%);
+  --chrome-ink: #050506;
+
+  /* the one lit mark (white light), and the completion green (a completed set only) */
+  --lit: #FFFFFF;
+  --lit-glow: rgba(255, 255, 255, 0.2);
   --done: #30D158;
+  /* the old accent's name, kept as an alias so nothing can fall back to orange */
+  --ember: var(--lit);
+  --ember-glow: var(--lit-glow);
 
   /* legacy names the legal pages read */
   --text-dim: var(--text-4);
@@ -44,12 +56,13 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-emphatic: cubic-bezier(0.16, 1, 0.3, 1);
   --font-sans: var(--font-hanken), "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-lexend), "Lexend", var(--font-sans);
 }
 
 @media (min-width: 900px) { :root { --gutter: 48px; } }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-*::selection { background: rgba(255, 87, 18, 0.28); color: #fff; }
+*::selection { background: rgba(255, 255, 255, 0.24); color: #fff; }
 
 html { background: var(--bg); color-scheme: dark; -webkit-text-size-adjust: 100%; }
 body {
@@ -67,7 +80,20 @@ a { color: inherit; }
 img, svg, video, canvas { display: block; max-width: 100%; }
 button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
 .num { font-variant-numeric: tabular-nums; }
-:focus-visible { outline: 2px solid var(--ember); outline-offset: 3px; border-radius: 6px; }
+:focus-visible { outline: 2px solid var(--lit); outline-offset: 3px; border-radius: 6px; }
+
+/* display type: Lexend, set tight, lit from above like the wordmark's metal */
+.display { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.035em; }
+.chrome-type {
+  background: var(--chrome-type);
+  /* one band of light per line (not one across the block), so a three-line title is lit evenly */
+  background-size: 100% 1lh;
+  background-repeat: repeat-y;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
 
 /* visually hidden, still read aloud */
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

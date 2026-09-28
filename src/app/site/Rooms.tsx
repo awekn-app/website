@@ -23,23 +23,23 @@ export function Rooms() {
     <div id="try">
       <header className={s.intro}>
         <p className={s.eyebrow}>The rooms</p>
-        <h2 className={s.title}>Try it here.</h2>
+        <h2 className={`${s.title} chrome-type`}>Try it here.</h2>
         <p className={s.sub}>Eleven small rooms, each running the app&apos;s own maths. Tap, drag, hold.</p>
       </header>
 
-      <Chapter id="chapter-train" eyebrow="Chapter one" title={["The work", "in the room."]} sub="Every set, every plate, every rest, counted the way a coach would." />
+      <Chapter className={s.chapter} id="chapter-train" eyebrow="Chapter one" title={["The work", "in the room."]} sub="Every set, every plate, every rest, counted the way a coach would." />
       <RoomSet />
       <RoomPlates />
       <RoomRest index="03" />
       <RoomMuscles index="04" flip />
 
-      <Chapter id="chapter-body" eyebrow="Chapter two" title={["What you eat,", "what you weigh."]} sub="Fuel, the scale, the steps and the miles, read as trends, not guesses." />
+      <Chapter className={s.chapter} id="chapter-body" eyebrow="Chapter two" title={["What you eat,", "what you weigh."]} sub="Fuel, the scale, the steps and the miles, read as trends, not guesses." />
       <RoomFuel />
       <RoomScale />
       <RoomSteps />
       <RoomRoute index="08" flip />
 
-      <Chapter id="chapter-progress" eyebrow="Chapter three" title={["Proof,", "day after day."]} sub="The days you showed up, the season in one line, and the platform on meet day." />
+      <Chapter className={s.chapter} id="chapter-progress" eyebrow="Chapter three" title={["Proof,", "day after day."]} sub="The days you showed up, the season in one line, and the platform on meet day." />
       <RoomJournal />
       <RoomClimb />
       <RoomMeet index="11" />

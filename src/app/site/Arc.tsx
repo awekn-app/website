@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { Mark } from "./brand/Brand";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -221,22 +221,22 @@ function Notes({ id }: { id: TrackId }) {
  * (arc/season.ts, the app's own trend and e1RM maths) drawn as four tracks on one time axis:
  * bodyweight, strength, work and fuel. A tall track holds a sticky stage while the scroll moves a
  * playhead through the 84 days: every line draws exactly to it, each track lights its value there,
- * annotations arrive on their day and the readout reads it, while the statue behind sharpens.
+ * annotations arrive on their day and the readout reads it, while the A mark behind is polished from dull metal to chrome.
  * Every frame writes to attributes, text nodes and CSS variables, never React state. The server
  * render is the finished season, which is also what reduced motion and no-JS see.
  */
 export function Arc() {
   const rootRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const statueRef = useRef<HTMLDivElement>(null);
+  const metalRef = useRef<HTMLDivElement>(null);
   const tracksRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const root = rootRef.current;
     const track = trackRef.current;
-    const statue = statueRef.current;
+    const metal = metalRef.current;
     const tracksEl = tracksRef.current;
-    if (!root || !track || !statue || !tracksEl) return;
+    if (!root || !track || !metal || !tracksEl) return;
 
     const svg = {} as Record<TrackId, SVGSVGElement>;
     root.querySelectorAll<SVGSVGElement>("svg[data-track]").forEach((el) => {
@@ -324,7 +324,7 @@ export function Arc() {
           path.style.strokeDashoffset = (len > 0.01 ? p.total - len : p.total + 4).toFixed(2);
         }
         tracksEl.style.setProperty("--t", (t / L).toFixed(4));
-        statue.style.setProperty("--p", (t / L).toFixed(3));
+        metal.style.setProperty("--p", (t / L).toFixed(3));
       }
 
       // each track's value at the playhead, lit on its line
@@ -403,7 +403,7 @@ export function Arc() {
           path.style.removeProperty("stroke-dashoffset");
         }
         tracksEl.style.removeProperty("--t");
-        statue.style.removeProperty("--p");
+        metal.style.removeProperty("--p");
         lastDay = -1;
         render(L);
       };
@@ -430,21 +430,14 @@ export function Arc() {
     <section className={s.arc} id="arc" ref={rootRef} aria-labelledby="arc-title">
       <div className={s.track} ref={trackRef}>
         <div className={s.stage}>
-          <div className={s.statue} ref={statueRef} aria-hidden="true">
-            <Image
-              src="/statue-atlas-cut.png"
-              alt=""
-              width={580}
-              height={950}
-              sizes="(min-width: 900px) 520px, 78vw"
-              className={s.statueImg}
-            />
+          <div className={s.metal} ref={metalRef} aria-hidden="true">
+            <Mark className={s.metalMark} />
           </div>
 
           <div className={s.copy}>
             <div className={s.words}>
               <p className={s.eyebrow}>The arc</p>
-              <h2 className={s.title} id="arc-title">Day 1 to week 12.</h2>
+              <h2 className={`${s.title} chrome-type`} id="arc-title">Day 1 to week 12.</h2>
               <p className={s.sub}>
                 Log it every day and twelve weeks become one instrument: the scale drifting down, the bar going up, the work and the food that did it.
               </p>

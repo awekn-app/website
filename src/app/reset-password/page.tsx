@@ -181,8 +181,8 @@ const S: Record<string, React.CSSProperties> = {
   showBtn: { background: 'none', border: 'none', color: 'var(--text-dim, #8E8E93)', fontSize: 12.5, cursor: 'pointer', padding: '2px 0', marginBottom: 18, textAlign: 'left', display: 'block' },
   cta: {
     display: 'block', width: '100%', boxSizing: 'border-box', padding: '16px 18px', borderRadius: 999, marginTop: 6,
-    background: 'var(--ember, #FF5712)',
-    color: '#FFFFFF', fontSize: 16, fontWeight: 700, border: 'none', cursor: 'pointer', textDecoration: 'none', textAlign: 'center',
+    background: 'var(--chrome, #E9EAF0)',
+    color: 'var(--chrome-ink, #050506)', fontSize: 16, fontWeight: 700, border: 'none', cursor: 'pointer', textDecoration: 'none', textAlign: 'center',
   },
   ghost: { display: 'inline-block', marginTop: 8, color: 'var(--champagne, #E9EAF0)', fontSize: 14, textDecoration: 'none', borderBottom: '1px solid var(--border, rgba(255,255,255,0.2))', paddingBottom: 2 },
   check: { fontSize: 40, color: 'var(--done, #30D158)', marginBottom: 8, lineHeight: 1 },

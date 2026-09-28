@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
+import { Mark } from "./brand/Brand";
 import s from "./Chapter.module.css";
 
 type Props = {
@@ -17,7 +18,8 @@ type Props = {
 
 /**
  * A chapter opener: an eyebrow, a big title that reveals line by line (each line rises out of its
- * own mask as it enters), a thin ember rule that draws under it, and an optional line of sub.
+ * own mask as it enters), a thin chrome rule that draws under it (the A's crossbar), the mark stamped before the eyebrow like a
+ * hallmark on silver, and an optional line of sub.
  *
  * The server renders plain, readable text, and that is also the finished state. Where the browser
  * has scroll-driven animations (animation-timeline: view()), CSS alone scrubs the reveal to the
@@ -51,11 +53,14 @@ export function Chapter({ eyebrow, title, sub, id, as: Tag = "h2", className }: 
 
   return (
     <header ref={ref} className={className ? `${s.chapter} ${className}` : s.chapter}>
-      <p className={s.eyebrow}>{eyebrow}</p>
+      <p className={s.eyebrow}>
+        <Mark tone="current" className={s.hallmark} />
+        {eyebrow}
+      </p>
       <Tag id={id} className={s.title}>
         {lines.map((line, i) => (
           <span key={i} className={s.line} style={{ "--i": i } as CSSProperties}>
-            <span className={s.inner}>{line}</span>
+            <span className={`${s.inner} chrome-type`}>{line}</span>
             {i < lines.length - 1 ? " " : null}
           </span>
         ))}

@@ -106,7 +106,7 @@ export function Problem() {
         <div className={s.stage}>
           <header className={s.head}>
             <p className={s.eyebrow}>The problem</p>
-            <h2 className={s.title} id="problem-title">A notes app, a spreadsheet and a guess.</h2>
+            <h2 className={`${s.title} chrome-type`} id="problem-title">A notes app, a spreadsheet and a guess.</h2>
           </header>
 
           <div className={s.board}>

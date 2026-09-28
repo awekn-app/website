@@ -13,7 +13,8 @@ import { Light } from "./site/Light";
  * the carver, the problem, the arc from day 1 to week 12, the rooms you can try, everything else,
  * the two disciplines, the vows, pricing, and the download.
  * v2 (docs/WEBSITE_V2_CINEMATIC_PLAN.md): the arc as an instrument, eleven rooms in three chapters,
- * the year in three.js, a scroll progress hairline and one travelling ember light.
+ * the year in three.js, a scroll progress hairline and one travelling light.
+ * Brand revamp (docs/BRAND_REVAMP_PLAN_2026-09-28.md): chrome on black, the A mark forged in the hero.
  */
 export default function Home() {
   return (

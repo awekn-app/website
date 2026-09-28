@@ -19,10 +19,10 @@
   border-radius: 50%;
   background: radial-gradient(
     closest-side,
-    rgba(255, 87, 18, 0.085),
-    rgba(255, 87, 18, 0.045) 38%,
-    rgba(255, 87, 18, 0.014) 68%,
-    rgba(255, 87, 18, 0) 100%
+    rgba(235, 238, 245, 0.06),
+    rgba(235, 238, 245, 0.03) 38%,
+    rgba(235, 238, 245, 0.01) 68%,
+    rgba(235, 238, 245, 0) 100%
   );
   opacity: 0;
   transform: translate3d(50vw, 15vh, 0);

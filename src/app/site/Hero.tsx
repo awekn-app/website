@@ -1,19 +1,21 @@
-import Image from "next/image";
 import { StoreButton } from "./StoreButton";
-import { HeroCarve } from "./HeroCarve";
+import { Forge } from "./Forge";
+import { Wordmark } from "./brand/Brand";
 import s from "./Hero.module.css";
 
 /**
- * THE CARVER. The statue is the first thing painted (the LCP image, a plain <img> through
- * next/image with priority), rising out of the void in an ember light. The words sit on the dark
- * below it on a phone and beside it on a wide screen. Motion is CSS only here: the WebGL carve
- * (site/HeroCarve) is layered on top after the page is interactive, never blocking the paint.
+ * THE FORGE (docs/BRAND_REVAMP_PLAN_2026-09-28.md). The first thing on the page is the brand itself:
+ * the A mark in chrome, its two pieces locking together under one light (site/Forge), the chrome
+ * wordmark in the nav, and the line the whole product stands on. On a phone the mark sits above the
+ * words; on a wide screen, beside them. The SVG is the first paint (no image to wait for).
  */
 export function Hero() {
   return (
     <header className={s.hero} id="top">
       <nav className={s.nav} aria-label="Main">
-        <a href="#top" className={s.wordmark} aria-label="Awekn, back to the top">awekn</a>
+        <a href="#top" className={s.brand} aria-label="Awekn, back to the top">
+          <Wordmark className={s.wordmark} />
+        </a>
         <div className={s.links}>
           <a href="#try" className={s.link}>Try it</a>
           <a href="#everything" className={s.link}>Everything</a>
@@ -22,35 +24,24 @@ export function Hero() {
         </div>
       </nav>
 
-      <div className={s.stage}>
-        <div className={s.glow} aria-hidden="true" />
-        <div className={s.figure}>
-          <Image
-            src="/statue-atlas-cut.png"
-            alt="Atlas, carved in stone"
-            width={580}
-            height={950}
-            priority
-            sizes="(min-width: 900px) 520px, 82vw"
-            className={s.statue}
-          />
-          <HeroCarve />
+      <div className={s.body}>
+        <div className={s.stage}>
+          <Forge />
         </div>
-        <div className={s.fade} aria-hidden="true" />
-      </div>
 
-      <div className={s.copy}>
-        <p className={s.eyebrow}>For people who lift</p>
-        <h1 className={s.title}>
-          <span className={s.line}>Carved,</span>
-          <span className={s.line}>not given.</span>
-        </h1>
-        <p className={s.sub}>
-          Every set, every meal, every weigh-in, in one place that shows you the shape you are making.
-        </p>
-        <div className={s.actions}>
-          <StoreButton size="lg" />
-          <p className={s.note}>Free to start. Pro is 7 days free.</p>
+        <div className={s.copy}>
+          <p className={s.eyebrow}>For people who lift</p>
+          <h1 className={`${s.title} display`}>
+            <span className={`${s.line} chrome-type`}>Carved,</span>
+            <span className={`${s.line} chrome-type`}>not given.</span>
+          </h1>
+          <p className={s.sub}>
+            Every set, every meal, every weigh-in, in one place that shows you the shape you are making.
+          </p>
+          <div className={s.actions}>
+            <StoreButton size="lg" />
+            <p className={s.note}>Free to start. Pro is 7 days free.</p>
+          </div>
         </div>
       </div>
 

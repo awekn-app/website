@@ -17,7 +17,7 @@
 
 .head { display: flex; flex-direction: column; gap: 10px; max-width: 520px; }
 .eyebrow { font-size: 14px; font-weight: 600; color: var(--text-3); font-variant-numeric: tabular-nums; }
-.title { font-size: clamp(32px, 8.4vw, 56px); line-height: 1.06; font-weight: 700; letter-spacing: -0.03em; }
+.title { font-family: var(--font-display); font-size: clamp(32px, 8.4vw, 56px); line-height: 1.08; font-weight: 600; letter-spacing: -0.035em; }
 .sub { font-size: 17px; line-height: 1.45; color: var(--text-3); max-width: 40ch; }
 
 .body { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
@@ -66,9 +66,12 @@
 .primary {
   min-height: 54px; border-radius: 27px; padding: 0 24px;
   display: inline-flex; align-items: center; justify-content: center;
-  background: var(--ember); color: #fff; font-size: 17px; font-weight: 700;
+  background: var(--chrome); color: var(--chrome-ink); font-size: 17px; font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 8px 24px rgba(0, 0, 0, 0.45);
+  transition: filter 0.2s var(--ease-out), transform 0.2s var(--ease-out);
 }
-.primary:hover { background: #ff6a2d; }
+.primary:hover { filter: brightness(1.06); }
+.primary:active { transform: scale(0.98); }
 
 .reset {
   min-height: 44px; padding: 0 16px; border-radius: 22px;

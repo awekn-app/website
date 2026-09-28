@@ -2,7 +2,7 @@
 
 .top { display: flex; align-items: center; gap: 18px; }
 
-/* ── the ring: the one ember status in this room ── */
+/* ── the ring: the one lit status in this room ── */
 .ring { position: relative; width: 132px; height: 132px; flex: 0 0 132px; }
 .ring svg { width: 132px; height: 132px; }
 .track { stroke: var(--rim); }

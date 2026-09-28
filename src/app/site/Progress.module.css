@@ -37,7 +37,7 @@
   right: 0;
   width: 28px;
   height: 100%;
-  background: linear-gradient(90deg, rgba(255, 87, 18, 0), var(--ember));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--lit));
   box-shadow: 0 0 10px 1px var(--ember-glow);
 }
 

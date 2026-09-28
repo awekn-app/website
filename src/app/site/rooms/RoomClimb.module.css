@@ -1,4 +1,4 @@
-/* Room 07, the climb: grey sessions, a white staircase of records; ember only on the PR tag. */
+/* Room 07, the climb: grey sessions, a white staircase of records; chrome only on the PR tag. */
 
 .head { display: flex; flex-direction: column; gap: 6px; }
 .headTop { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
@@ -19,9 +19,9 @@
   margin-left: auto;
   padding: 3px 9px;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 87, 18, 0.5);
-  background: var(--ember-glow);
-  color: var(--ember);
+  border: 0;
+  background: var(--chrome);
+  color: var(--chrome-ink);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.02em;

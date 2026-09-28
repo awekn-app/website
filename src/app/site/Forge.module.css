@@ -1,0 +1,100 @@
+/* THE FORGE. The rules outside the motion query are the assembled mark (server render, no JS,
+   reduced motion). Inside it: the shell rises, the key slides up its diagonal and seats with a small
+   settle, flashes, and a light crosses the metal (then again every nine seconds). Transform and
+   opacity only. SVG transforms here are in the mark's own units (viewBox 964.9 x 754.5). */
+
+.forge {
+  --rx: 0deg;
+  --ry: 0deg;
+  --gx: 50%;
+  position: relative;
+  width: 100%;
+  perspective: 1400px;
+}
+
+/* the light falls from above onto the metal */
+.beam {
+  position: absolute;
+  left: 50%;
+  top: -70%;
+  width: 170%;
+  height: 210%;
+  transform: translateX(-50%);
+  background:
+    radial-gradient(34% 58% at var(--gx) 8%, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.04) 55%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.plinth {
+  position: relative;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+}
+
+.mark {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.06));
+}
+
+.flash { opacity: 0; }
+.sweep { transform: translateX(0); }
+
+/* the floor: the mark given back, faint, fading into the dark */
+.reflection {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  height: auto;
+  margin-top: 6px;
+  transform: scaleY(-1);
+  opacity: 0.16;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 66%, #000 100%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 66%, #000 100%);
+  pointer-events: none;
+}
+.floor {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  top: 100%;
+  height: 90px;
+  transform: translateY(-50%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 70%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .shell { animation: shellIn 1s var(--ease-emphatic) both; }
+  .key { animation: keyIn 1.1s cubic-bezier(0.55, 0, 0.2, 1) 0.45s both; }
+  .flash { animation: flash 0.9s var(--ease-out) 1.38s both; }
+  .sweep { animation: sweep 9s 1.45s infinite; }
+  .reflection { animation: reflIn 1.4s var(--ease-out) 0.9s both; }
+  .beam { animation: beamIn 2.2s var(--ease-out) both; }
+}
+
+@keyframes shellIn {
+  from { opacity: 0; transform: translate(0, 60px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes keyIn {
+  0% { opacity: 0; transform: translate(-340px, 196px); }
+  45% { opacity: 1; }
+  82% { transform: translate(7px, -4px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes flash {
+  0% { opacity: 0; }
+  12% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+@keyframes sweep {
+  0% { transform: translateX(0); animation-timing-function: cubic-bezier(0.45, 0.05, 0.3, 1); }
+  17% { transform: translateX(1800px); }
+  100% { transform: translateX(1800px); }
+}
+@keyframes reflIn { from { opacity: 0; } to { opacity: 0.16; } }
+@keyframes beamIn { from { opacity: 0; } to { opacity: 1; } }
