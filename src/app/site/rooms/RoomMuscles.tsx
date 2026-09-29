@@ -87,6 +87,37 @@ function setsPerMuscle(exercises: Ex[]): Counts {
   return m;
 }
 
+/* ── THE ENGRAVED BODY (the app's body map, docs/BODY_MAP_3D_PLAN_2026-09-28.md in the app repo):
+ * rendered from the open anatomy atlas (Z-Anatomy / BodyParts3D, CC BY-SA 4.0) and the MakeHuman body
+ * (CC0); credits in /bodymap/ATTRIBUTION.txt. Each muscle's heat, halo and glowing fibre lines are
+ * masks tinted by CSS, lit by the same levels as the app: under 10 an ember, 10 to 20 orange, over 20
+ * white-hot. 'quads' is the app's 'legs' group (the four quadriceps). */
+const LAYER: Record<Muscle, string> = {
+  chest: "chest", back: "back", shoulders: "shoulders", quads: "legs", hamstrings: "hamstrings",
+  glutes: "glutes", biceps: "biceps", triceps: "triceps", calves: "calves",
+};
+const levelOf = (n: number) => (n <= 0 ? 0 : n < BAND[0] ? 1 : n <= BAND[1] ? 2 : 3);
+
+function Body({ view, counts, flash, nonce }: { view: "front" | "back"; counts: Counts; flash: Muscle[]; nonce: number }) {
+  const src = (l: string, m: Muscle) => `url(/bodymap/${l}_${view}_${LAYER[m]}.webp)`;
+  return (
+    <div className={s.figure}>
+      {MUSCLES.map((m) => (
+        <span key={`g${m}`} className={`${s.halo} ${s[`l${levelOf(counts[m])}`]}`} style={{ WebkitMaskImage: src("g", m), maskImage: src("g", m) }} />
+      ))}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className={s.base} src={`/bodymap/base_${view}.webp`} alt="" width={510} height={1320} loading="lazy" decoding="async" />
+      {MUSCLES.map((m) => (
+        <span key={flash.includes(m) ? `m${m}${nonce}` : `m${m}`} className={`${s.heat} ${s[`l${levelOf(counts[m])}`]} ${flash.includes(m) ? s.flash : ""}`} style={{ WebkitMaskImage: src("m", m), maskImage: src("m", m) }} />
+      ))}
+      {MUSCLES.map((m) => (
+        <span key={`i${m}`} className={`${s.ink} ${s[`l${levelOf(counts[m])}`]}`} style={{ WebkitMaskImage: src("i", m), maskImage: src("i", m) }} />
+      ))}
+      <span className={s.caption}>{view === "front" ? "Front" : "Back"}</span>
+    </div>
+  );
+}
+
 const countsFor = (done: WorkoutId[]) =>
   setsPerMuscle([...SEED, ...WORKOUTS.filter((w) => done.includes(w.id)).flatMap((w) => w.exercises)]);
 
@@ -161,6 +192,13 @@ export function RoomMuscles({ index = "", flip }: { index?: string; flip?: boole
   const total = TOTAL_SEED + WORKOUTS.filter((w) => done.includes(w.id)).reduce((a, w) => a + setTotal(w), 0);
   const status = statusLine(done, counts, last);
   const shown = WORKOUTS.find((w) => w.id === preview)!;
+  // the muscles whose level just changed flash once
+  const flash = last
+    ? (() => {
+        const prev = countsFor(last.added ? done.filter((d) => d !== last.id) : [...done, last.id]);
+        return MUSCLES.filter((m) => levelOf(prev[m]) !== levelOf(counts[m]));
+      })()
+    : [];
 
   const toggle = (id: WorkoutId) => {
     const added = !done.includes(id);
@@ -202,6 +240,17 @@ export function RoomMuscles({ index = "", flip }: { index?: string; flip?: boole
             {total}
             <span className={s.unit}> hard sets</span>
           </span>
+        </div>
+
+        {/* the body, lit by the week */}
+        <div className={s.bodies} aria-hidden="true">
+          <Body view="front" counts={counts} flash={flash} nonce={last?.key ?? 0} />
+          <Body view="back" counts={counts} flash={flash} nonce={last?.key ?? 0} />
+        </div>
+        <div className={s.heatLegend} aria-hidden="true">
+          <span><i className={`${s.dot} ${s.l1}`} />Under 10</span>
+          <span><i className={`${s.dot} ${s.l2}`} />10 to 20</span>
+          <span><i className={`${s.dot} ${s.l3}`} />Over 20</span>
         </div>
 
         <div className={s.chart} style={bandStyle} aria-hidden="true">

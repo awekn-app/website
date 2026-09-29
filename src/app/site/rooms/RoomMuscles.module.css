@@ -1,4 +1,4 @@
-/* The muscles room: sorted bars against the 10 to 20 band (monochrome; no accent in this room). */
+/* The muscles room: the engraved body lit by the week (the app's body map), then sorted bars against the 10 to 20 band. */
 
 .paused *, .paused *::before, .paused *::after { animation-play-state: paused !important; }
 
@@ -71,11 +71,13 @@
   transition: width 0.6s var(--ease-emphatic), background 0.3s var(--ease-out);
 }
 .count { font-size: 14px; font-weight: 600; color: var(--text-3); text-align: right; }
-/* in the band: the bar and the number turn full white */
-.in .bar { background: var(--white); }
+/* the bars carry the body's heat: an ember under the band, orange in it, hot over it; the number turns white in the band */
+.under .bar { background: #8A3A1C; }
+.in .bar { background: linear-gradient(90deg, #B83C0E, #E4531A); box-shadow: 0 0 12px rgba(255, 87, 18, 0.35); }
+.over .bar { background: linear-gradient(90deg, #E4531A, #FF8A4C); box-shadow: 0 0 14px rgba(255, 106, 34, 0.55); }
 .in .count { color: var(--white); }
 .in .name { color: var(--text); }
-/* under or over: the grey bar stays, the name dims a step */
+/* under or over: the name dims a step */
 .under .name, .over .name { color: var(--text-3); }
 
 .legend { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-5); margin-top: -6px; }
@@ -137,3 +139,48 @@
   .row, .bar { transition: none; }
   .rise { animation: none; }
 }
+
+/* ── the engraved body (the app's body map): heat, halo and glowing ink as tinted masks ── */
+.bodies {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin: 2px -6px 0;
+  padding: 10px 0 0;
+  border-radius: 18px;
+  background: radial-gradient(70% 60% at 50% 40%, rgba(255, 87, 18, 0.05), rgba(0, 0, 0, 0) 70%), #030304;
+}
+.figure { position: relative; aspect-ratio: 510 / 1320; width: 100%; max-width: 190px; justify-self: center; }
+.base { position: absolute; inset: 0; width: 100%; height: 100%; }
+.halo, .heat, .ink {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.7s var(--ease-out), background-color 0.7s var(--ease-out);
+  pointer-events: none;
+}
+/* the levels: an ember, orange, white-hot (the app's HEAT) */
+.halo.l1 { background-color: #7E2A10; opacity: 0.25; }
+.halo.l2 { background-color: #D64610; opacity: 0.55; }
+.halo.l3 { background-color: #FF6A22; opacity: 1; }
+.heat.l1 { background-color: #7E2A10; opacity: 0.85; }
+.heat.l2 { background-color: #D64610; opacity: 0.92; }
+.heat.l3 { background-color: #FF6A22; opacity: 1; }
+.ink.l1 { background-color: #E07444; opacity: 0.6; }
+.ink.l2 { background-color: #FFA874; opacity: 0.75; }
+.ink.l3 { background-color: #FFECDC; opacity: 0.95; }
+.caption { position: absolute; left: 0; right: 0; bottom: -2px; text-align: center; font-size: 11px; color: var(--text-5); }
+@media (prefers-reduced-motion: no-preference) {
+  .flash { animation: flash 1s var(--ease-out); }
+}
+@keyframes flash { 0% { filter: brightness(1); } 25% { filter: brightness(1.9); } 100% { filter: brightness(1); } }
+.heatLegend { display: flex; justify-content: center; gap: 14px; font-size: 12px; color: var(--text-4); margin-top: 6px; }
+.heatLegend span { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
+.dot.l1 { background: #7E2A10; }
+.dot.l2 { background: #D64610; }
+.dot.l3 { background: #FF6A22; }

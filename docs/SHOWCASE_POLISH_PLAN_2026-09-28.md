@@ -117,3 +117,12 @@ routes, update the docs and memory.
   on touch, wall phones in a cheap `lite` variant, no per-phone GPU layer (clip-path instead of
   translateZ), no live backdrop blur on the sticky bar on touch, no per-frame scale in the arc.
 - Not done, on purpose: "Made in USA" with a flag (see the chat: it has to be true to be used).
+
+## Round 4 (2026-09-29): the engraved body on the site; the machined cards
+- The muscles room: the app's engraved body (front + back, public/bodymap: base + per-muscle halo,
+  heat and glowing ink as WebP masks tinted by CSS, 632 KB) lit by the week at the app's levels
+  (ember / orange / white-hot), the changed muscles flash; the bars carry the same heat. Credits in
+  public/bodymap/ATTRIBUTION.txt (CC BY-SA 4.0 atlas + CC0 MakeHuman).
+- The machined plate for every room card (lit bevel, recessed wells, raised keys, a light that follows
+  the mouse), engraved room labels; the discipline cards carry real screens (muscles, deadlift).
+- public/app/muscles.webp recaptured with the new body map.

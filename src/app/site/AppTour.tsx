@@ -43,7 +43,7 @@ const STEPS: readonly Step[] = [
     screen: "muscles",
     kicker: "Muscles",
     title: "See what you actually trained.",
-    body: "Hard sets per muscle for the week, the month or the year, against the 10 to 20 sets that grow a muscle.",
+    body: "An anatomical body that lights up where you trained, by hard sets against the 10 to 20 a week that grow a muscle.",
     facts: ["Front and back", "Most and least trained", "Custom exercises count too"],
   },
   {

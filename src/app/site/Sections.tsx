@@ -2,6 +2,7 @@ import { StoreButton } from "./StoreButton";
 import { SUPPORT_EMAIL, INSTAGRAM } from "../lib/links";
 import { Mark, Wordmark } from "./brand/Brand";
 import { Wall } from "./ShowcaseArt";
+import { Phone } from "./Phone";
 import s from "./Sections.module.css";
 
 /** The rest of the trackers, told as a sequence (a card grid reads as a spec sheet). */
@@ -43,13 +44,21 @@ export function Disciplines() {
       <div className={s.pair}>
         <article className={s.card}>
           <Mark tone="white" className={s.hallmark} />
-          <h3 className={s.cardTitle}>Bodybuilding</h3>
-          <p className={s.cardLine}>Splits as cycles, hard sets per muscle against the range that grows, the bodyweight trend and the photos that prove it.</p>
+          <div className={s.cardWords}>
+            <p className={s.cardKicker}>For the physique</p>
+            <h3 className={s.cardTitle}>Bodybuilding</h3>
+            <p className={s.cardLine}>Splits as cycles, hard sets per muscle against the range that grows, the bodyweight trend and the photos that prove it.</p>
+          </div>
+          <Phone screen="muscles" sizes="(min-width: 900px) 240px, 46vw" className={s.cardPhone} decorative lite />
         </article>
         <article className={s.card}>
           <Mark tone="white" className={s.hallmark} />
-          <h3 className={s.cardTitle}>Powerlifting</h3>
-          <p className={s.cardLine}>RPE and e1RM from every set, a training block, attempt selection and meet day, DOTS and IPF points.</p>
+          <div className={s.cardWords}>
+            <p className={s.cardKicker}>For the platform</p>
+            <h3 className={s.cardTitle}>Powerlifting</h3>
+            <p className={s.cardLine}>RPE and e1RM from every set, a training block, attempt selection and meet day, DOTS and IPF points.</p>
+          </div>
+          <Phone screen="deadlift" sizes="(min-width: 900px) 240px, 46vw" className={s.cardPhone} decorative lite />
         </article>
       </div>
     </section>

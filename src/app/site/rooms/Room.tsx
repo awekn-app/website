@@ -74,14 +74,29 @@ export function Room({
     if (!el) return;
     const io = new IntersectionObserver(([e]) => setLive(e.isIntersecting), { rootMargin: LIVE_MARGIN });
     io.observe(el);
-    return () => io.disconnect();
+    // a mouse screen: the plate's light follows the pointer (two custom properties, no re-render)
+    const fine = window.matchMedia("(pointer: fine) and (prefers-reduced-motion: no-preference)").matches;
+    const move = (e: PointerEvent) => {
+      const card = (e.target as HTMLElement | null)?.closest?.(`.${s.card}`) as HTMLElement | null;
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+      card.style.setProperty("--my", `${e.clientY - r.top}px`);
+    };
+    if (fine) el.addEventListener("pointermove", move, { passive: true });
+    return () => {
+      io.disconnect();
+      el.removeEventListener("pointermove", move);
+    };
   }, []);
 
   return (
     <section ref={ref} id={id} className={`${s.room} ${flip ? s.flip : ""}`} aria-labelledby={`${id}-title`}>
       <div className={s.head}>
         <p className={s.eyebrow}>
-          {index} · {name}
+          <span className={s.index}>{index}</span>
+          <span className={s.hair} aria-hidden="true" />
+          {name}
         </p>
         <h2 className={`${s.title} chrome-type`} id={`${id}-title`}>
           {title}

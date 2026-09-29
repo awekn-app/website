@@ -20,7 +20,7 @@ export const SCREEN_ALT: Record<Screen, string> = {
   session: "A Pull A session read back: 6,596 kg of volume, every set against its estimated max, a deadlift record",
   deadlift: "Deadlift analytics: an estimated 1RM of 220 kg, the staircase of bests and the sessions between",
   squat: "Squat analytics: an estimated 1RM of 172.5 kg and its climb over three months",
-  muscles: "The muscle map: 424 hard sets in September, back leading the month",
+  muscles: "The muscle map: the engraved body, the week's trained muscles glowing, back, shoulders and arms lit",
   weight: "The bodyweight tracker: a 79.6 kg trend, down 3.5 kg in three months",
   "weight-chart": "The bodyweight trend chart: weigh-ins around a smooth trend falling toward a 76 kg goal",
   calories: "The calories tracker: 1,661 of 2,400 kcal, 131 g of protein",

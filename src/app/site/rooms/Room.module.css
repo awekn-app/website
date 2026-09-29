@@ -16,18 +16,43 @@
 }
 
 .head { display: flex; flex-direction: column; gap: 10px; max-width: 520px; }
-.eyebrow { font-size: 14px; font-weight: 600; color: var(--text-3); font-variant-numeric: tabular-nums; }
+/* the room's label, engraved like the hero's: the number in heat, a hairline, the name spaced out */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--silver);
+  font-variant-numeric: tabular-nums;
+}
+.index { color: var(--heat); letter-spacing: 0.06em; }
+.hair { width: 26px; height: 1px; background: linear-gradient(90deg, rgba(233, 234, 240, 0.7), rgba(233, 234, 240, 0.1)); }
 .title { font-family: var(--font-display); font-size: clamp(32px, 8.4vw, 56px); line-height: 1.08; font-weight: 600; letter-spacing: -0.035em; }
 .sub { font-size: 17px; line-height: 1.45; color: var(--text-3); max-width: 40ch; }
 
 .body { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 
-/* the graphite card the live instrument sits in */
+/* THE PLATE: the instrument each room sits in, machined rather than drawn. A graphite face lit from
+   above (a soft pool of light at the top, falling off), a bevel that catches the light on its top
+   edge and fades down the sides (a gradient border on the border box), a crisp dark line outside it
+   where the plate meets the page, and a long shadow that seats it. No glow, no glass. */
 .card {
+  --mx: 50%;
+  --my: 0%;
   position: relative;
-  border-radius: var(--radius-card);
-  background: linear-gradient(180deg, var(--surface-top), var(--surface));
-  border: 1px solid var(--rim);
+  isolation: isolate;
+  border-radius: 22px;
+  border: 1px solid transparent;
+  background:
+    radial-gradient(120% 70% at 50% -12%, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 62%) padding-box,
+    linear-gradient(180deg, #18181B 0%, #111113 55%, #0E0E10 100%) padding-box,
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0.07) 26%, rgba(255, 255, 255, 0.035) 72%, rgba(255, 255, 255, 0.1) 100%) border-box;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.7),
+    0 34px 60px -34px rgba(0, 0, 0, 0.9);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -35,7 +60,29 @@
   touch-action: pan-y;
   overflow: hidden;
 }
-.well { border-radius: 16px; background: var(--well); padding: 14px; }
+/* a mouse screen: the room's light follows the pointer across the plate (opacity + a fixed gradient
+   read from two custom properties; nothing lays out) */
+.card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(360px circle at var(--mx) var(--my), rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0) 70%);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
+  pointer-events: none;
+}
+@media (pointer: fine) {
+  .card:hover::before { opacity: 1; }
+}
+/* the recessed well a readout sits in: cut into the plate, shaded at its top lip */
+.well {
+  border-radius: 15px;
+  background: linear-gradient(180deg, #08080A, #0B0B0D);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 14px;
+}
 
 .foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
 .note { font-size: 13px; color: var(--text-5); }
@@ -44,22 +91,27 @@
 .press { transition: transform 0.18s var(--ease-out), background 0.2s var(--ease-out), border-color 0.2s var(--ease-out), opacity 0.2s; }
 .press:active { transform: scale(0.96); }
 
+/* machined keys: a raised graphite face, lit top lip, dark seat; pressed, they sink */
+.disc, .chip {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, #26262A 0%, #1B1B1E 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.55), 0 3px 8px -3px rgba(0, 0, 0, 0.7);
+  color: var(--text);
+}
+.disc:hover, .chip:hover { background: linear-gradient(180deg, #2C2C31 0%, #1F1F23 100%); }
+.disc:active, .chip:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.55); }
 .disc {
   width: 44px; height: 44px; border-radius: 22px; flex: 0 0 44px;
   display: inline-flex; align-items: center; justify-content: center;
-  border: 1px solid var(--rim-strong); background: var(--glass); color: var(--text);
   font-size: 20px; line-height: 1;
 }
-.disc:hover { background: rgba(255, 255, 255, 0.1); }
 .disc:disabled { opacity: 0.35; cursor: default; }
 
 .chip {
   min-height: 44px; padding: 0 16px; border-radius: var(--radius-pill);
   display: inline-flex; align-items: center; gap: 8px;
-  border: 1px solid var(--rim-strong); background: var(--glass); color: var(--text);
   font-size: 15px; font-weight: 500;
 }
-.chip:hover { background: rgba(255, 255, 255, 0.1); }
 
 .primary {
   min-height: 54px; border-radius: 27px; padding: 0 24px;
