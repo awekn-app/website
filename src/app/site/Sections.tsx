@@ -1,5 +1,5 @@
 import { StoreButton } from "./StoreButton";
-import { SUPPORT_EMAIL, INSTAGRAM } from "../lib/links";
+import { SUPPORT_EMAIL, INSTAGRAM, LOGIN } from "../lib/links";
 import { Mark, Wordmark } from "./brand/Brand";
 import { Wall } from "./ShowcaseArt";
 import { Phone } from "./Phone";
@@ -105,6 +105,7 @@ export function SiteFooter() {
   return (
     <footer className={s.footer}>
       <nav className={s.footLinks} aria-label="Footer">
+        <a href={LOGIN}>Log in</a>
         <a href="/support">Support</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>

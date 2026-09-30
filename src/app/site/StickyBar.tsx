@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { APP_STORE } from "../lib/links";
+import { APP_STORE, LOGIN } from "../lib/links";
 import { Mark } from "./brand/Brand";
 import s from "./StickyBar.module.css";
 
@@ -34,6 +34,7 @@ export function StickyBar() {
     <div className={`${s.bar} ${show ? s.on : ""}`} aria-hidden={!show}>
       <Mark className={s.mark} />
       <span className={s.line}>Free to start</span>
+      <a className={s.login} href={LOGIN} tabIndex={show ? 0 : -1}>Log in</a>
       <a className={s.cta} href={APP_STORE} target="_blank" rel="noopener noreferrer" tabIndex={show ? 0 : -1}>
         Get the app
       </a>

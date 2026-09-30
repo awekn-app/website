@@ -1,4 +1,5 @@
 import { StoreButton } from "./StoreButton";
+import { LOGIN } from "../lib/links";
 import { Forge } from "./Forge";
 import { HeroTilt } from "./HeroStage";
 import { WallBackdrop } from "./ShowcaseArt";
@@ -40,6 +41,7 @@ export function Hero() {
           <a href="#inside" className={s.link}>The app</a>
           <a href="#try" className={s.link}>Try it</a>
           <a href="#everything" className={s.link}>Everything</a>
+          <a href={LOGIN} className={s.login}>Log in</a>
           <a href="#download" className={s.cta}>Get the app</a>
         </div>
       </nav>

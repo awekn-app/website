@@ -29,6 +29,11 @@
   transition: transform 0.2s var(--ease-out);
 }
 .cta:active { transform: scale(0.97); }
+.login {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 6px;
+  font-size: 14px; font-weight: 500; color: var(--text-2); text-decoration: none;
+}
+.login:hover { color: var(--text); }
 
 /* the narrowest phones: the mark and the key only */
 @media (max-width: 350px) { .line { display: none; } }

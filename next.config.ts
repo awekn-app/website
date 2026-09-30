@@ -51,6 +51,18 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  // the web app lives at app.awekn.com; every door people might type on the website leads there
+  // (temporary redirects, so the addresses stay free to change)
+  async redirects() {
+    const app = "https://app.awekn.com";
+    return [
+      { source: "/login", destination: `${app}/sign-in`, permanent: false },
+      { source: "/signin", destination: `${app}/sign-in`, permanent: false },
+      { source: "/sign-in", destination: `${app}/sign-in`, permanent: false },
+      { source: "/app", destination: app, permanent: false },
+      { source: "/app/:path*", destination: `${app}/:path*`, permanent: false },
+    ];
+  },
 };
 
 export default nextConfig;

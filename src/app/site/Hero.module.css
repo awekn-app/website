@@ -83,7 +83,7 @@
 }
 .brand { display: inline-flex; align-items: center; min-height: 44px; }
 .wordmark { height: 21px; width: auto; }
-.links { display: flex; align-items: center; gap: 28px; }
+.links { display: flex; align-items: center; gap: 18px; }
 .link { display: none; color: var(--text-3); font-size: 15px; text-decoration: none; transition: color 0.2s var(--ease-out); }
 .link:hover { color: var(--text); }
 .cta {
@@ -93,6 +93,13 @@
   transition: transform 0.2s var(--ease-out), background 0.2s var(--ease-out);
 }
 .cta:hover { background: rgba(40, 40, 44, 0.8); }
+/* Log in (the web app): on every width, quiet beside the one download key */
+.login {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px;
+  color: var(--text-2); font-size: 15px; font-weight: 500; text-decoration: none;
+  transition: color 0.2s var(--ease-out);
+}
+.login:hover { color: var(--text); }
 .cta:active { transform: scale(0.97); }
 
 /* ── the words ── */
@@ -216,6 +223,7 @@
 
 @media (min-width: 900px) {
   .link { display: inline-block; }
+  .links { gap: 28px; }
   .wordmark { height: 25px; }
   .nav { height: 80px; padding-top: max(18px, env(safe-area-inset-top)); }
   .wall { width: 130%; }

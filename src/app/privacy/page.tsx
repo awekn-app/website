@@ -12,6 +12,7 @@ export default function PrivacyPolicy() {
         <a href="/" className="nav-logo">awekn</a>
         <div className="nav-links">
           <a href="/">Home</a>
+          <a href="https://app.awekn.com/sign-in">Log in</a>
         </div>
       </nav>
 
