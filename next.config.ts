@@ -59,8 +59,9 @@ const nextConfig: NextConfig = {
       { source: "/login", destination: `${app}/sign-in`, permanent: false },
       { source: "/signin", destination: `${app}/sign-in`, permanent: false },
       { source: "/sign-in", destination: `${app}/sign-in`, permanent: false },
+      // only the bare /app: the site's own screenshots live under /app/*.webp (public/app), and a
+      // /app/:path* redirect sent every one of them to the web app (the wall went blank, 2026-10-01)
       { source: "/app", destination: app, permanent: false },
-      { source: "/app/:path*", destination: `${app}/:path*`, permanent: false },
     ];
   },
 };
