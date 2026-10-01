@@ -9,6 +9,7 @@ import { Progress } from "./site/Progress";
 import { Light } from "./site/Light";
 import { AppTour } from "./site/AppTour";
 import { Band } from "./site/ShowcaseArt";
+import { WebApp } from "./site/WebApp";
 
 /**
  * awekn.com, rebuilt from scratch (2026-09-27, docs/REBUILD_2026_PLAN.md). One idea per screen:
@@ -36,6 +37,7 @@ export default function Home() {
         <Everything />
         <Disciplines />
         <Vows />
+        <WebApp />
         <Download />
       </main>
       <SiteFooter />
