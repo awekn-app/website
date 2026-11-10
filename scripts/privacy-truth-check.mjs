@@ -9,12 +9,17 @@ const page = fs.readFileSync(file, "utf8");
 const fails = [];
 const must = (what, ok) => { if (!ok) fails.push(what); };
 
-// finding 3: location and GPS routes are disclosed
+// finding 3: location and GPS routes are disclosed (the record screen's GPS-ready preview and the route planner read
+// the position too: app/cardio/record/index.tsx, app/cardio/record/plan.tsx, lib/cardio/gps/routing.ts)
 must("a Location paragraph", page.includes("<strong>Location (optional).</strong>"));
-must("location is read only while recording", page.includes("reads it only while that recording runs"));
+must("location is read while recording, on the record screen and when planning", page.includes("reads it while you record (and on the record screen beforehand, to show that GPS is ready) and when you plan a route"));
+must("no claim that location is read only while recording", !page.includes("reads it only while that recording runs") && !page.includes("does not read your location at any other time"));
+must("never in the background outside a recording", page.includes("awekn never reads your location in the background except during a recording you started."));
+must("a planned route starts at the current position", page.includes("If you plan a route, your current position as its start and the destination or distance you pick,"));
 must("precise or approximate", page.includes("You can allow precise or approximate location."));
 must("the route syncs", page.includes("The route is saved with the activity and syncs to our servers"));
 must("the route planner is named", page.includes("openrouteservice"));
+must("openrouteservice is a subprocessor row", page.includes("<strong>openrouteservice</strong> (HeiGIT gGmbH, route planning)"));
 must("cardio sessions carry their route", page.includes("cardio sessions (with the GPS route of any session you record"));
 // finding 1: the device identifier sent for push and sync
 must("a Device identifier paragraph", page.includes("<strong>Device identifier.</strong>"));
